@@ -41,13 +41,13 @@ public class User {
     @Column(name = "salary", nullable = true)
     private Integer salary;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Expense> expenses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Investment> investments = new ArrayList<>();
 
     @Column(name = "createAt", nullable = false)
@@ -57,9 +57,5 @@ public class User {
     @Column(name = "updateAt", nullable = false)
     @UpdateTimestamp
     private Instant updateAt;
-
-   
-
-
     
 }
