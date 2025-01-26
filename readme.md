@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O **Capital Mind** é um sistema de controle de finanças pessoais que permite aos usuários gerenciar suas despesas, criptomoedas, ações e investimentos de maneira eficiente e segura. Além disso, o sistema oferece funcionalidades de criação de contas e gerenciamento de usuários, permitindo que os administradores registrem e excluam outros administradores.
+O **Capital Mind** é um sistema de controle de finanças pessoais que permite aos usuários gerenciar suas despesas, criptomoedas, ações e investimentos de maneira eficiente e segura
 
 ## Funcionalidades
 
@@ -13,12 +13,6 @@ O **Capital Mind** é um sistema de controle de finanças pessoais que permite a
 - **Administrar Ações**: Acompanhamento e gestão de investimentos em ações.
 - **Administrar Investimentos**: Acompanhamento e planejamento de investimentos diversos.
 - **Criar Conta**: O usuário pode criar uma nova conta para começar a usar o sistema.
-
-### Para o Administrador:
-
-- **Administrar Usuários**: Gerenciamento de contas de usuários no sistema.
-- **Registrar Admin**: Adicionar novos administradores ao sistema.
-- **Excluir Admin**: Remover administradores do sistema.
 
 ## Tecnologias Utilizadas
 
