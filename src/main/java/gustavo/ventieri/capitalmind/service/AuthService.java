@@ -23,21 +23,21 @@ public class AuthService {
     private final TokenService tokenService;
 
 
-    public Object[] login(LoginRequestDto loginRequestDto){
+    public String login(LoginRequestDto loginRequestDto){
         var user = this.userRepository.findByEmail(loginRequestDto.email()).orElseThrow(() -> new RuntimeException("User not found"));
        
         if(passwordEncoder.matches(loginRequestDto.password(), user.getPassword())){
             String token = this.tokenService.genereateToken(user);
 
-            Object[] makeResponse = {user.getName(), token};
+        
 
-            return makeResponse;
+            return token;
         }
 
         return null;
     }
 
-    public Object[] register(RegisterRequestDto registerRequestDto){
+    public String register(RegisterRequestDto registerRequestDto){
         Optional<User> user = this.userRepository.findByEmail(registerRequestDto.email());
         
         if(user.isEmpty()) {
@@ -50,15 +50,13 @@ public class AuthService {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
+                null,
                 Instant.now(),
                 Instant.now()
             );
             this.userRepository.save(newUser);
             String token = this.tokenService.genereateToken(newUser);
-            
-            Object[] makeResponse = {newUser.getName(), token};
-
-            return makeResponse;
+            return token;
         }
 
         return null;
