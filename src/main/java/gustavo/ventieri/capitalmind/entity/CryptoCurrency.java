@@ -1,6 +1,5 @@
 package gustavo.ventieri.capitalmind.entity;
 
-
 import java.time.Instant;
 
 
@@ -22,17 +21,16 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "tb_expense")
+@Table(name = "tb_cryptoCurrency")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Expense {
-    
-    @Id
+public class CryptoCurrency {
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "expense_Id")
-    private Long expenseId;
+    @Column(name = "crypto_Id")
+    private Long cryptoId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -40,11 +38,11 @@ public class Expense {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "quantity", nullable = false)
+    private Double quantity;
 
     @ManyToOne
-    @JoinColumn(name = "userData", nullable = false) 
+    @JoinColumn(name = "userData", nullable = true) 
     private User userData;
 
     @Column(name = "createAt", nullable = false)
@@ -54,6 +52,4 @@ public class Expense {
     @Column(name = "updateAt", nullable = false)
     @UpdateTimestamp
     private Instant updateAt;    
-
 }
-

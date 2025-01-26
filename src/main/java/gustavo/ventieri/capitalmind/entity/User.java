@@ -47,14 +47,17 @@ public class User {
     @Column(name = "salary", nullable = true)
     private Double salary;
 
-    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Expense> expenses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_id_fk", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Investment> investments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CryptoCurrency> cryptoCurrency = new ArrayList<>();
 
     @Column(name = "createAt", nullable = false)
     @CreationTimestamp

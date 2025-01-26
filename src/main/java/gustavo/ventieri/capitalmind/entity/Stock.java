@@ -11,11 +11,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_stock")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class Stock {
     @Id
@@ -35,8 +42,8 @@ public class Stock {
     private String qunatity;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_fk", nullable = false) 
-    private User user_id_fk;
+    @JoinColumn(name = "userData", nullable = false) 
+    private User userData;
 
     @Column(name = "createAt", nullable = false)
     @CreationTimestamp
