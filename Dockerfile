@@ -17,11 +17,11 @@ RUN mvn clean install -DskipTests
 COPY target/capitalmind-0.0.1-SNAPSHOT.jar /app/capitalmind.jar
 
 # Espera o bd estar pronto
-COPY wait-for-postgres.sh /wait-for-postgres.sh
-RUN chmod +x /wait-for-postgres.sh
+COPY wait-for-postgres.sh /app/scripts/wait-for-postgres.sh
+RUN chmod +x /app/scripts/wait-for-postgres.sh
 
 # Expor a porta onde a aplicação estará disponível
 EXPOSE 8080
 
 # Comando para rodar a aplicação
-ENTRYPOINT ["/wait-for-postgres.sh", "java", "-jar", "/app/capitalmind.jar"]
+ENTRYPOINT ["/app/scripts/wait-for-postgres.sh", "java", "-jar", "/app/capitalmind.jar"]
