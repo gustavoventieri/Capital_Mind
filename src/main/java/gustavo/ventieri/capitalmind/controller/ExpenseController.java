@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,6 @@ public class ExpenseController {
     public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
         
         Boolean userSaved = this.expenseService.create(expenseRequestDto);
-     
         if (userSaved) {
             return ResponseEntity.ok().body("Expense Created");
         }
@@ -80,23 +80,27 @@ public class ExpenseController {
         
     }
 
-    @DeleteMapping("/{expenseId}")
-    public ResponseEntity<?> deleteExpenseById(@PathVariable("expenseId") Long expenseId){
-        Optional<Expense> expenseOptional = expenseService.getById(expenseId);
+    @PutMapping("/update/{expenseId}")
+    public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody  @Valid ExpenseRequestDto expenseRequestDto){
+        Boolean expenseDeleted = this.expenseService.update(expenseId, expenseRequestDto);
         
-        if(expenseOptional.isPresent()){
-            Expense expense = expenseOptional.get();
-
-            return ResponseEntity.ok(new ExpenseGetResponseDto(
-                expense.getExpenseId(),
-                expense.getName(),
-                expense.getDescription(),
-                expense.getCategory(),
-                expense.getPrice())
-            );
+        if(expenseDeleted){
+            return ResponseEntity.ok().body("Expense Updated");
         }
 
-        return ResponseEntity.badRequest().body("Invalid User Id or Expensive Id");
+        return ResponseEntity.badRequest().body("Expense Not Updated");
+    }
+
+
+    @DeleteMapping("/delete/{expenseId}")
+    public ResponseEntity<?> deleteExpenseById(@PathVariable("expenseId") Long expenseId){
+        Boolean expenseDeleted = this.expenseService.deleteById(expenseId);
+        
+        if(expenseDeleted){
+            return ResponseEntity.ok().body("Expense Deleted");
+        }
+
+        return ResponseEntity.badRequest().body("Expense Not Deleted");
     }
     
 

@@ -46,11 +46,8 @@ public class ExpenseService {
                 Instant.now()
             );
 
-
-    
             @SuppressWarnings("unused")
             var expenseSaved = this.expenseRepository.save(newExpense);
-            System.out.println(expenseSaved.getExpenseId());
             return true;
         }).orElseGet(() -> {
 
@@ -58,6 +55,39 @@ public class ExpenseService {
             return false;
         });
     }
+
+    public Boolean update(Long expenseId, ExpenseRequestDto expenseRequestDto) {
+        var userId = expenseRequestDto.userId();
+        if (userId == null || userId.isEmpty()) {
+            return false;
+        }
+    
+        var userOptional = this.userRepository.findById(UUID.fromString(userId));
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        var user = userOptional.get();
+    
+        var expenseOptional = this.expenseRepository.findById(expenseId);
+        if (expenseOptional.isEmpty()) {
+            return false;
+        }
+        var expense = expenseOptional.get();
+    
+        // Atualizando os campos da instância existente
+        expense.setName(expenseRequestDto.name());
+        expense.setDescription(expenseRequestDto.description());
+        expense.setCategory(expenseRequestDto.category());
+        expense.setPrice(expenseRequestDto.price());
+        expense.setUserData(user);
+    
+        // O @UpdateTimestamp se encarregará de atualizar o campo updateAt automaticamente
+        this.expenseRepository.save(expense);
+    
+        return true;
+    }
+    
+    
     
 
     public Optional<List<Expense>> getAll(String userId) {
@@ -84,12 +114,16 @@ public class ExpenseService {
             return Optional.empty();
         }
         
-        
-
         var expense = this.expenseRepository.findByExpenseId(expenseId);
         
         return expense;
     }
     
+    public Boolean deleteById(Long expenseId) {
+        
+        this.expenseRepository.deleteById(expenseId);
+
+        return true;
+    }
 
 }
