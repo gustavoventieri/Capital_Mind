@@ -7,10 +7,10 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import gustavo.ventieri.capitalmind.config.security.TokenService;
 import gustavo.ventieri.capitalmind.dto.auth.login.LoginRequestDto;
 import gustavo.ventieri.capitalmind.dto.auth.register.RegisterRequestDto;
 import gustavo.ventieri.capitalmind.entity.User;
-import gustavo.ventieri.capitalmind.infra.security.TokenService;
 import gustavo.ventieri.capitalmind.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,9 +28,6 @@ public class AuthService {
        
         if(passwordEncoder.matches(loginRequestDto.password(), user.getPassword())){
             String token = this.tokenService.genereateToken(user);
-
-        
-
             return token;
         }
 

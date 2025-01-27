@@ -11,6 +11,7 @@ import gustavo.ventieri.capitalmind.dto.auth.login.LoginResponseDto;
 import gustavo.ventieri.capitalmind.dto.auth.register.RegisterRequestDto;
 import gustavo.ventieri.capitalmind.dto.auth.register.RegisterResponseDto;
 import gustavo.ventieri.capitalmind.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
         // Chama o serviço de autenticação, que retorna um array com o token e o usuário
         String token = authService.login(loginRequestDto);
         
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequestDto registerRequestDto){
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDto registerRequestDto){
        String token = authService.register(registerRequestDto);
         
         if(token != null){
@@ -45,5 +46,6 @@ public class AuthController {
         }
 
         return ResponseEntity.badRequest().body("Something Wrong");
+        
         }
 }

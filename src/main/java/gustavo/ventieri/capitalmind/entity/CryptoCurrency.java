@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CryptoCurrency {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "crypto_Id")
     private Long cryptoId;
