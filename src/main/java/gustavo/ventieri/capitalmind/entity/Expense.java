@@ -40,6 +40,10 @@ public class Expense {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "category", nullable = false)
+    private String category;
+
+
     @Column(name = "price", nullable = false)
     private Double price;
 
