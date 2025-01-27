@@ -3,7 +3,6 @@ package gustavo.ventieri.capitalmind.entity;
 
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,16 +47,15 @@ public class User {
     private Double salary;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Expense> expenses = new ArrayList<>();
+    private List<Expense> expenses;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Stock> stocks = new ArrayList<>();
+    private List<Stock> stocks;
 
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Investment> investments = new ArrayList<>();
-
+    private List<Investment> investments;
     @OneToMany(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CryptoCurrency> cryptoCurrency = new ArrayList<>();
+    private List<CryptoCurrency> cryptoCurrency;
 
     @Column(name = "createAt", nullable = false)
     @CreationTimestamp
