@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,8 +28,9 @@ import lombok.Setter;
 
 public class Stock {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stock_Id")
-    private String stockId;
+    private Long stockId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -35,11 +38,8 @@ public class Stock {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "ticker", nullable = false)
-    private String ticker;
-
-    @Column(name = "qunantity", nullable = false)
-    private String qunatity;
+    @Column(name = "quantity", nullable = false)
+    private String quantity;
 
     @ManyToOne
     @JoinColumn(name = "userData", nullable = false) 
