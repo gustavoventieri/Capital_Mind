@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:latest
+    container_name: capital_mind_postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
