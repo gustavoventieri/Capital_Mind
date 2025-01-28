@@ -10,14 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.domain.user.UserRepository;
+import gustavo.ventieri.capitalmind.infrastructure.persistence.JpaUserRepository;
 
 
 @Component
 public class CustomUserDetailsServices implements UserDetailsService  {
 
     @Autowired
-    private UserRepository userRepository;
+    private JpaUserRepository userRepository;
 
 
     @Override

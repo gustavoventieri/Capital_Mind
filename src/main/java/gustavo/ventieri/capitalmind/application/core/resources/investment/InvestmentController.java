@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gustavo.ventieri.capitalmind.application.core.resources.investment.dto.InvestmentRequestDto;
-import gustavo.ventieri.capitalmind.application.core.resources.investment.dto.InvestmentResponseDto;
+import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentResponseDto;
+import gustavo.ventieri.capitalmind.application.service.investment.InvestmentServiceImpl;
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
-import gustavo.ventieri.capitalmind.domain.investment.InvestmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvestmentController {
     
-    private final InvestmentService investmentService;
+    private final InvestmentServiceImpl investmentService;
 
 
     @PostMapping("/create")

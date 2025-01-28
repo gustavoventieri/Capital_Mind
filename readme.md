@@ -22,6 +22,8 @@ O **Capital Mind** utiliza arquitetura hexagonal, promovendo:
 - **Integração Flexível**: Interfaces permitem fácil substituição de dependências externas, como bancos de dados ou APIs.
 - **Testabilidade Melhorada**: A separação de responsabilidades facilita testes unitários e de integração.
 
+Para mais detalhes sobre a estrutura da arquitetura e como ela se relaciona com o seu sistema, acesse [a descrição completa da arquitetura](./src/main/java/gustavo/ventieri/capitalmind/documents/architecture/hexagonArchitecture.md).
+
 ## Tecnologias Utilizadas
 
 - **Java 21**

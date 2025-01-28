@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.domain.user.UserRepository;
+import gustavo.ventieri.capitalmind.infrastructure.persistence.JpaUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     @Autowired
-    UserRepository userRepository;
+    JpaUserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

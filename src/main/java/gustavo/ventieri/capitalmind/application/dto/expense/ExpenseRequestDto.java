@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.core.resources.expense.dto;
+package gustavo.ventieri.capitalmind.application.dto.expense;
 
 
 import jakarta.validation.constraints.*;

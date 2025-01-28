@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.core.resources.auth.dto.register;
+package gustavo.ventieri.capitalmind.application.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

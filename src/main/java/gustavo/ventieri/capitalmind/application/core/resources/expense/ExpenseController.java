@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gustavo.ventieri.capitalmind.application.core.resources.expense.dto.ExpenseResponseDto;
-import gustavo.ventieri.capitalmind.application.core.resources.expense.dto.ExpenseRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseResponseDto;
+import gustavo.ventieri.capitalmind.application.service.expense.ExpenseServiceImpl;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
-import gustavo.ventieri.capitalmind.domain.expense.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/expense")
 @RequiredArgsConstructor
 public class ExpenseController {
-    private final ExpenseService expenseService;
+    private final ExpenseServiceImpl expenseService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
