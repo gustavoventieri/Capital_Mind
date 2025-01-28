@@ -17,12 +17,13 @@ O **Capital Mind** é um sistema robusto de controle de finanças pessoais, proj
 
 ## Arquitetura
 
-O **Capital Mind** utiliza arquitetura hexagonal, promovendo:
-- **Isolamento do Domínio**: O núcleo do sistema está protegido contra mudanças externas.
-- **Integração Flexível**: Interfaces permitem fácil substituição de dependências externas, como bancos de dados ou APIs.
-- **Testabilidade Melhorada**: A separação de responsabilidades facilita testes unitários e de integração.
+O **Capital Mind** adota uma arquitetura monolítica, com os seguintes benefícios:
 
-Para mais detalhes sobre a estrutura da arquitetura e como ela se relaciona com o seu sistema, acesse [a descrição completa da arquitetura](./src/main/java/gustavo/ventieri/capitalmind/documents/architecture/hexagonArchitecture.md).
+- **Simplicidade e Coesão**: Todas as funcionalidades do sistema estão centralizadas, facilitando o gerenciamento e a implementação.
+- **Integração Direta**: As diferentes camadas do sistema interagem diretamente, sem a necessidade de interfaces complexas.
+- **Facilidade de Manutenção**: Com uma estrutura coesa, as mudanças são mais rápidas de implementar, já que o código está centralizado em um único projeto.
+
+Para mais detalhes sobre a estrutura da arquitetura e como ela se organiza em relação ao seu sistema, acesse [a descrição completa da arquitetura](./src/main/java/gustavo/ventieri/capitalmind/documents/architecture/monolithicArchitecture.md).
 
 ## Tecnologias Utilizadas
 
