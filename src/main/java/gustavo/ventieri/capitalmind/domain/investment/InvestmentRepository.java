@@ -1,8 +1,7 @@
-package gustavo.ventieri.capitalmind.application.repository;
+package gustavo.ventieri.capitalmind.domain.investment;
 
 import java.util.List;
 
-import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import gustavo.ventieri.capitalmind.domain.user.User;
 
 public interface InvestmentRepository {

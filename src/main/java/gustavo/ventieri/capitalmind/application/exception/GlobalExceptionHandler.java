@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.core.exception;
+package gustavo.ventieri.capitalmind.application.exception;
 
 import java.util.Collections;
 import java.util.HashMap;

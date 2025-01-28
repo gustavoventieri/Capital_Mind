@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.core.resources.investment;
+package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentResponseDto;
-import gustavo.ventieri.capitalmind.application.service.investment.InvestmentServiceImpl;
+import gustavo.ventieri.capitalmind.application.service.investment.InvestmentService;
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvestmentController {
     
-    private final InvestmentServiceImpl investmentService;
+    private final InvestmentService investmentService;
 
 
     @PostMapping("/create")

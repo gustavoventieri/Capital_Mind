@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.application.repository.UserRepository;
+import gustavo.ventieri.capitalmind.domain.user.UserRepository;
 
 @Repository
 public interface JpaUserRepository extends JpaRepository<User, UUID>, UserRepository {

@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.config.swagger;
+package gustavo.ventieri.capitalmind.infrastructure.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

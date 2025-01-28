@@ -1,9 +1,7 @@
-package gustavo.ventieri.capitalmind.application.repository;
+package gustavo.ventieri.capitalmind.domain.user;
 
 import java.util.Optional;
 import java.util.UUID;
-
-import gustavo.ventieri.capitalmind.domain.user.User;
 
 public interface UserRepository {
 

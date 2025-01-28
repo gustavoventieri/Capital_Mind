@@ -1,9 +1,8 @@
-package gustavo.ventieri.capitalmind.application.repository;
+package gustavo.ventieri.capitalmind.domain.expense;
 
 import java.util.List;
 import java.util.Optional;
 
-import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.domain.user.User;
 
 public interface ExpenseRepository {

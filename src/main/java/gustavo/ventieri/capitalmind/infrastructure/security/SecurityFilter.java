@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.config.security;
+package gustavo.ventieri.capitalmind.infrastructure.security;
 
 import java.io.IOException;
 import java.util.Collections;

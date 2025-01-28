@@ -1,4 +1,4 @@
-package gustavo.ventieri.capitalmind.application.core.resources.auth;
+package gustavo.ventieri.capitalmind.application.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +10,7 @@ import gustavo.ventieri.capitalmind.application.dto.auth.LoginRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.auth.LoginResponseDto;
 import gustavo.ventieri.capitalmind.application.dto.auth.RegisterRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.auth.RegisterResponseDto;
-import gustavo.ventieri.capitalmind.application.service.user.UserServiceImpl;
+import gustavo.ventieri.capitalmind.application.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
     
 
-    private final UserServiceImpl authService;
+    private final UserService authService;
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto loginRequestDto) {

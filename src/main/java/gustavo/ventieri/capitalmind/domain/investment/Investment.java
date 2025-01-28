@@ -4,6 +4,7 @@ package gustavo.ventieri.capitalmind.domain.investment;
 import java.time.Instant;
 
 
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -47,12 +48,12 @@ public class Investment {
     @JoinColumn(name = "userData", nullable = false) 
     private User userData;
 
-
     @Column(name = "createAt", nullable = false)
     @CreationTimestamp
     private Instant createAt;
 
     @Column(name = "updateAt", nullable = false)
     @UpdateTimestamp
-    private Instant updateAt;    
+    private Instant updateAt;
+
 }
