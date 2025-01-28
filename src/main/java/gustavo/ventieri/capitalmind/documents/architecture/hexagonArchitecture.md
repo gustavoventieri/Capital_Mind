@@ -44,21 +44,21 @@ O domínio é o centro do sistema, onde ficam as **entidades** e as **regras de 
 
 As **ports** são interfaces que definem como o sistema interage com o mundo exterior. Elas são divididas em duas categorias:
 
-- **Ports de Entrada**: São responsáveis por como o sistema **recebe dados** externos. Eles estão representados pelos **controllers** em `application/resources`, que recebem as requisições (ex.: HTTP) e as encaminham para a camada de serviços.
+- **Ports de Entrada**: São responsáveis por como o sistema **recebe dados** externos. Eles estão representados pelos **controllers** em `application/controller`, que recebem as requisições (ex.: HTTP) e as encaminham para a camada de serviços.
 
-  **Exemplo**: Controllers em `application/resources` (como `UserController.java`, `ExpenseController.java`).
+  **Exemplo**: Controllers em `application/controller` (como `UserController.java`, `ExpenseController.java`).
 
-- **Ports de Saída**: São responsáveis por como o sistema **envia dados** para o exterior. Em nossa arquitetura, esses ports são representados pelas **interfaces de repositórios** em `application/repository`, que permitem que o sistema interaja com o banco de dados e outros sistemas externos.
+- **Ports de Saída**: São responsáveis por como o sistema **envia dados** para o exterior. Em nossa arquitetura, esses ports são representados pelas **interfaces de repositórios** em `domain`, que permitem que o sistema interaja com o banco de dados e outros sistemas externos.
 
-  **Exemplo**: Interfaces de repositórios em `application/repository` (como `UserRepository.java`, `ExpenseRepository.java`).
+  **Exemplo**: Interfaces de repositórios em `domain` (como `UserRepository.java`, `ExpenseRepository.java`).
 
 ### 3. Adapters (Adaptadores)
 
 Os **adapters** são as implementações dos **ports**. Eles conectam o sistema com o mundo externo, fazendo a conversão dos dados e interagindo com as tecnologias externas.
 
-- **Adaptadores de Entrada**: São os **controllers**, que recebem os dados de entrada, como requisições HTTP, e os transformam em objetos que o domínio pode processar. Eles estão localizados em `application/resources`.
+- **Adaptadores de Entrada**: São os **controllers**, que recebem os dados de entrada, como requisições HTTP, e os transformam em objetos que o domínio pode processar. Eles estão localizados em `application/controller`.
 
-  **Exemplo**: Controllers em `application/resources`.
+  **Exemplo**: Controllers em `application/controller`.
 
 - **Adaptadores de Saída**: São os **repositórios**, que implementam as interfaces dos repositórios e interagem diretamente com o banco de dados ou sistemas externos.
 

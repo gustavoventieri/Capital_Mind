@@ -7,17 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import gustavo.ventieri.capitalmind.entity.User;
+import gustavo.ventieri.capitalmind.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
-import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.infrastructure.persistence.JpaUserRepository;
+
+
 
 
 @Component
 public class CustomUserDetailsServices implements UserDetailsService  {
 
     @Autowired
-    private JpaUserRepository userRepository;
+    private UserRepository userRepository;
 
 
     @Override
