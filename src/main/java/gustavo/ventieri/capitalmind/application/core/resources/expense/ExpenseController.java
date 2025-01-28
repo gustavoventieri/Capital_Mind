@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class ExpenseController {
         
         Boolean userSaved = this.expenseService.create(expenseRequestDto);
         if (userSaved) {
-            return ResponseEntity.ok().body("Expense Created");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
         }
     
         return ResponseEntity.badRequest().body("Expense Not Created");
