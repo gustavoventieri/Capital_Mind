@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gustavo.ventieri.capitalmind.application.core.resources.expense.dto.ExpenseGetResponseDto;
+import gustavo.ventieri.capitalmind.application.core.resources.expense.dto.ExpenseResponseDto;
 import gustavo.ventieri.capitalmind.application.core.resources.expense.dto.ExpenseRequestDto;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.domain.expense.ExpenseService;
@@ -46,7 +46,7 @@ public class ExpenseController {
         if(expenseOptional.isPresent()){
             Expense expense = expenseOptional.get();
 
-            return ResponseEntity.ok(new ExpenseGetResponseDto(
+            return ResponseEntity.ok(new ExpenseResponseDto(
                 expense.getExpenseId(),
                 expense.getName(),
                 expense.getDescription(),
@@ -65,8 +65,8 @@ public class ExpenseController {
 
         if (expensesOptional.isPresent()) {
 
-            List<ExpenseGetResponseDto> expenses = expensesOptional.get().stream()
-                .map(expense -> new ExpenseGetResponseDto(
+            List<ExpenseResponseDto> expenses = expensesOptional.get().stream()
+                .map(expense -> new ExpenseResponseDto(
                     expense.getExpenseId(),
                     expense.getName(),
                     expense.getDescription(),
@@ -82,7 +82,7 @@ public class ExpenseController {
     }
 
     @PutMapping("/update/{expenseId}")
-    public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody  @Valid ExpenseRequestDto expenseRequestDto){
+    public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
         Boolean expenseDeleted = this.expenseService.update(expenseId, expenseRequestDto);
         
         if(expenseDeleted){
