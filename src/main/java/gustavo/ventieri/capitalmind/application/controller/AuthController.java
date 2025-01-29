@@ -1,5 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,19 +34,21 @@ public class AuthController {
             return ResponseEntity.ok(new LoginResponseDto(token));
         }
     
-        return ResponseEntity.badRequest().body("Invalid Credencials");
+        return new ResponseEntity<>("Invalid Credencials", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDto registerRequestDto){
-       String token = authService.register(registerRequestDto);
+
+        String token = authService.register(registerRequestDto);
         
         if(token != null){
             
             return ResponseEntity.ok(new RegisterResponseDto(token));
         }
 
-        return ResponseEntity.badRequest().body("Something Wrong");
         
-        }
+        return new ResponseEntity<>("Sign Up Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+    
+    }
 }

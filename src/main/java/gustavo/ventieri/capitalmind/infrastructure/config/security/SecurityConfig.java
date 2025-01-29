@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import gustavo.ventieri.capitalmind.infrastructure.exception.CustomAuthenticationEntryPoint;
+import gustavo.ventieri.capitalmind.infrastructure.config.security.exception.CustomAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity

@@ -36,7 +36,7 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
         }
     
-        return ResponseEntity.badRequest().body("Expense Not Created");
+        return new ResponseEntity<>("Expense Not Created", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/{expenseId}")
@@ -55,11 +55,11 @@ public class ExpenseController {
             );
         }
 
-        return ResponseEntity.badRequest().body("Invalid User Id or Expensive Id");
+        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<?> getAllExpense(@PathVariable("userId") String userId) {
+    public ResponseEntity<?> getAllExpenses(@PathVariable("userId") String userId) {
 
         Optional<List<Expense>> expensesOptional = expenseService.getAll(userId);
 
@@ -77,7 +77,7 @@ public class ExpenseController {
 
             return ResponseEntity.ok(expenses);
         } 
-        return ResponseEntity.badRequest().body("Invalid User Id");
+        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
         
     }
 
@@ -89,7 +89,7 @@ public class ExpenseController {
             return ResponseEntity.ok().body("Expense Updated");
         }
 
-        return ResponseEntity.badRequest().body("Expense Not Updated");
+        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
     }
 
 
@@ -101,7 +101,7 @@ public class ExpenseController {
             return ResponseEntity.ok().body("Expense Deleted");
         }
 
-        return ResponseEntity.badRequest().body("Expense Not Deleted");
+        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
     }
     
 

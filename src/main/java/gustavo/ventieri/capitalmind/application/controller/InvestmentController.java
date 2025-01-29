@@ -32,11 +32,12 @@ public class InvestmentController {
     public ResponseEntity<?> createInvestment(@RequestBody @Valid InvestmentRequestDto investmentRequestDto) {
         
         Boolean investmentSaved = this.investmentService.create(investmentRequestDto);
+
         if (investmentSaved) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Investment Created");
         }
     
-        return ResponseEntity.badRequest().body("Investment Not Created");
+        return new ResponseEntity<>("Invesment Not Created", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -58,7 +59,8 @@ public class InvestmentController {
 
             return ResponseEntity.ok(expenses);
         } 
-        return ResponseEntity.badRequest().body("Invalid User Id");
+
+        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
         
     }
 

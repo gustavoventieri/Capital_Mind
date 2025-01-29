@@ -114,6 +114,11 @@ public class ExpenseService implements ExpenseServiceInterface{
     public Boolean deleteById(Long expenseId) {
         this.expenseRepository.deleteById(expenseId);
 
+        Optional<Expense> userDeleted = this.expenseRepository.findById(expenseId);
+
+        if (userDeleted.isEmpty()) {
+            return false;
+        }
         return true;
     }
 }
