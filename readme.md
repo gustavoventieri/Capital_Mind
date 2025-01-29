@@ -9,6 +9,7 @@ O **Capital Mind** é um sistema robusto de controle de finanças pessoais, proj
 ## Funcionalidades
 
 ### Para o Usuário:
+
 - **Gerenciar Despesas**: Controle diário de despesas com categorização detalhada.
 - **Gerenciar Criptomoedas**: Visualização e administração de portfólios de moedas digitais.
 - **Gerenciar Ações**: Acompanhamento e gestão de investimentos em ações.
@@ -17,7 +18,7 @@ O **Capital Mind** é um sistema robusto de controle de finanças pessoais, proj
 
 ## Arquitetura
 
-O **CapitalMind** adota uma arquitetura **Hexagonal** (também conhecida como **Arquitetura de Portos e Adaptadores**), com os seguintes benefícios:
+O **CapitalMind** adota uma arquitetura **Hexagonal** (também conhecida como **Arquitetura de Ports e Adapters**), com os seguintes benefícios:
 
 - **Desacoplamento entre a Lógica de Negócios e Tecnologias Externas**: A lógica central da aplicação está isolada das tecnologias externas, permitindo mudanças sem afetar a estrutura interna do sistema.
 - **Flexibilidade e Escalabilidade**: O sistema pode ser facilmente adaptado para integrar novos serviços, como bancos de dados, APIs externas ou outros sistemas, sem a necessidade de reescrever a lógica de negócios.
@@ -42,14 +43,16 @@ Para mais detalhes sobre a estrutura da arquitetura e como ela se organiza em re
 ## Diagramas
 
 ### Diagrama de Caso de Uso
-Este diagrama representa as interações dos usuários com o sistema.  
+
+Este diagrama representa as interações dos usuários com o sistema.
 
 ![Diagrama de Caso de Uso](./src/main/java/gustavo/ventieri/capitalmind/documents/useCase/UseCase_CapitalMind.png)
 
 ---
 
 ### Modelo Entidade-Relacionamento (MER)
-O modelo abaixo detalha a estrutura do banco de dados e os relacionamentos entre as tabelas.  
+
+O modelo abaixo detalha a estrutura do banco de dados e os relacionamentos entre as tabelas.
 
 ![Modelo Entidade-Relacionamento (MER)](./src/main/java/gustavo/ventieri/capitalmind/documents/mer/MER_CapitalMind.png)
 
