@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ExpenseController {
     private final ExpenseService expenseService;
 
+
     @PostMapping("/create")
     public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
         
@@ -36,7 +37,7 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
         }
     
-        return new ResponseEntity<>("Expense Not Created", HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Expense Not Created");
     }
 
     @GetMapping("/{expenseId}")
@@ -55,7 +56,7 @@ public class ExpenseController {
             );
         }
 
-        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
     }
 
     @GetMapping("/all/{userId}")
@@ -77,31 +78,32 @@ public class ExpenseController {
 
             return ResponseEntity.ok(expenses);
         } 
-        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
         
     }
 
     @PutMapping("/update/{expenseId}")
     public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
-        Boolean expenseDeleted = this.expenseService.update(expenseId, expenseRequestDto);
+        Boolean expenseUpdated = this.expenseService.update(expenseId, expenseRequestDto);
         
-        if(expenseDeleted){
+        if(expenseUpdated){
             return ResponseEntity.ok().body("Expense Updated");
         }
 
-        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
     }
 
 
     @DeleteMapping("/delete/{expenseId}")
-    public ResponseEntity<?> deleteExpenseById(@PathVariable("expenseId") Long expenseId){
-        Boolean expenseDeleted = this.expenseService.deleteById(expenseId);
-        
-        if(expenseDeleted){
-            return ResponseEntity.ok().body("Expense Deleted");
+    public ResponseEntity<String> deleteExpenseById(@PathVariable("expenseId") Long expenseId) {
+       
+
+        Boolean expenseDeleted = expenseService.deleteById(expenseId);
+        if (expenseDeleted) {
+            return ResponseEntity.ok("Expense Deleted");
         }
 
-        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
     }
     
 
