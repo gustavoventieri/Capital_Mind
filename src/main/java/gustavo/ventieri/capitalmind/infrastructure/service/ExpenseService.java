@@ -61,22 +61,20 @@ public class ExpenseService implements ExpenseServiceInterface{
         }
 
         Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-        User user = userOptional.get();
-
+        
         Optional<Expense> expenseOptional = this.expenseRepository.findById(expenseId);
-        if (expenseOptional.isEmpty()) {
+
+        if (userOptional.isEmpty() || expenseOptional.isEmpty()) {
             return false;
         }
+        
         Expense expense = expenseOptional.get();
 
         expense.setName(expenseRequestDto.name());
         expense.setDescription(expenseRequestDto.description());
         expense.setCategory(expenseRequestDto.category());
         expense.setPrice(expenseRequestDto.price());
-        expense.setUserData(user);
+       
 
         this.expenseRepository.save(expense);
 
@@ -112,13 +110,14 @@ public class ExpenseService implements ExpenseServiceInterface{
 
     @Override
     public Boolean deleteById(Long expenseId) {
-        this.expenseRepository.deleteById(expenseId);
 
-        Optional<Expense> userDeleted = this.expenseRepository.findById(expenseId);
-
-        if (userDeleted.isEmpty()) {
+        if (!this.expenseRepository.existsById(expenseId)) {
             return false;
         }
+
+        this.expenseRepository.deleteById(expenseId);
+        
         return true;
+
     }
 }
