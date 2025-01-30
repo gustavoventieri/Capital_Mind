@@ -9,5 +9,11 @@ import gustavo.ventieri.capitalmind.domain.investment.Investment;
 public interface InvestmentServiceInterface {
     Boolean create(InvestmentRequestDto investmentRequestDto);
 
+    Boolean update(Long investmentId, InvestmentRequestDto investmentRequestDto);
+
     Optional<List<Investment>> getAll(String userId);
+
+    Optional<Investment> getById(Long investmentId);
+
+    Boolean deleteById(Long investmentId);
 }

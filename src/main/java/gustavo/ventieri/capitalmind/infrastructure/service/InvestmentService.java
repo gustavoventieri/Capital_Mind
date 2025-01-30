@@ -69,4 +69,57 @@ public class InvestmentService implements InvestmentServiceInterface {
         List<Investment> investments = this.investmentRepository.findAllByUserData(user.get());
         return Optional.of(investments);
     }
+
+
+    @Override
+    public Boolean update(Long investmentId, InvestmentRequestDto investmentRequestDto) {
+        String userId = investmentRequestDto.userId();
+        if (userId == null || userId.isEmpty()) {
+            return false;
+        }
+
+        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
+
+        Optional<Investment> investmentOptional = this.investmentRepository.findById(investmentId);
+
+        if (userOptional.isEmpty() || investmentOptional.isEmpty()) {
+            return false;
+        }
+        
+        Investment investment = investmentOptional.get();
+
+        investment.setName(investmentRequestDto.name());
+        investment.setDescription(investmentRequestDto.description());
+        investment.setPrice(investmentRequestDto.price());
+        
+        this.investmentRepository.save(investment);
+
+        return true;
+    }
+
+
+    @Override
+    public Optional<Investment> getById(Long investmentId) {
+        if (investmentId == null) {
+            return Optional.empty();
+        }
+
+        Optional<Investment> investment = this.investmentRepository.findById(investmentId);
+        
+        return investment;
+    }
+
+
+    @Override
+    public Boolean deleteById(Long investmentId) {
+
+        if (!this.investmentRepository.existsById(investmentId)) {
+            return false;
+        }
+
+        this.investmentRepository.deleteById(investmentId);
+        
+        return true;
+
+    }
 }

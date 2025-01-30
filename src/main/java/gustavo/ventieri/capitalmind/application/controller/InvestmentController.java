@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,14 +43,34 @@ public class InvestmentController {
     }
 
 
+    @GetMapping("/{investmentId}")
+    public ResponseEntity<?> getInvestmentById(@PathVariable("investmentId") Long investmentId){
+        Optional<Investment> investimentOptional = investmentService.getById(investmentId);
+        
+        if(investimentOptional.isPresent()){
+            Investment investment = investimentOptional.get();
+
+            return ResponseEntity.ok(new InvestmentResponseDto(
+                investment.getInvestmentId(),
+                investment.getName(),
+                investment.getDescription(),
+                investment.getPrice())
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
+    }
+  
+
+
     @GetMapping("/all/{userId}")
-    public ResponseEntity<?> getAllExpense(@PathVariable("userId") String userId) {
+    public ResponseEntity<?> getAllInvestment(@PathVariable("userId") String userId) {
 
         Optional<List<Investment>> investmentsOptional = investmentService.getAll(userId);
 
         if (investmentsOptional.isPresent()) {
 
-            List<InvestmentResponseDto> expenses = investmentsOptional.get().stream()
+            List<InvestmentResponseDto> investments = investmentsOptional.get().stream()
                 .map(investment -> new InvestmentResponseDto(
                     investment.getInvestmentId(),
                     investment.getName(),
@@ -57,11 +79,36 @@ public class InvestmentController {
                 ))
                 .collect(Collectors.toList());
 
-            return ResponseEntity.ok(expenses);
+            return ResponseEntity.ok(investments);
         } 
 
         return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
         
     }
+
+    @PutMapping("/update/{investmentId}")
+    public ResponseEntity<?> updateInvestmentById(@PathVariable("investmentId") Long investmentId, @RequestBody @Valid InvestmentRequestDto investmentRequestDto){
+        Boolean investmentUpdated = this.investmentService.update(investmentId, investmentRequestDto);
+        
+        if(investmentUpdated){
+            return ResponseEntity.ok().body("Investment Updated");
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
+    }
+
+    @DeleteMapping("/delete/{investmentId}")
+    public ResponseEntity<String> deleteInvestmentById(@PathVariable("investmentId") Long investmentId) {
+       
+
+        Boolean investmentDeleted = investmentService.deleteById(investmentId);
+        if (investmentDeleted) {
+            return ResponseEntity.ok("Investment Deleted");
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
+    }
+
+
 
 }
