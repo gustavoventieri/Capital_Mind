@@ -41,3 +41,4 @@ networks:
   backend:
     driver: bridge # Usando o driver "bridge" para comunicação entre os contêineres
 
+

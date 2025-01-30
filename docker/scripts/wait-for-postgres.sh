@@ -12,4 +12,6 @@ done
 
 echo "PostgreSQL started"
 
+
 exec "$@"
+ 

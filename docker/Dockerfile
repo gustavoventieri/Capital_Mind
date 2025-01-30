@@ -25,3 +25,4 @@ EXPOSE 8080
 
 # Comando para rodar a aplicação
 ENTRYPOINT ["/app/scripts/wait-for-postgres.sh", "java", "-jar", "/app/capitalmind.jar"]
+
