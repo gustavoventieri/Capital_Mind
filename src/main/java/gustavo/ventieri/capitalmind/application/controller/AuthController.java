@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gustavo.ventieri.capitalmind.application.dto.auth.LoginRequestDto;
-import gustavo.ventieri.capitalmind.application.dto.auth.LoginResponseDto;
-import gustavo.ventieri.capitalmind.application.dto.auth.RegisterRequestDto;
-import gustavo.ventieri.capitalmind.application.dto.auth.RegisterResponseDto;
+import gustavo.ventieri.capitalmind.application.dto.user.auth.LoginRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.user.auth.LoginResponseDto;
+import gustavo.ventieri.capitalmind.application.dto.user.auth.RegisterRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.user.auth.RegisterResponseDto;
 import gustavo.ventieri.capitalmind.infrastructure.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
