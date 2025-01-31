@@ -18,12 +18,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         
-        // A lista de erros do binding result é acessada para capturar os erros de campo
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
         return ResponseEntity.badRequest().body(Collections.singletonMap("errors", errors));
+    }
+
+    // Lida com requisições not found
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", ex.getMessage()));
     }
 
     // Lida com outras exceções de autenticação ou segurança
