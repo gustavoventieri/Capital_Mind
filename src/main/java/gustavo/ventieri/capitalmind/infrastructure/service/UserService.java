@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import gustavo.ventieri.capitalmind.application.dto.user.UpdateUserRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.user.UserRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.user.auth.LoginRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.user.auth.RegisterRequestDto;
 import gustavo.ventieri.capitalmind.application.service.UserServiceInterface;
@@ -26,6 +26,24 @@ public class UserService implements UserServiceInterface {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+
+    @Override
+    public User validateAndGetUser(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            throw new InvalidDataException("User ID is Blank or Null");
+        }
+
+        UUID userUUID;
+        try {
+            userUUID = UUID.fromString(userId);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidDataException("Invalid User ID format");
+        }
+
+        return this.userRepository.findById(userUUID)
+            .orElseThrow(() -> new NotFoundException("User Not Found"));
+    }
+
 
     @Override
     public String login(LoginRequestDto loginRequestDto) {
@@ -83,7 +101,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void update(String userId, UpdateUserRequestDto updateUserRequestDto) {
+    public void update(String userId, UserRequestDto updateUserRequestDto) {
 
         if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
 
