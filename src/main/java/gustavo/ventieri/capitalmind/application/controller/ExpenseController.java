@@ -1,7 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -30,82 +29,59 @@ public class ExpenseController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
+    public ResponseEntity<String> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
         
-        Boolean userSaved = this.expenseService.create(expenseRequestDto);
-        if (userSaved) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
-        }
-    
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Expense Not Created");
-    }
-
-    @GetMapping("/{expenseId}")
-    public ResponseEntity<?> getExpenseById(@PathVariable("expenseId") Long expenseId){
-        Optional<Expense> expenseOptional = expenseService.getById(expenseId);
+        this.expenseService.create(expenseRequestDto);
         
-        if(expenseOptional.isPresent()){
-            Expense expense = expenseOptional.get();
-
-            return ResponseEntity.ok(new ExpenseResponseDto(
-                expense.getExpenseId(),
-                expense.getName(),
-                expense.getDescription(),
-                expense.getCategory(),
-                expense.getPrice())
-            );
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
-    }
-
-    @GetMapping("/all/{userId}")
-    public ResponseEntity<?> getAllExpenses(@PathVariable("userId") String userId) {
-
-        Optional<List<Expense>> expensesOptional = expenseService.getAll(userId);
-
-        if (expensesOptional.isPresent()) {
-
-            List<ExpenseResponseDto> expenses = expensesOptional.get().stream()
-                .map(expense -> new ExpenseResponseDto(
-                    expense.getExpenseId(),
-                    expense.getName(),
-                    expense.getDescription(),
-                    expense.getCategory(),
-                    expense.getPrice()
-                ))
-                .collect(Collectors.toList());
-
-            return ResponseEntity.ok(expenses);
-        } 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
-        
+        return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
     }
 
     @PutMapping("/update/{expenseId}")
     public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
-        Boolean expenseUpdated = this.expenseService.update(expenseId, expenseRequestDto);
         
-        if(expenseUpdated){
-            return ResponseEntity.ok().body("Expense Updated");
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
+        this.expenseService.update(expenseId, expenseRequestDto);
+    
+        return ResponseEntity.ok().body("Expense Updated");
     }
-
 
     @DeleteMapping("/delete/{expenseId}")
     public ResponseEntity<String> deleteExpenseById(@PathVariable("expenseId") Long expenseId) {
        
-
-        Boolean expenseDeleted = expenseService.deleteById(expenseId);
-        if (expenseDeleted) {
-            return ResponseEntity.ok("Expense Deleted");
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource ID not found.");
+        this.expenseService.deleteById(expenseId);
+        
+        return ResponseEntity.ok("Expense Deleted");
+        
     }
-    
 
+    @GetMapping("/{expenseId}")
+    public ResponseEntity<ExpenseResponseDto> getExpenseById(@PathVariable("expenseId") Long expenseId){
 
+        Expense expense = expenseService.getById(expenseId);
+        
+        return ResponseEntity.ok(new ExpenseResponseDto(
+                    expense.getExpenseId(),
+                    expense.getName(),
+                    expense.getDescription(),
+                    expense.getCategory(),
+                    expense.getPrice())
+                );
+       
+    }
+
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(@PathVariable("userId") String userId) {
+
+        List<Expense> expenses = expenseService.getAll(userId);
+
+        return ResponseEntity.ok(expenses.stream()
+        .map(expense -> new ExpenseResponseDto(
+        expense.getExpenseId(),
+        expense.getName(),
+        expense.getDescription(),
+        expense.getCategory(),
+        expense.getPrice()
+        ))
+        .collect(Collectors.toList()));
+        
+    }
 }

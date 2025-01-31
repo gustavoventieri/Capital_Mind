@@ -1,6 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,31 +24,20 @@ public class AuthController {
     private final UserService authService;
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
-        // Chama o serviço de autenticação, que retorna um array com o token e o usuário
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
+
         String token = authService.login(loginRequestDto);
         
-        if (token != null) {
-            
-            // Crie a resposta utilizando o token e o usuário
-            return ResponseEntity.ok(new LoginResponseDto(token));
-        }
-    
-        return new ResponseEntity<>("Invalid Credencials", HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.ok(new LoginResponseDto(token));
+       
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDto registerRequestDto){
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto registerRequestDto){
 
         String token = authService.register(registerRequestDto);
-        
-        if(token != null){
-            
-            return ResponseEntity.ok(new RegisterResponseDto(token));
-        }
-
-        
-        return new ResponseEntity<>("Sign Up Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+         
+        return ResponseEntity.ok(new RegisterResponseDto(token));
     
     }
 }
