@@ -14,6 +14,8 @@ import gustavo.ventieri.capitalmind.application.dto.user.auth.RegisterRequestDto
 import gustavo.ventieri.capitalmind.application.service.UserServiceInterface;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.config.security.TokenService;
+import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;  
+import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -27,14 +29,17 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public String login(LoginRequestDto loginRequestDto) {
-        User user = this.userRepository.findByEmail(loginRequestDto.email()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = this.userRepository.findByEmail(loginRequestDto.email()).orElseThrow(() -> new NotFoundException("User not found"));
 
         if(passwordEncoder.matches(loginRequestDto.password(), user.getPassword())){
             String token = this.tokenService.genereateToken(user);
-            return token;
+            if(token != null) {
+                return token;
+            }
+            throw new InvalidDataException("Invalid Token");
         }
 
-        return null;
+        throw new NotFoundException("Invalid Credentials");
     }
 
    @Override
@@ -55,60 +60,48 @@ public class UserService implements UserServiceInterface {
                 Instant.now(),
                 Instant.now()
             );
+
             this.userRepository.save(newUser);
+
             String token = this.tokenService.genereateToken(newUser);
-            return token;
+            if (token != null) {
+                return token;
+            }
+            throw new InvalidDataException("Invalid Token");
         }
 
-        return null;
+        throw new InvalidDataException("Invalid Data Provided");
     }
 
     @Override
-    public Boolean deleteById(String userId) {
+    public void deleteById(String userId) {
 
-        if (!this.userRepository.existsById(UUID.fromString(userId))) {
-            return false;
-        }
+        if (!this.userRepository.existsById(UUID.fromString(userId))) throw new NotFoundException("User Not Found");
 
         this.userRepository.deleteById(UUID.fromString(userId));
         
-        return true;
-
     }
 
     @Override
-    public Boolean update(String userId, UpdateUserRequestDto updateUserRequestDto) {
+    public void update(String userId, UpdateUserRequestDto updateUserRequestDto) {
 
-        if (userId == null || userId.isEmpty()) {
-            return false;
-        }
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
 
-        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
         
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-
-        User user = userOptional.get();
-
         user.setName(updateUserRequestDto.name());
         user.setEmail(updateUserRequestDto.email());
         user.setPassword(updateUserRequestDto.password());
         user.setSalary(updateUserRequestDto.salary());
         
-
         this.userRepository.save(user);
-
-        return true;
     }
 
     @Override
-    public Optional<User> getById(String userId) {
-         if (userId == null) {
-            return Optional.empty();
-        }
+    public User getById(String userId) {
+        if (userId == null) throw new InvalidDataException("Data is Blank or Null");
 
-        Optional<User> user = this.userRepository.findById(UUID.fromString(userId));
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
         
         return user;
     }

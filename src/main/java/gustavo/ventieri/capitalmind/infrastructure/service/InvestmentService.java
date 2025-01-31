@@ -2,7 +2,6 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequest
 import gustavo.ventieri.capitalmind.application.service.InvestmentServiceInterface;
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import gustavo.ventieri.capitalmind.domain.user.User;
+import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;
+import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.InvestmentRepository;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,69 +25,38 @@ public class InvestmentService implements InvestmentServiceInterface {
 
 
     @Override
-    public Boolean create(InvestmentRequestDto investmentRequestDto) {
+    public void create(InvestmentRequestDto investmentRequestDto) {
+
         String userId = investmentRequestDto.userId();
 
-        if (userId == null || userId.isEmpty()) {
-            return false;
-        }
-
-        // Tenta buscar o usuário
-        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
-
-        return userOptional.map(user -> {
-            Investment newInvestment = new Investment(
-                null,
-                investmentRequestDto.name(),
-                investmentRequestDto.description(),
-                investmentRequestDto.price(),
-                user,
-                Instant.now(),
-                Instant.now()
-            );
-
-            this.investmentRepository.save(newInvestment);
-
-            return true;
-        }).orElseGet(() -> {
-            return false;
-        });
-    }
-
-
-    @Override
-    public Optional<List<Investment>> getAll(String userId) {
-        if (userId == null || userId.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Optional<User> user = this.userRepository.findById(UUID.fromString(userId));
-
-        if (user.isEmpty()) {
-            return Optional.empty();
-        }
-
-        List<Investment> investments = this.investmentRepository.findAllByUserData(user.get());
-        return Optional.of(investments);
-    }
-
-
-    @Override
-    public Boolean update(Long investmentId, InvestmentRequestDto investmentRequestDto) {
-        String userId = investmentRequestDto.userId();
-        if (userId == null || userId.isEmpty()) {
-            return false;
-        }
-
-        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
-
-        Optional<Investment> investmentOptional = this.investmentRepository.findById(investmentId);
-
-        if (userOptional.isEmpty() || investmentOptional.isEmpty()) {
-            return false;
-        }
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
         
-        Investment investment = investmentOptional.get();
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        Investment newInvestment = new Investment(
+            null,
+            investmentRequestDto.name(),
+            investmentRequestDto.description(),
+            investmentRequestDto.price(),
+            user,
+            Instant.now(),
+            Instant.now()
+        );
+
+        this.investmentRepository.save(newInvestment);
+
+    }
+
+    @Override
+    public void update(Long investmentId, InvestmentRequestDto investmentRequestDto) {
+
+        String userId = investmentRequestDto.userId();
+
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
+
+        this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        Investment investment = this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));;
 
         investment.setName(investmentRequestDto.name());
         investment.setDescription(investmentRequestDto.description());
@@ -94,32 +64,38 @@ public class InvestmentService implements InvestmentServiceInterface {
         
         this.investmentRepository.save(investment);
 
-        return true;
+    }
+
+    @Override
+    public List<Investment> getAll(String userId) {
+
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
+
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        List<Investment> investments = this.investmentRepository.findAllByUserData(user);
+
+        return investments;
+
     }
 
 
-    @Override
-    public Optional<Investment> getById(Long investmentId) {
-        if (investmentId == null) {
-            return Optional.empty();
-        }
 
-        Optional<Investment> investment = this.investmentRepository.findById(investmentId);
+    @Override
+    public Investment getById(Long investmentId) {
+        if (investmentId == null) throw new InvalidDataException("Data is Blank or Null");
         
-        return investment;
+        return this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));
+
     }
 
 
     @Override
-    public Boolean deleteById(Long investmentId) {
+    public void deleteById(Long investmentId) {
 
-        if (!this.investmentRepository.existsById(investmentId)) {
-            return false;
-        }
-
+        if (!this.investmentRepository.existsById(investmentId)) throw new NotFoundException("Investment Not Found");
+        
         this.investmentRepository.deleteById(investmentId);
-        
-        return true;
-
+    
     }
 }

@@ -2,7 +2,6 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
 import gustavo.ventieri.capitalmind.application.service.ExpenseServiceInterface;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.domain.user.User;
+import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;
+import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.ExpenseRepository;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,52 +24,40 @@ public class ExpenseService implements ExpenseServiceInterface{
     private final UserRepository userRepository;
 
     @Override
-    public Boolean create(ExpenseRequestDto expenseRequestDto) {
+    public void create(ExpenseRequestDto expenseRequestDto) {
+
         String userId = expenseRequestDto.userId();
 
-        if (userId == null || userId.isEmpty()) {
-            return false;
-        }
-
-        // Tenta buscar o usuário
-        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
         
-        return userOptional.map(user -> {
-            Expense newExpense = new Expense(
-                null,
-                expenseRequestDto.name(),
-                expenseRequestDto.description(),
-                expenseRequestDto.category(),
-                expenseRequestDto.price(),
-                user,
-                Instant.now(),
-                Instant.now()
-            );
 
-            this.expenseRepository.save(newExpense);
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+       
+        Expense newExpense = new Expense(
+            null,
+            expenseRequestDto.name(),
+            expenseRequestDto.description(),
+            expenseRequestDto.category(),
+            expenseRequestDto.price(),
+            user,
+            Instant.now(),
+            Instant.now()
+        ); 
 
-            return true;
-        }).orElseGet(() -> {
-            return false;
-        });
+        this.expenseRepository.save(newExpense);    
+       
     }
 
     @Override
-    public Boolean update(Long expenseId, ExpenseRequestDto expenseRequestDto) {
+    public void update(Long expenseId, ExpenseRequestDto expenseRequestDto) {
+
         String userId = expenseRequestDto.userId();
-        if (userId == null || userId.isEmpty()) {
-            return false;
-        }
 
-        Optional<User> userOptional = this.userRepository.findById(UUID.fromString(userId));
-        
-        Optional<Expense> expenseOptional = this.expenseRepository.findById(expenseId);
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
 
-        if (userOptional.isEmpty() || expenseOptional.isEmpty()) {
-            return false;
-        }
+        this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
         
-        Expense expense = expenseOptional.get();
+        Expense expense = this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));;
 
         expense.setName(expenseRequestDto.name());
         expense.setDescription(expenseRequestDto.description());
@@ -78,46 +67,35 @@ public class ExpenseService implements ExpenseServiceInterface{
 
         this.expenseRepository.save(expense);
 
-        return true;
     }
 
     @Override
-    public Optional<List<Expense>> getAll(String userId) {
-        if (userId == null || userId.isEmpty()) {
-            return Optional.empty();
-        }
+    public List<Expense> getAll(String userId) {
 
-        Optional<User> user = this.userRepository.findById(UUID.fromString(userId));
+        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
         
-        if (user.isEmpty()) {
-            return Optional.empty();
-        }
-
-        List<Expense> expenses = this.expenseRepository.findAllByUserData(user.get());
-        return Optional.of(expenses);
-    }
-
-    @Override
-    public Optional<Expense> getById(Long expenseId) {
-        if (expenseId == null) {
-            return Optional.empty();
-        }
-
-        Optional<Expense> expense = this.expenseRepository.findById(expenseId);
+        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));;
         
-        return expense;
+        List<Expense> expenses = this.expenseRepository.findAllByUserData(user);
+
+        return expenses;
     }
 
     @Override
-    public Boolean deleteById(Long expenseId) {
+    public Expense getById(Long expenseId) {
 
-        if (!this.expenseRepository.existsById(expenseId)) {
-            return false;
-        }
+        if (expenseId == null) throw new InvalidDataException("Data is Blank or Null");
+
+        return this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));
+        
+    }
+
+    @Override
+    public void deleteById(Long expenseId) {
+
+        if (!this.expenseRepository.existsById(expenseId)) throw new NotFoundException("Expense Not Found");
 
         this.expenseRepository.deleteById(expenseId);
-        
-        return true;
 
     }
 }
