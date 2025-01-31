@@ -9,12 +9,12 @@ public interface CryptoCurrencyServiceInterface {
 
     void create(CryptoCurrencyRequestDto cryptoCurrencyRequestDto);
 
-    void update(Long cryptoId, CryptoCurrencyRequestDto cryptoCurrencyRequestDto);
+    void update(Long cryptoCurrencyId, CryptoCurrencyRequestDto cryptoCurrencyRequestDto);
 
     List<CryptoCurrency> getAll(String userId);
 
-    CryptoCurrency getById(Long cryptoId);
+    CryptoCurrency getById(Long cryptoCurrencyId);
 
-    void deleteById(Long cryptoId);
+    void deleteById(Long cryptoCurrencyId);
     
 } 
