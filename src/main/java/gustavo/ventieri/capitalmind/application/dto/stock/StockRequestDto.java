@@ -22,6 +22,8 @@ public record StockRequestDto(
     
     
     @NotNull(message = "User ID cannot be null.")
-    String userId) {
+    String userId
+    
+) {
     
 }
