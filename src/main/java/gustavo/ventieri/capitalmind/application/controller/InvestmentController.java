@@ -42,7 +42,8 @@ public class InvestmentController {
     public ResponseEntity<InvestmentResponseDto> getInvestmentById(@PathVariable("investmentId") Long investmentId){
         Investment investment = investmentService.getById(investmentId);
         
-        return ResponseEntity.ok(new InvestmentResponseDto(
+        return ResponseEntity.ok(
+            new InvestmentResponseDto(
             investment.getInvestmentId(),
             investment.getName(),
             investment.getDescription(),
@@ -57,7 +58,8 @@ public class InvestmentController {
         
    
         return ResponseEntity.ok(investmentsList.stream()
-        .map(investment -> new InvestmentResponseDto(
+        .map(investment -> 
+        new InvestmentResponseDto(
             investment.getInvestmentId(),
             investment.getName(),
             investment.getDescription(),

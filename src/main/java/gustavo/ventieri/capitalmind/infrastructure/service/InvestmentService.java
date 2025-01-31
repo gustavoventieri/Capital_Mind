@@ -73,9 +73,7 @@ public class InvestmentService implements InvestmentServiceInterface {
 
         User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        List<Investment> investments = this.investmentRepository.findAllByUserData(user);
-
-        return investments;
+        return this.investmentRepository.findAllByUserData(user);
 
     }
 

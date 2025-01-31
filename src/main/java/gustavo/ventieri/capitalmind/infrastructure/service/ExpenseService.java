@@ -74,9 +74,7 @@ public class ExpenseService implements ExpenseServiceInterface{
         
         User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));;
         
-        List<Expense> expenses = this.expenseRepository.findAllByUserData(user);
-
-        return expenses;
+        return this.expenseRepository.findAllByUserData(user);
     }
 
     @Override

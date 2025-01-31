@@ -37,7 +37,7 @@ public class ExpenseController {
     }
 
     @PutMapping("/update/{expenseId}")
-    public ResponseEntity<?> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
+    public ResponseEntity<String> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
         
         this.expenseService.update(expenseId, expenseRequestDto);
     
@@ -58,13 +58,14 @@ public class ExpenseController {
 
         Expense expense = expenseService.getById(expenseId);
         
-        return ResponseEntity.ok(new ExpenseResponseDto(
+        return ResponseEntity.ok(
+            new ExpenseResponseDto(
                     expense.getExpenseId(),
                     expense.getName(),
                     expense.getDescription(),
                     expense.getCategory(),
                     expense.getPrice())
-                );
+            );
        
     }
 
@@ -74,7 +75,8 @@ public class ExpenseController {
         List<Expense> expenses = expenseService.getAll(userId);
 
         return ResponseEntity.ok(expenses.stream()
-        .map(expense -> new ExpenseResponseDto(
+        .map(expense -> 
+        new ExpenseResponseDto(
         expense.getExpenseId(),
         expense.getName(),
         expense.getDescription(),
