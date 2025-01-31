@@ -2,7 +2,6 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -10,10 +9,8 @@ import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
 import gustavo.ventieri.capitalmind.application.service.ExpenseServiceInterface;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.ExpenseRepository;
-import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,18 +18,16 @@ import lombok.RequiredArgsConstructor;
 public class ExpenseService implements ExpenseServiceInterface{
 
     private final ExpenseRepository expenseRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
+
 
     @Override
     public void create(ExpenseRequestDto expenseRequestDto) {
 
-        String userId = expenseRequestDto.userId();
-
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-        
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+        User user =  this.userService.validateAndGetUser(expenseRequestDto.userId());
        
-        Expense newExpense = new Expense(
+        this.expenseRepository.save(
+        new Expense(
             null,
             expenseRequestDto.name(),
             expenseRequestDto.description(),
@@ -41,19 +36,11 @@ public class ExpenseService implements ExpenseServiceInterface{
             user,
             Instant.now(),
             Instant.now()
-        ); 
-
-        this.expenseRepository.save(newExpense);      
+        ));      
     }
 
     @Override
     public void update(Long expenseId, ExpenseRequestDto expenseRequestDto) {
-
-        String userId = expenseRequestDto.userId();
-
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-
-        this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
         
         Expense expense = this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));;
 
@@ -62,7 +49,6 @@ public class ExpenseService implements ExpenseServiceInterface{
         expense.setCategory(expenseRequestDto.category());
         expense.setPrice(expenseRequestDto.price());
        
-
         this.expenseRepository.save(expense);
 
     }
@@ -70,17 +56,13 @@ public class ExpenseService implements ExpenseServiceInterface{
     @Override
     public List<Expense> getAll(String userId) {
 
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-        
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));;
-        
+        User user =  this.userService.validateAndGetUser(userId);
+
         return this.expenseRepository.findAllByUserData(user);
     }
 
     @Override
     public Expense getById(Long expenseId) {
-
-        if (expenseId == null) throw new InvalidDataException("Data is Blank or Null");
 
         return this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));
         

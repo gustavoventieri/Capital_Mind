@@ -2,7 +2,6 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -10,30 +9,26 @@ import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequest
 import gustavo.ventieri.capitalmind.application.service.InvestmentServiceInterface;
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import gustavo.ventieri.capitalmind.domain.user.User;
-import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.InvestmentRepository;
-import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class InvestmentService implements InvestmentServiceInterface {
 
-    private final UserRepository userRepository;
     private final InvestmentRepository investmentRepository;
+    private final UserService userService;
+
 
 
     @Override
     public void create(InvestmentRequestDto investmentRequestDto) {
 
-        String userId = investmentRequestDto.userId();
+        User user =  this.userService.validateAndGetUser(investmentRequestDto.userId());
 
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-        
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
-
-        Investment newInvestment = new Investment(
+        this.investmentRepository.save(
+        new Investment(
             null,
             investmentRequestDto.name(),
             investmentRequestDto.description(),
@@ -41,20 +36,13 @@ public class InvestmentService implements InvestmentServiceInterface {
             user,
             Instant.now(),
             Instant.now()
+        )
         );
-
-        this.investmentRepository.save(newInvestment);
 
     }
 
     @Override
     public void update(Long investmentId, InvestmentRequestDto investmentRequestDto) {
-
-        String userId = investmentRequestDto.userId();
-
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-
-        this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
 
         Investment investment = this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));;
 
@@ -69,9 +57,7 @@ public class InvestmentService implements InvestmentServiceInterface {
     @Override
     public List<Investment> getAll(String userId) {
 
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+        User user =  this.userService.validateAndGetUser(userId);
 
         return this.investmentRepository.findAllByUserData(user);
 
@@ -81,7 +67,6 @@ public class InvestmentService implements InvestmentServiceInterface {
 
     @Override
     public Investment getById(Long investmentId) {
-        if (investmentId == null) throw new InvalidDataException("Data is Blank or Null");
         
         return this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));
 
