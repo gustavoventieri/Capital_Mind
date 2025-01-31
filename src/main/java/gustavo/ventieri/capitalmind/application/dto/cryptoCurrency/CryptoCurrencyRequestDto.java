@@ -16,9 +16,9 @@ public record CryptoCurrencyRequestDto(
     @Size(max = 255, message = "Description cannot be more than 255 characters.")
     String description, 
     
-    @NotNull(message = "Price cannot be null.")
-    @Positive(message = "Price must be a positive value.")
-    Integer quantity, 
+    @NotNull(message = "Quantity cannot be null.")
+    @Positive(message = "Quantity must be a positive value.")
+    Double quantity, 
     
     
     @NotNull(message = "User ID cannot be null.")

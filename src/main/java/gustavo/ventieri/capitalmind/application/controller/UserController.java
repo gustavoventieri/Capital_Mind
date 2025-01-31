@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gustavo.ventieri.capitalmind.application.dto.user.GetUserResponseDto;
-import gustavo.ventieri.capitalmind.application.dto.user.UpdateUserRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.user.UserResponseDto;
+import gustavo.ventieri.capitalmind.application.dto.user.UserRequestDto;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.service.UserService;
 import jakarta.validation.Valid;
@@ -23,11 +23,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<GetUserResponseDto> getUserById(@PathVariable("userId") String userId) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable("userId") String userId) {
        
         User user = this.userService.getById(userId);
 
-        return ResponseEntity.ok(new GetUserResponseDto(
+        return ResponseEntity.ok(new UserResponseDto(
             user.getName(),
             user.getEmail(),
             user.getPassword(),
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity<String> updateUserById(@PathVariable("userId") String userId, @RequestBody @Valid UpdateUserRequestDto updateUserRequestDto) {
+    public ResponseEntity<String> updateUserById(@PathVariable("userId") String userId, @RequestBody @Valid UserRequestDto updateUserRequestDto) {
         
         this.userService.update(userId, updateUserRequestDto);
 

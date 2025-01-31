@@ -77,13 +77,13 @@ public class StockController {
         List<Stock> stocks = stockService.getAll(userId);
 
         return ResponseEntity.ok(stocks.stream()
-        .map(expense -> 
+        .map(stock -> 
         new StockResponseDto(
-            expense.getStockId(),
-            expense.getName(),
-            expense.getDescription(),
-            expense.getQuantity(),
-            expense.getQuantity() * 0.2
+            stock.getStockId(),
+            stock.getName(),
+            stock.getDescription(),
+            stock.getQuantity(),
+            stock.getQuantity() * 0.2
         ))
         .collect(Collectors.toList()));
         

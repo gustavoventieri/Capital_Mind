@@ -76,12 +76,12 @@ public class ExpenseController {
 
         return ResponseEntity.ok(expenses.stream()
         .map(expense -> 
-        new ExpenseResponseDto(
-        expense.getExpenseId(),
-        expense.getName(),
-        expense.getDescription(),
-        expense.getCategory(),
-        expense.getPrice()
+            new ExpenseResponseDto(
+            expense.getExpenseId(),
+            expense.getName(),
+            expense.getDescription(),
+            expense.getCategory(),
+            expense.getPrice()
         ))
         .collect(Collectors.toList()));
         

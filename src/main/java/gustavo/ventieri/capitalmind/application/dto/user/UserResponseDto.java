@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-public record UpdateUserRequestDto(
+public record UserResponseDto( 
 
     @NotBlank(message = "Name cannot be empty.")
     @Size(min = 2, message = "Name cannot be less than 2 characters.")
@@ -25,5 +25,7 @@ public record UpdateUserRequestDto(
 
     @NotNull(message = "Salary cannot be empty.")
     @Positive(message = "Salary must be a positive value.")
-    Double salary) {
-} 
+    Double salary
+) {
+    
+}
