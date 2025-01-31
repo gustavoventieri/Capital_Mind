@@ -6,6 +6,7 @@ import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
 
 public interface ExpenseServiceInterface {
+    
     void create(ExpenseRequestDto expenseRequestDto);
 
     void update(Long expenseId, ExpenseRequestDto expenseRequestDto);
