@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import gustavo.ventieri.capitalmind.domain.user.User;
+import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,13 +33,12 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if (login != null && !login.isEmpty()) {
-            try {
+            try {   
              
                 UUID userId = UUID.fromString(login);
         
-         
                 User user = userRepository.findById(userId)
-                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado para o ID: " + userId));
+                        .orElseThrow(() -> new NotFoundException("User Not Found"));
         
               
                 var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));

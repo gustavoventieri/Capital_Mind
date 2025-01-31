@@ -40,7 +40,7 @@ public class Stock {
     private String description;
 
     @Column(name = "quantity", nullable = false)
-    private String quantity;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "userData", nullable = false) 

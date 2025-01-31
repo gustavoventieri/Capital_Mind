@@ -30,7 +30,6 @@ public class ExpenseService implements ExpenseServiceInterface{
 
         if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
         
-
         User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
        
         Expense newExpense = new Expense(
@@ -44,8 +43,7 @@ public class ExpenseService implements ExpenseServiceInterface{
             Instant.now()
         ); 
 
-        this.expenseRepository.save(newExpense);    
-       
+        this.expenseRepository.save(newExpense);      
     }
 
     @Override
