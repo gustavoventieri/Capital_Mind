@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gustavo.ventieri.capitalmind.application.dto.user.UserResponseDto;
 import gustavo.ventieri.capitalmind.application.dto.user.UserRequestDto;
-import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +23,8 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable("userId") String userId) {
-       
-        User user = this.userService.getById(userId);
 
-        return ResponseEntity.ok(new UserResponseDto(
-            user.getName(),
-            user.getEmail(),
-            user.getPassword(),
-            user.getSalary())
-        );
-            
+        return ResponseEntity.ok(this.userService.getById(userId));
     }
 
     @DeleteMapping("/delete/{userId}")

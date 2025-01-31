@@ -3,7 +3,7 @@ package gustavo.ventieri.capitalmind.application.service;
 import java.util.List;
 
 import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyRequestDto;
-import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
+import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyResponseDto;
 
 public interface CryptoCurrencyServiceInterface {
 
@@ -11,9 +11,9 @@ public interface CryptoCurrencyServiceInterface {
 
     void update(Long cryptoCurrencyId, CryptoCurrencyRequestDto cryptoCurrencyRequestDto);
 
-    List<CryptoCurrency> getAll(String userId);
+    List<CryptoCurrencyResponseDto> getAll(String userId);
 
-    CryptoCurrency getById(Long cryptoCurrencyId);
+    CryptoCurrencyResponseDto getById(Long cryptoCurrencyId);
 
     void deleteById(Long cryptoCurrencyId);
     

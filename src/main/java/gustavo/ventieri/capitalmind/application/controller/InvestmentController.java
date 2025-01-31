@@ -1,7 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentResponseDto;
-import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import gustavo.ventieri.capitalmind.infrastructure.service.InvestmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,32 +38,15 @@ public class InvestmentController {
 
     @GetMapping("/{investmentId}")
     public ResponseEntity<InvestmentResponseDto> getInvestmentById(@PathVariable("investmentId") Long investmentId){
-        Investment investment = investmentService.getById(investmentId);
-        
-        return ResponseEntity.ok(
-            new InvestmentResponseDto(
-            investment.getInvestmentId(),
-            investment.getName(),
-            investment.getDescription(),
-            investment.getPrice()));
+     
+        return ResponseEntity.ok(investmentService.getById(investmentId));
        
     }
   
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<InvestmentResponseDto>> getAllInvestment(@PathVariable("userId") String userId) {
 
-        List<Investment> investmentsList = investmentService.getAll(userId);
-        
-   
-        return ResponseEntity.ok(investmentsList.stream()
-        .map(investment -> 
-        new InvestmentResponseDto(
-            investment.getInvestmentId(),
-            investment.getName(),
-            investment.getDescription(),
-            investment.getPrice())
-        )
-        .collect(Collectors.toList()));
+        return ResponseEntity.ok(investmentService.getAll(userId));
     
     }
 

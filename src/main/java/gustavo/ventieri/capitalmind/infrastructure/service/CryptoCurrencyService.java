@@ -2,14 +2,17 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyResponseDto;
 import gustavo.ventieri.capitalmind.application.service.CryptoCurrencyServiceInterface;
 import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
+import gustavo.ventieri.capitalmind.infrastructure.mapper.cryptoCurrency.CryptoCurrencyMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.CryptoCurrencyRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
 
     private final CryptoCurrencyRepository cryptoCurrencyRepository;
     private final UserService userService;
+    private final CryptoCurrencyMapper cryptoCurrencyMapper;
 
     @Override
     public void create(CryptoCurrencyRequestDto cryptoCurrencyRequestDto) {
@@ -53,17 +57,22 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
     }
 
     @Override
-    public List<CryptoCurrency> getAll(String userId) {
+    public List<CryptoCurrencyResponseDto> getAll(String userId) {
 
         User user = this.userService.validateAndGetUser(userId);
         
-        return this.cryptoCurrencyRepository.findAllByUserData(user);
+        List<CryptoCurrency> cryptoCurrencies = this.cryptoCurrencyRepository.findAllByUserData(user);;
+        return cryptoCurrencies.stream()
+        .map(cryptoCurrency -> cryptoCurrencyMapper.toDto(cryptoCurrency))
+        .collect(Collectors.toList());
     }
 
     @Override
-    public CryptoCurrency getById(Long cryptoCurrencyId) {
+    public CryptoCurrencyResponseDto getById(Long cryptoCurrencyId) {
 
-        return this.cryptoCurrencyRepository.findById(cryptoCurrencyId).orElseThrow(() -> new NotFoundException("Crypto Currency Not Found"));
+        CryptoCurrency cryptoCurrency = this.cryptoCurrencyRepository.findById(cryptoCurrencyId).orElseThrow(() -> new NotFoundException("Crypto Currency Not Found"));
+
+        return cryptoCurrencyMapper.toDto(cryptoCurrency);
     }
 
     @Override

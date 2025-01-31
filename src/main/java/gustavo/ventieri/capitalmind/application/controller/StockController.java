@@ -1,7 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import gustavo.ventieri.capitalmind.application.dto.stock.StockRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.stock.StockResponseDto;
-import gustavo.ventieri.capitalmind.domain.stock.Stock;
 import gustavo.ventieri.capitalmind.infrastructure.service.StockService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,34 +56,15 @@ public class StockController {
     @GetMapping("/{stockId}")
     public ResponseEntity<StockResponseDto> getStockById(@PathVariable("stockId") Long stockId){
 
-        Stock stock = stockService.getById(stockId);
-        
-        return ResponseEntity.ok(
-            new StockResponseDto(
-                stock.getStockId(),
-                stock.getName(),
-                stock.getDescription(),
-                stock.getQuantity(),
-                stock.getQuantity() * 0.2
-            ));
+        return ResponseEntity.ok(stockService.getById(stockId));
        
     }
 
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<StockResponseDto>> getAllStocks(@PathVariable("userId") String userId) {
 
-        List<Stock> stocks = stockService.getAll(userId);
-
-        return ResponseEntity.ok(stocks.stream()
-        .map(stock -> 
-        new StockResponseDto(
-            stock.getStockId(),
-            stock.getName(),
-            stock.getDescription(),
-            stock.getQuantity(),
-            stock.getQuantity() * 0.2
-        ))
-        .collect(Collectors.toList()));
+        return ResponseEntity.ok(stockService.getAll(userId));
+       
         
     }
 

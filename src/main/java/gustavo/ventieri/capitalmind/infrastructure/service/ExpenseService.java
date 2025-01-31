@@ -2,14 +2,17 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseResponseDto;
 import gustavo.ventieri.capitalmind.application.service.ExpenseServiceInterface;
 import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
+import gustavo.ventieri.capitalmind.infrastructure.mapper.expense.ExpenseMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ public class ExpenseService implements ExpenseServiceInterface{
 
     private final ExpenseRepository expenseRepository;
     private final UserService userService;
+    private final ExpenseMapper expenseMapper;
 
 
     @Override
@@ -54,17 +58,23 @@ public class ExpenseService implements ExpenseServiceInterface{
     }
 
     @Override
-    public List<Expense> getAll(String userId) {
+    public List<ExpenseResponseDto> getAll(String userId) {
 
-        User user =  this.userService.validateAndGetUser(userId);
+        User user =  this.userService.validateAndGetUser(userId);   
 
-        return this.expenseRepository.findAllByUserData(user);
+        List<Expense> expenses = this.expenseRepository.findAllByUserData(user);
+
+        return expenses.stream()
+            .map(expense -> expenseMapper.toDto(expense))
+            .collect(Collectors.toList());
     }
 
     @Override
-    public Expense getById(Long expenseId) {
+    public ExpenseResponseDto getById(Long expenseId) {
 
-        return this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));
+        Expense expense = this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));
+
+        return expenseMapper.toDto(expense);
         
     }
 

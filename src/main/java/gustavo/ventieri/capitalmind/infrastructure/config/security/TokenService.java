@@ -19,7 +19,7 @@ import gustavo.ventieri.capitalmind.domain.user.User;
 public class TokenService {
     
 
-    // Variavek que obtem a senha do JWT
+    // Variavel que obtem a senha do JWT
     @Value("${api.security.token.jwt.secret}")
     private String JWT_SECRET;
 

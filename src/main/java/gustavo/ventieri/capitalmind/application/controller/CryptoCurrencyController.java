@@ -1,7 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrencyResponseDto;
-import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
 import gustavo.ventieri.capitalmind.infrastructure.service.CryptoCurrencyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +40,7 @@ public class CryptoCurrencyController {
         
         this.cryptoCurrencyService.update(cryptoCurrencyId, cryptoCurrencyRequestDto);
     
-        return ResponseEntity.ok().body("CryptoCurrency Updated");
+        return ResponseEntity.ok().body("Crypto Currency Updated");
     }
 
     @DeleteMapping("/delete/{cryptoCurrencyId}")
@@ -58,34 +56,14 @@ public class CryptoCurrencyController {
     @GetMapping("/{cryptoCurrencyId}")
     public ResponseEntity<CryptoCurrencyResponseDto> getCryptoCurrencyById(@PathVariable("cryptoCurrencyId") Long cryptoCurrencyId){
 
-        CryptoCurrency cryptoCurrency = cryptoCurrencyService.getById(cryptoCurrencyId);
-        
-        return ResponseEntity.ok(
-            new CryptoCurrencyResponseDto(
-                cryptoCurrency.getCryptoId(),
-                cryptoCurrency.getName(),
-                cryptoCurrency.getDescription(),
-                cryptoCurrency.getQuantity(),
-                cryptoCurrency.getQuantity() * 0.2
-            ));
+        return ResponseEntity.ok(cryptoCurrencyService.getById(cryptoCurrencyId));
        
     }
 
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<CryptoCurrencyResponseDto>> getAllCryptoCurrencys(@PathVariable("userId") String userId) {
 
-        List<CryptoCurrency> CryptoCurrencys = cryptoCurrencyService.getAll(userId);
-
-        return ResponseEntity.ok(CryptoCurrencys.stream()
-        .map(cryptoCurrency -> 
-        new CryptoCurrencyResponseDto(
-            cryptoCurrency.getCryptoId(),
-            cryptoCurrency.getName(),
-            cryptoCurrency.getDescription(),
-            cryptoCurrency.getQuantity(),
-            cryptoCurrency.getQuantity() * 0.2
-        ))
-        .collect(Collectors.toList()));
+        return ResponseEntity.ok(cryptoCurrencyService.getAll(userId));
         
     }
 

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import gustavo.ventieri.capitalmind.application.dto.user.UserRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.user.UserResponseDto;
 import gustavo.ventieri.capitalmind.application.dto.user.auth.LoginRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.user.auth.RegisterRequestDto;
 import gustavo.ventieri.capitalmind.application.service.UserServiceInterface;
@@ -16,6 +17,7 @@ import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.config.security.TokenService;
 import gustavo.ventieri.capitalmind.infrastructure.exception.InvalidDataException;  
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
+import gustavo.ventieri.capitalmind.infrastructure.mapper.user.UserMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ public class UserService implements UserServiceInterface {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final UserMapper userMapper;
 
     @Override
     public User validateAndGetUser(String userId) {
@@ -34,6 +37,7 @@ public class UserService implements UserServiceInterface {
         }
 
         UUID userUUID;
+
         try {
             userUUID = UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
@@ -103,25 +107,22 @@ public class UserService implements UserServiceInterface {
     @Override
     public void update(String userId, UserRequestDto updateUserRequestDto) {
 
-        if (userId == null || userId.isEmpty()) throw new InvalidDataException("Data is Blank or Null");
-
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+        User user = this.validateAndGetUser(userId);
         
         user.setName(updateUserRequestDto.name());
         user.setEmail(updateUserRequestDto.email());
-        user.setPassword(updateUserRequestDto.password());
+        user.setPassword(passwordEncoder.encode(updateUserRequestDto.password()));
         user.setSalary(updateUserRequestDto.salary());
         
         this.userRepository.save(user);
     }
 
     @Override
-    public User getById(String userId) {
-        if (userId == null) throw new InvalidDataException("Data is Blank or Null");
-
-        User user = this.userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new NotFoundException("User Not Found"));
+    public UserResponseDto getById(String userId) {
+       
+        User user = this.validateAndGetUser(userId);
         
-        return user;
+        return userMapper.toDto(user);
     }
     
 }

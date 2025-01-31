@@ -1,7 +1,6 @@
 package gustavo.ventieri.capitalmind.application.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseRequestDto;
 import gustavo.ventieri.capitalmind.application.dto.expense.ExpenseResponseDto;
-import gustavo.ventieri.capitalmind.domain.expense.Expense;
 import gustavo.ventieri.capitalmind.infrastructure.service.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,34 +54,14 @@ public class ExpenseController {
     @GetMapping("/{expenseId}")
     public ResponseEntity<ExpenseResponseDto> getExpenseById(@PathVariable("expenseId") Long expenseId){
 
-        Expense expense = expenseService.getById(expenseId);
-        
-        return ResponseEntity.ok(
-            new ExpenseResponseDto(
-                    expense.getExpenseId(),
-                    expense.getName(),
-                    expense.getDescription(),
-                    expense.getCategory(),
-                    expense.getPrice())
-            );
+     return ResponseEntity.ok(expenseService.getById(expenseId));          
        
     }
 
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(@PathVariable("userId") String userId) {
 
-        List<Expense> expenses = expenseService.getAll(userId);
-
-        return ResponseEntity.ok(expenses.stream()
-        .map(expense -> 
-            new ExpenseResponseDto(
-            expense.getExpenseId(),
-            expense.getName(),
-            expense.getDescription(),
-            expense.getCategory(),
-            expense.getPrice()
-        ))
-        .collect(Collectors.toList()));
+        return ResponseEntity.ok(expenseService.getAll(userId));
         
     }
 }

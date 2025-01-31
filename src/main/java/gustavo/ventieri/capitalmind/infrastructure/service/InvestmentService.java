@@ -2,14 +2,17 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequestDto;
+import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentResponseDto;
 import gustavo.ventieri.capitalmind.application.service.InvestmentServiceInterface;
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
+import gustavo.ventieri.capitalmind.infrastructure.mapper.investment.InvestmentMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.InvestmentRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ public class InvestmentService implements InvestmentServiceInterface {
 
     private final InvestmentRepository investmentRepository;
     private final UserService userService;
+    private final InvestmentMapper investmentMapper;
 
 
 
@@ -55,21 +59,26 @@ public class InvestmentService implements InvestmentServiceInterface {
     }
 
     @Override
-    public List<Investment> getAll(String userId) {
+    public List<InvestmentResponseDto> getAll(String userId) {
 
         User user =  this.userService.validateAndGetUser(userId);
 
-        return this.investmentRepository.findAllByUserData(user);
+        List<Investment> investments = this.investmentRepository.findAllByUserData(user);
 
+        return investments.stream()
+            .map(investment -> investmentMapper.toDto(investment)            )
+            .collect(Collectors.toList());
     }
 
 
 
     @Override
-    public Investment getById(Long investmentId) {
+    public InvestmentResponseDto getById(Long investmentId) {
         
-        return this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));
+        Investment investment = this.investmentRepository.findById(investmentId).orElseThrow(() -> new NotFoundException("Investment Not Found"));
 
+        
+        return investmentMapper.toDto(investment);
     }
 
 
