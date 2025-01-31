@@ -15,5 +15,6 @@ public interface CryptoCurrencyServiceInterface {
 
     CryptoCurrency getById(Long cryptoId);
 
-    void deleteById(Long cryptoId);  
+    void deleteById(Long cryptoId);
+    
 } 

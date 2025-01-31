@@ -16,8 +16,6 @@ import gustavo.ventieri.capitalmind.infrastructure.persistence.StockRepository;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-
-
 @Service
 @RequiredArgsConstructor
 public class StockService implements StockServiceInterface {

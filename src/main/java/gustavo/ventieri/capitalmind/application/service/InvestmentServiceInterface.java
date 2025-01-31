@@ -6,6 +6,7 @@ import gustavo.ventieri.capitalmind.application.dto.investment.InvestmentRequest
 import gustavo.ventieri.capitalmind.domain.investment.Investment;
 
 public interface InvestmentServiceInterface {
+    
     void create(InvestmentRequestDto investmentRequestDto);
 
     void update(Long investmentId, InvestmentRequestDto investmentRequestDto);
@@ -15,4 +16,5 @@ public interface InvestmentServiceInterface {
     Investment getById(Long investmentId);
 
     void deleteById(Long investmentId);
+
 }
