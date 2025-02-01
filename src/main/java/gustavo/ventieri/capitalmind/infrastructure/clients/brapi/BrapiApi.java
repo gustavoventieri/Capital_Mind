@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.dto.stock.BrapiStockResponseDto;
+import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.dto.BrapiResponseDto;
 
 @FeignClient(
     name = "BrapiClient",
@@ -15,7 +15,7 @@ import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.dto.stock.Brapi
 public interface BrapiApi {
 
     @GetMapping(value = "/api/quote/{name}")
-    BrapiStockResponseDto getRegularMarket(@RequestParam("token") String token, @PathVariable("name") String name);
+    BrapiResponseDto getRegularMarket(@RequestParam("token") String token, @PathVariable("name") String name);
     
 }
    
