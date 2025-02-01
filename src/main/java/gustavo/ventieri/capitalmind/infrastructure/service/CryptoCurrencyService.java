@@ -2,6 +2,7 @@ package gustavo.ventieri.capitalmind.infrastructure.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import gustavo.ventieri.capitalmind.application.dto.cryptoCurrency.CryptoCurrenc
 import gustavo.ventieri.capitalmind.application.service.CryptoCurrencyServiceInterface;
 import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
 import gustavo.ventieri.capitalmind.domain.user.User;
+import gustavo.ventieri.capitalmind.infrastructure.clients.coinGecko.CoindGeckoApi;
+import gustavo.ventieri.capitalmind.infrastructure.exception.ExternalApiException;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.mapper.cryptoCurrency.CryptoCurrencyMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.CryptoCurrencyRepository;
@@ -23,6 +26,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
     private final CryptoCurrencyRepository cryptoCurrencyRepository;
     private final UserService userService;
     private final CryptoCurrencyMapper cryptoCurrencyMapper;
+    private final CoindGeckoApi coinGeckoApi;
 
     @Override
     public void create(CryptoCurrencyRequestDto cryptoCurrencyRequestDto) {
@@ -63,7 +67,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
         
         List<CryptoCurrency> cryptoCurrencies = this.cryptoCurrencyRepository.findAllByUserData(user);;
         return cryptoCurrencies.stream()
-        .map(cryptoCurrency -> cryptoCurrencyMapper.toDto(cryptoCurrency))
+        .map(cryptoCurrency -> cryptoCurrencyMapper.toDto(cryptoCurrency, this.getPrice(cryptoCurrency.getName(), "brl", cryptoCurrency.getQuantity())))
         .collect(Collectors.toList());
     }
 
@@ -72,7 +76,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
 
         CryptoCurrency cryptoCurrency = this.cryptoCurrencyRepository.findById(cryptoCurrencyId).orElseThrow(() -> new NotFoundException("Crypto Currency Not Found"));
 
-        return cryptoCurrencyMapper.toDto(cryptoCurrency);
+        return cryptoCurrencyMapper.toDto(cryptoCurrency, this.getPrice(cryptoCurrency.getName(), "brl", cryptoCurrency.getQuantity()));
     }
 
     @Override
@@ -81,6 +85,38 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
         if (!this.cryptoCurrencyRepository.existsById(cryptoCurrencyId)) throw new NotFoundException("Crypto Currency Not Found");
 
         this.cryptoCurrencyRepository.deleteById(cryptoCurrencyId);
+    }
+
+    @Override
+    public Double getPrice(String ids, String currency, Double quantity) {
+        
+        Double price = this.getTotal(ids, currency, quantity);
+
+        return price;
+
+    }
+
+    private Double getTotal(String ids, String currency, Double quantity) {
+        
+        Map<String, Object> response = this.coinGeckoApi.getPrice(ids, currency);
+    
+        Object priceObject = response.get(ids);
+    
+        if (priceObject instanceof Map) {
+            // Cast para Map<String, Double>
+            Map<String, Integer> prices = (Map<String, Integer>) priceObject;
+    
+            Integer price = prices.get(currency);
+    
+            Double total = price * quantity;
+    
+            System.out.println("Preço: " + price);
+            System.out.println("Total: " + total);
+    
+            return total;
+        } 
+
+        throw new ExternalApiException("Invalid Data From Api");
     }
 
 }

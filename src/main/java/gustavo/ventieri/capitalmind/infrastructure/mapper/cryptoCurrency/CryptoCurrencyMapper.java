@@ -9,13 +9,13 @@ import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
 public class CryptoCurrencyMapper {
     
 
-     public CryptoCurrencyResponseDto toDto(CryptoCurrency cryptoCurrency){
+     public CryptoCurrencyResponseDto toDto(CryptoCurrency cryptoCurrency, Double total){
         return new CryptoCurrencyResponseDto(
             cryptoCurrency.getCryptoId(),
             cryptoCurrency.getName(),
             cryptoCurrency.getDescription(),
             cryptoCurrency.getQuantity(),
-            cryptoCurrency.getQuantity() * 0.2
+            total
         );
     }
 }

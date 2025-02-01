@@ -15,7 +15,7 @@ import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.mapper.stock.StockMapper;
 import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.BrapiApi;
-
+import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.dto.BrapiResponseDto;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.StockRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -68,7 +68,7 @@ public class StockService implements StockServiceInterface {
     List<Stock> stocks = this.stockRepository.findAllByUserData(user);
 
     return stocks.stream()
-            .map(stock -> stockMapper.toDto(stock, getTotal(stock.getQuantity(), stock.getName())))
+            .map(stock -> stockMapper.toDto(stock, getPrice(stock.getQuantity(), stock.getName())))
             .collect(Collectors.toList());
 }
 
@@ -77,7 +77,7 @@ public class StockService implements StockServiceInterface {
 
         Stock stock = this.stockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("Stock Not Found"));
 
-        return stockMapper.toDto(stock, getTotal(stock.getQuantity(), stock.getName()));
+        return stockMapper.toDto(stock, getPrice(stock.getQuantity(), stock.getName()));
     }
 
     @Override
@@ -89,13 +89,17 @@ public class StockService implements StockServiceInterface {
     }
 
     @Override
-    public Double getTotal(Integer quantity, String name) {
-        var response = this.brapiApi.getRegularMarket(BRAPI_TOKEN, name);
-        System.out.println(response);
+    public Double getPrice(Integer quantity, String name) {
+       Double price = this.getTotal(quantity, name);
+        
+       return price;
+    }
+
+    private Double getTotal(Integer quantity, String name){
+        BrapiResponseDto response = this.brapiApi.getRegularMarket(BRAPI_TOKEN, name);
         Double price = response.results().getFirst().regularMarketPrice();
         
         return quantity * price;
-
     }
     
 }
