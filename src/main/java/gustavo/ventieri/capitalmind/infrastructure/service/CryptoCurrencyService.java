@@ -103,15 +103,12 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
         Object priceObject = response.get(ids);
     
         if (priceObject instanceof Map) {
-            // Cast para Map<String, Double>
+            
             Map<String, Integer> prices = (Map<String, Integer>) priceObject;
     
             Integer price = prices.get(currency);
     
             Double total = price * quantity;
-    
-            System.out.println("Preço: " + price);
-            System.out.println("Total: " + total);
     
             return total;
         } 
