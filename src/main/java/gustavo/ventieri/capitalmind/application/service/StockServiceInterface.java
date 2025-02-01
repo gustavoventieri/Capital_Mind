@@ -16,6 +16,6 @@ public interface StockServiceInterface {
 
     void deleteById(Long stockId);
 
-    Double getTotal(Integer quantity, String name);
+    Double getPrice(Integer quantity, String name);
 
 }
