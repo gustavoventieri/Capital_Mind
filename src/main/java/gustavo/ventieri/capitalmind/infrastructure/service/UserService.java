@@ -92,7 +92,7 @@ public class UserService implements UserServiceInterface {
             throw new InvalidDataException("Invalid Token");
         }
 
-        throw new InvalidDataException("Invalid Data Provided");
+        throw new InvalidDataException("Email Already Registered");
     }
 
     @Override
