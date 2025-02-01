@@ -16,5 +16,8 @@ public interface CryptoCurrencyServiceInterface {
     CryptoCurrencyResponseDto getById(Long cryptoCurrencyId);
 
     void deleteById(Long cryptoCurrencyId);
+
+    Double getPrice(String ids, String currency, Double quantity);
+
     
 } 
