@@ -96,6 +96,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
 
     }
 
+    @SuppressWarnings("unchecked")
     private Double getTotal(String ids, String currency, Double quantity) {
         
         Map<String, Object> response = this.coinGeckoApi.getPrice(ids, currency);
@@ -104,6 +105,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
     
         if (priceObject instanceof Map) {
             
+           
             Map<String, Integer> prices = (Map<String, Integer>) priceObject;
     
             Integer price = prices.get(currency);
