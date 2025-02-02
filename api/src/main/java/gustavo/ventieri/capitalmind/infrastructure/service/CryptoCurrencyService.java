@@ -13,7 +13,6 @@ import gustavo.ventieri.capitalmind.application.service.CryptoCurrencyServiceInt
 import gustavo.ventieri.capitalmind.domain.cryptoCurrency.CryptoCurrency;
 import gustavo.ventieri.capitalmind.domain.user.User;
 import gustavo.ventieri.capitalmind.infrastructure.clients.coinGecko.CoindGeckoApi;
-import gustavo.ventieri.capitalmind.infrastructure.exception.ExternalApiException;
 import gustavo.ventieri.capitalmind.infrastructure.exception.NotFoundException;
 import gustavo.ventieri.capitalmind.infrastructure.mapper.cryptoCurrency.CryptoCurrencyMapper;
 import gustavo.ventieri.capitalmind.infrastructure.persistence.CryptoCurrencyRepository;
@@ -96,26 +95,26 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
 
     }
 
-    @SuppressWarnings("unchecked")
+    
     private Double getTotal(String ids, String currency, Double quantity) {
-        
-        Map<String, Object> response = this.coinGeckoApi.getPrice(ids, currency);
+        // Fazendo a chamada para a API
+        Object response = this.coinGeckoApi.getPrice(ids, currency);
     
-        Object priceObject = response.get(ids);
-    
-        if (priceObject instanceof Map) {
-            
-           
-            Map<String, Integer> prices = (Map<String, Integer>) priceObject;
-    
-            Integer price = prices.get(currency);
-    
-            Double total = price * quantity;
-    
-            return total;
-        } 
-
-        throw new ExternalApiException("Invalid Data From Api");
+        // Verificando se a resposta é um Map e pegando o valor de BRL
+        if (response instanceof Map) {
+            Map<String, Map<String, Object>> data = (Map<String, Map<String, Object>>) response;
+            Map<String, Object> coin = data.get(ids);
+            if (coin != null) {
+                Object price = coin.get(currency);
+                if (price instanceof Number) {
+                    Double coinDouble = ((Number) price).doubleValue();
+                    System.out.println(coinDouble);
+                    return coinDouble * quantity;
+                }
+            }
+        }
+        return 0.0;
     }
+    
 
 }
