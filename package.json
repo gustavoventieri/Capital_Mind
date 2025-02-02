@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.2",
     "@mui/material": "^6.4.2",
     "cra-template-typescript": "1.2.0",
     "react": "18",
