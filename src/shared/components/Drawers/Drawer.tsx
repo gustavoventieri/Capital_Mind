@@ -1,4 +1,4 @@
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -58,8 +58,6 @@ const MiniDrawer = styled(MuiDrawer, {
 }));
 
 export const SmallDrawer = () => {
-  const theme = useTheme();
-
   const [openDefaultDrawer, setOpenDefaultDrawer] = useState(false);
 
   const handleDrawerToggle = () => {

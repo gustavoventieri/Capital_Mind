@@ -1,4 +1,4 @@
-import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { DrawerMobile, SmallDrawer } from "../components";
 
 interface IBaseLayoutProps {

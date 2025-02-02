@@ -1,11 +1,9 @@
-import { Button, useTheme } from "@mui/material";
+import { Button } from "@mui/material";
 
 import { useThemeContext } from "../../shared/contexts";
 import { BaseLayout } from "../../shared/layouts";
 
 export const Home = () => {
-  const theme = useTheme();
-
   const { toggleTheme } = useThemeContext();
   return (
     <BaseLayout>
