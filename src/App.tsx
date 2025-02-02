@@ -1,5 +1,11 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "./routes";
 
 export const App = () => {
-  return <h1>Hello World</h1>;
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
 };
