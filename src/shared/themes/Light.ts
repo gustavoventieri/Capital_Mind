@@ -9,8 +9,8 @@ export const LightTheme = createTheme({
       contrastText: "#FFFFFF", // Texto Branco
     },
     background: {
-      default: "#FFFFFF", // Fundo Branco
-      paper: "#F9FAFB", // Papel Branco Claro
+      default: "#e0e0e0", // Fundo Branco
+      paper: "#f0f0f0", // Papel Branco Claro
     },
     text: {
       primary: "#000000", // Preto para texto
