@@ -96,6 +96,7 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
     }
 
     
+    @SuppressWarnings("unchecked")
     private Double getTotal(String ids, String currency, Double quantity) {
         // Fazendo a chamada para a API
         Object response = this.coinGeckoApi.getPrice(ids, currency);
