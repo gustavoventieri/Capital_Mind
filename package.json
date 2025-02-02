@@ -2,17 +2,23 @@
   "name": "capital_mind",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "cra-template-typescript": "1.2.0",
     "react": "18",
     "react-dom": "18",
     "react-scripts": "5.0.1"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "@types/react": "18",
+    "@types/react-dom": "18",
+    "@typescript-eslint/parser": "^8.22.0",
+    "typescript": "^5.7.3"
   },
   "eslintConfig": {
     "extends": [
@@ -34,9 +40,5 @@
   },
   "main": "index.js",
   "author": "gustavoventieri <ventierigustavo@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/react": "18",
-    "@types/react-dom": "18"
-  }
+  "license": "MIT"
 }
