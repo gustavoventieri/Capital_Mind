@@ -14,7 +14,16 @@ export const DarkTheme = createTheme({
     },
     text: {
       primary: "#FFFFFF", // Texto Branco para facilitar leitura
-      secondary: "#9CA3AF", // Cinza Claro para textos secundários
+      secondary: "#FFFFFF", // Cinza Claro para textos secundários
+    },
+  },
+  components: {
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "white", // Definindo a cor dos ícones como preto globalmente
+        },
+      },
     },
   },
 });

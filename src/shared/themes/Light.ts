@@ -14,7 +14,16 @@ export const LightTheme = createTheme({
     },
     text: {
       primary: "#000000", // Preto para texto
-      secondary: "#4B5563", // Cinza Médio para texto secundário
+      secondary: "#000000", // Cinza Médio para texto secundário
+    },
+  },
+  components: {
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "black", // Definindo a cor dos ícones como preto globalmente
+        },
+      },
     },
   },
 });

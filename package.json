@@ -20,9 +20,10 @@
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
     "@types/react": "18",
     "@types/react-dom": "18",
-    "@typescript-eslint/parser": "^8.22.0",
+    "globals": "^15.14.0",
     "typescript": "^5.7.3"
   },
   "eslintConfig": {
