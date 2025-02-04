@@ -8,6 +8,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 import PaidIcon from "@mui/icons-material/Paid";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -19,6 +21,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { Avatar } from "@mui/material";
 import { useState } from "react";
+import { useThemeContext } from "../../contexts";
 
 const drawerWidth = 220;
 
@@ -57,8 +60,9 @@ const MiniDrawer = styled(MuiDrawer, {
   }),
 }));
 
-export const SmallDrawer = () => {
+export const DrawerDefault = () => {
   const [openDefaultDrawer, setOpenDefaultDrawer] = useState(false);
+  const { toggleTheme, themeName } = useThemeContext();
 
   const handleDrawerToggle = () => {
     setOpenDefaultDrawer((prev) => !prev);
@@ -189,6 +193,38 @@ export const SmallDrawer = () => {
             </ListItem>
           ))}
         </List>
+
+        <IconButton
+          sx={{
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-start",
+            paddingLeft: 2,
+            ml: 0.5,
+          }}
+          onClick={toggleTheme}
+        >
+          {themeName !== "dark" ? (
+            <DarkModeIcon sx={{ fontSize: 28 }} />
+          ) : (
+            <LightModeIcon sx={{ fontSize: 28 }} />
+          )}
+
+          {openDefaultDrawer && (
+            <ListItemText
+              sx={{
+                marginTop: 1.3,
+                textAlign: "left",
+                width: "100%",
+                fontWeight: "bold",
+                color: "text.primary",
+                marginLeft: 2,
+              }}
+            >
+              Switch Theme
+            </ListItemText>
+          )}
+        </IconButton>
 
         <IconButton
           sx={{

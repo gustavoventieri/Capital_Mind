@@ -6,7 +6,7 @@ export const DarkTheme = createTheme({
       main: "#F97316", // Laranja Intenso (Principal)
       dark: "#EA580C", // Laranja mais escuro (Hover)
       light: "#FDBA74", // Laranja Claro (Destaques)
-      contrastText: "#FFFFFF", // Texto Branco
+      contrastText: "#00000", // Texto Branco
     },
     background: {
       default: "#111827", // Preto Chumbo para fundo
@@ -18,10 +18,19 @@ export const DarkTheme = createTheme({
     },
   },
   components: {
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          "&.Mui-checked": {
+            color: "#F97316",
+          },
+        },
+      },
+    },
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          color: "white", // Definindo a cor dos ícones como preto globalmente
+          color: "white", // Definindo a cor dos ícones como branco globalmente
         },
       },
     },

@@ -14,10 +14,12 @@
     "@mui/icons-material": "^6.4.2",
     "@mui/material": "^6.4.2",
     "cra-template-typescript": "1.2.0",
+    "formik": "^2.4.6",
     "react": "18",
     "react-dom": "18",
     "react-router-dom": "6",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

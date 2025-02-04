@@ -1,5 +1,11 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { DrawerMobile, SmallDrawer } from "../components";
+import {
+  Box,
+  Button,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { DrawerMobile, DrawerDefault } from "../components";
 
 interface IBaseLayoutProps {
   children: React.ReactNode;
@@ -13,7 +19,7 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children }) => {
   return (
     <>
       {/* Drawer condicional */}
-      {(!isMobile && <SmallDrawer />) || (isMobile && <DrawerMobile />)}
+      {(!isMobile && <DrawerDefault />) || (isMobile && <DrawerMobile />)}
 
       <Box paddingTop={isMobile ? 7.2 : 0} paddingLeft={isMobile ? 0 : 8.3}>
         {children}

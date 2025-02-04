@@ -12,6 +12,8 @@ import {
   Toolbar,
 } from "@mui/material";
 import { useState } from "react";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 import PaidIcon from "@mui/icons-material/Paid";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -23,9 +25,12 @@ import Home from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { useThemeContext } from "../../contexts";
+
 export const DrawerMobile = () => {
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const { toggleTheme, themeName } = useThemeContext();
 
   const handleMenuToggle = () => {
     setOpenMenu((prev) => !prev);
@@ -87,7 +92,7 @@ export const DrawerMobile = () => {
                 <ListItemIcon>
                   <LogoutIcon
                     sx={{
-                      ml: 0.5,
+                      transform: "scaleX(-1)",
                     }}
                   />
                 </ListItemIcon>
@@ -191,6 +196,24 @@ export const DrawerMobile = () => {
             </ListItem>
           ))}
         </List>
+        <IconButton onClick={toggleTheme} sx={{ paddingLeft: 2 }}>
+          {themeName !== "dark" ? (
+            <DarkModeIcon sx={{ fontSize: 28 }} />
+          ) : (
+            <LightModeIcon sx={{ fontSize: 28 }} />
+          )}
+          <ListItemText
+            sx={{
+              marginTop: 1.3,
+              textAlign: "left",
+              width: "100%",
+              marginLeft: 4,
+              color: "text.primary",
+            }}
+          >
+            Switch Theme
+          </ListItemText>
+        </IconButton>
         <IconButton
           sx={{
             width: "100%",
