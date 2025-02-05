@@ -7,7 +7,7 @@ import gustavo.ventieri.capitalmind.domain.user.User;
 
 public interface UserRepositoryInterface {
 
-    Optional<User> findById(UUID id);
+    
 
     Optional<User> findByEmail(String email);
     
