@@ -22,8 +22,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import CloseIcon from "@mui/icons-material/Close";
 
-// Definindo o schema de validação com Yup
+
 const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -243,7 +244,6 @@ export const Login = () => {
                   ) : undefined
                 }
                 sx={{
-                  marginTop: 2,
                   backgroundColor: "primary.main",
                   "&:hover": { backgroundColor: "primary.dark" },
                   color: "white",
@@ -253,7 +253,7 @@ export const Login = () => {
               </Button>
               <Typography
                 variant="body2"
-                align="center"
+                align="left"
                 sx={{
                   marginTop: 2,
                   color:
@@ -319,9 +319,17 @@ export const Login = () => {
             severity={snackColor}
             sx={{
               width: "100%",
-              bgcolor: "error.main",
-              color: "white",
+              bgcolor: "#FFEEFA",
+              color: "red",
             }}
+            slotProps={{
+              icon: { sx: { color: "blue" } }, // Cor do ícone de info
+            }}
+            action={
+              <IconButton size="small" onClick={handleSnackbarClose}>
+                <CloseIcon fontSize="small" sx={{ color: "red" }} />
+              </IconButton>
+            }
           >
             <Box
               sx={{

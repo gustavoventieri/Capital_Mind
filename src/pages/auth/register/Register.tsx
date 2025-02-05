@@ -21,6 +21,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import CloseIcon from "@mui/icons-material/Close";
 
 // Definindo o schema de validação com Yup
 const registerSchema = yup.object().shape({
@@ -388,8 +389,9 @@ export const Register = () => {
             severity={snackColor}
             sx={{
               width: "100%",
-              bgcolor: "error.main",
-              color: "white",
+              bgcolor: "#FFEEFA",
+              color: "red",
+              "& .MuiAlert-icon": { color: "red" },
             }}
           >
             <Box

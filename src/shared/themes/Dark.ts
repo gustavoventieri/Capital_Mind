@@ -27,12 +27,5 @@ export const DarkTheme = createTheme({
         },
       },
     },
-    MuiSvgIcon: {
-      styleOverrides: {
-        root: {
-          color: "white", // Definindo a cor dos ícones como branco globalmente
-        },
-      },
-    },
   },
 });

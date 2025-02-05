@@ -10,7 +10,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-
 import PaidIcon from "@mui/icons-material/Paid";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ReceiptIcon from "@mui/icons-material/Receipt";
@@ -20,7 +19,9 @@ import Home from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { Avatar } from "@mui/material";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
+import { useLocation } from "react-router-dom";
+
 import { useThemeContext } from "../../contexts";
 
 const drawerWidth = 220;
@@ -63,6 +64,16 @@ const MiniDrawer = styled(MuiDrawer, {
 export const DrawerDefault = () => {
   const [openDefaultDrawer, setOpenDefaultDrawer] = useState(false);
   const { toggleTheme, themeName } = useThemeContext();
+  const location = useLocation();
+
+  const getItemStyle = (path: string) => {
+    const isActive = location.pathname === path;
+    return {
+      backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent", // Opacidade no fundo laranja
+      color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
+      opacity: isActive ? 1 : 0.8, // Opacidade no ícone (opcional)
+    };
+  };
 
   const handleDrawerToggle = () => {
     setOpenDefaultDrawer((prev) => !prev);
@@ -117,7 +128,12 @@ export const DrawerDefault = () => {
             }}
             onClick={handleDrawerToggle}
           >
-            <MenuIcon sx={{ fontSize: 32 }} />
+            <MenuIcon
+              sx={{
+                fontSize: 32,
+                color: themeName === "dark" ? "white" : "black",
+              }}
+            />
           </IconButton>
         )}
 
@@ -134,25 +150,65 @@ export const DrawerDefault = () => {
           {[
             {
               text: "Home",
-              icon: <Home sx={{ fontSize: 32 }} />,
+              icon: (
+                <Home
+                  sx={{
+                    fontSize: 32,
+                    color: themeName === "dark" ? "white" : "black",
+                  }}
+                />
+              ),
+              path: "/home",
             },
             {
               text: "Crypto Currency",
-              icon: <PaidIcon sx={{ fontSize: 32 }} />,
+              icon: (
+                <PaidIcon
+                  sx={{
+                    fontSize: 32,
+                    color: themeName === "dark" ? "white" : "black",
+                  }}
+                />
+              ),
+              path: "/",
             },
             {
               text: "Stock",
-              icon: <TrendingUpIcon sx={{ fontSize: 32 }} />,
+              icon: (
+                <TrendingUpIcon
+                  sx={{
+                    fontSize: 32,
+                    color: themeName === "dark" ? "white" : "black",
+                  }}
+                />
+              ),
+              path: "/",
             },
             {
               text: "Expense",
-              icon: <ReceiptIcon sx={{ fontSize: 32 }} />,
+              icon: (
+                <ReceiptIcon
+                  sx={{
+                    fontSize: 32,
+                    color: themeName === "dark" ? "white" : "black",
+                  }}
+                />
+              ),
+              path: "/",
             },
             {
               text: "Investment",
-              icon: <StackedLineChartIcon sx={{ fontSize: 32 }} />,
+              icon: (
+                <StackedLineChartIcon
+                  sx={{
+                    fontSize: 32,
+                    color: themeName === "dark" ? "white" : "black",
+                  }}
+                />
+              ),
+              path: "/",
             },
-          ].map(({ text, icon }) => (
+          ].map(({ text, icon, path }) => (
             <ListItem
               key={text}
               disablePadding
@@ -162,10 +218,12 @@ export const DrawerDefault = () => {
               }}
             >
               <ListItemButton
+                href={path}
                 sx={{
                   display: "flex",
                   justifyContent: "flex-start",
                   width: "100%",
+                  ...getItemStyle(path),
                 }}
               >
                 <ListItemIcon
@@ -174,7 +232,9 @@ export const DrawerDefault = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {icon}
+                  {cloneElement(icon, {
+                    sx: { fontSize: 32, color: getItemStyle(path).color },
+                  })}
                 </ListItemIcon>
 
                 {openDefaultDrawer && (
@@ -205,9 +265,9 @@ export const DrawerDefault = () => {
           onClick={toggleTheme}
         >
           {themeName !== "dark" ? (
-            <DarkModeIcon sx={{ fontSize: 28 }} />
+            <DarkModeIcon sx={{ fontSize: 28, color: "black" }} />
           ) : (
-            <LightModeIcon sx={{ fontSize: 28 }} />
+            <LightModeIcon sx={{ fontSize: 28, color: "white" }} />
           )}
 
           {openDefaultDrawer && (
@@ -232,9 +292,15 @@ export const DrawerDefault = () => {
             borderRadius: 0,
             justifyContent: "flex-start",
             paddingLeft: 2,
+            ...getItemStyle("/account"),
           }}
         >
-          <PersonIcon sx={{ fontSize: 32 }} />
+          <PersonIcon
+            sx={{
+              fontSize: 32,
+              color: getItemStyle("/account").color,
+            }}
+          />
 
           {openDefaultDrawer && (
             <ListItemText
@@ -259,7 +325,13 @@ export const DrawerDefault = () => {
             paddingLeft: 2,
           }}
         >
-          <LogoutIcon sx={{ fontSize: 30, transform: "scaleX(-1)" }} />
+          <LogoutIcon
+            sx={{
+              fontSize: 28,
+              transform: "scaleX(-1)",
+              color: themeName === "dark" ? "white" : "black",
+            }}
+          />
 
           {openDefaultDrawer && (
             <ListItemText
@@ -269,7 +341,7 @@ export const DrawerDefault = () => {
                 width: "100%",
                 fontWeight: "bold",
                 color: "text.primary",
-                marginLeft: 2.3,
+                marginLeft: 2.6,
               }}
             >
               Log Out

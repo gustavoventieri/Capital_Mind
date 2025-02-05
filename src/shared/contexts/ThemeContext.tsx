@@ -2,12 +2,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { ThemeProvider } from "@emotion/react";
 import { Box } from "@mui/material";
-
 import { DarkTheme, LightTheme } from "../themes";
 
 interface IThemeContextData {
@@ -17,28 +17,32 @@ interface IThemeContextData {
 
 const ThemeContext = createContext({} as IThemeContextData);
 
-interface IThemeProviderProps {
-  children: React.ReactNode;
-}
+export const useThemeContext = () => useContext(ThemeContext);
 
-export const useThemeContext = () => {
-  return useContext(ThemeContext);
-};
-
-export const AppThemeProvider: React.FC<IThemeProviderProps> = ({
+export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [themeName, setThemeName] = useState<"dark" | "light">("dark");
+  const storedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
+  const [themeName, setThemeName] = useState<"dark" | "light">(
+    storedTheme || "dark"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("theme", themeName);
+  }, [themeName]);
 
   const toggleTheme = useCallback(() => {
-    setThemeName((oldThemeName) =>
-      oldThemeName === "dark" ? "light" : "dark"
-    );
+    setThemeName((oldTheme) => {
+      const newTheme = oldTheme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", newTheme); // Salva no localStorage
+      return newTheme;
+    });
   }, []);
 
-  const theme = useMemo(() => {
-    return themeName === "dark" ? DarkTheme : LightTheme;
-  }, [themeName]);
+  const theme = useMemo(
+    () => (themeName === "dark" ? DarkTheme : LightTheme),
+    [themeName]
+  );
 
   return (
     <ThemeContext.Provider value={{ themeName, toggleTheme }}>
