@@ -74,7 +74,7 @@ public class UserService implements UserServiceInterface {
                 registerRequestDto.name(),
                 registerRequestDto.email(),
                 passwordEncoder.encode(registerRequestDto.password()),
-                null,
+                registerRequestDto.salary(),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),

@@ -14,6 +14,10 @@ public record RegisterRequestDto(
     @Email
     String email, 
 
+    @NotNull(message = "Salary cannot be null.")
+    @Positive(message = "Salary must be a positive value.")
+    Double salary,
+
     @NotBlank(message = "Password cannot be empty.")
     @Size(min = 8, message = "Password cannot be less than 2 characters.")
     @Size(max = 32, message = "Password cannot exceed 50 characters.")
