@@ -21,7 +21,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import CloseIcon from "@mui/icons-material/Close";
+import { AuthService } from "../../../shared/services/api/request/AuthService";
 
 // Definindo o schema de validação com Yup
 const registerSchema = yup.object().shape({
@@ -57,7 +57,7 @@ export const Register = () => {
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [salary, setSalary] = useState("");
+  const [salary, setSalary] = useState(0);
   const [salaryError, setSalaryError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -89,7 +89,6 @@ export const Register = () => {
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const handleSnackbarClose = () => setOpen(false);
-
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
@@ -99,7 +98,20 @@ export const Register = () => {
         { abortEarly: false }
       );
 
-      setIsLoading(false);
+      // Chamando a service de registro
+      const response = await AuthService.register({
+        name,
+        email,
+        password,
+        salary,
+      });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      // Se deu certo, exibe mensagem de sucesso
+      console.log(response);
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         if (isMiniTablet) {
@@ -128,11 +140,21 @@ export const Register = () => {
         const errorMessages = error.inner
           .map((err) => `${err.message}<br />`)
           .join("");
-
         setSnackMessage(errorMessages);
         setSnackColor("error");
         setOpen(true);
+      } else if (error instanceof Error) {
+        // Se for um erro comum, capturamos a mensagem
+        setSnackMessage(error.message);
+        setSnackColor("error");
+        setOpen(true);
+      } else {
+        // Caso seja um erro inesperado, tratamos como string genérica
+        setSnackMessage("Ocorreu um erro inesperado.");
+        setSnackColor("error");
+        setOpen(true);
       }
+    } finally {
       setIsLoading(false);
     }
   };
@@ -236,7 +258,7 @@ export const Register = () => {
                 fullWidth
                 disabled={isLoading}
                 value={salary}
-                onChange={(e) => setSalary(e.target.value)}
+                onChange={(e) => setSalary(Number(e.target.value))} // Corrigido
                 margin="normal"
                 error={isMiniTablet ? !!salaryError : undefined}
                 helperText={isMiniTablet ? salaryError : undefined}

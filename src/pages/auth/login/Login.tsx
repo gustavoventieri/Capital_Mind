@@ -6,7 +6,6 @@ import {
   Button,
   IconButton,
   InputAdornment,
-  Icon,
   Box,
   useMediaQuery,
   Theme,
@@ -23,7 +22,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import CloseIcon from "@mui/icons-material/Close";
-
 
 const loginSchema = yup.object().shape({
   email: yup
