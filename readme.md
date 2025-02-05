@@ -1,6 +1,6 @@
 # Capital Mind - Sistema de Controle de Finanças Pessoais
 
-> Em Desenvolvimento
+> Em Desenvolvimento 
 
 ## Visão Geral
 
@@ -18,7 +18,7 @@ O **Capital Mind** é um sistema robusto de controle de finanças pessoais, proj
 
 ## Arquitetura
 
-O **Capital Mind** adota uma arquitetura **Hexagonal** (também conhecida como **Arquitetura de Ports e Adapters**), com os seguintes benefícios:
+O **Capital Mind** adota uma arquitetura **Hexagonal** (conhecida como **Arquitetura de Ports e Adapters**), com os seguintes benefícios:
 
 - **Desacoplamento entre a Lógica de Negócios e Tecnologias Externas**: A lógica central da aplicação está isolada das tecnologias externas, permitindo mudanças sem afetar a estrutura interna do sistema.
 - **Flexibilidade e Escalabilidade**: O sistema pode ser facilmente adaptado para integrar novos serviços, como bancos de dados, APIs externas ou outros sistemas, sem a necessidade de reescrever a lógica de negócios.
