@@ -1,7 +1,7 @@
 package gustavo.ventieri.capitalmind.application.repository;
 
 import java.util.Optional;
-import java.util.UUID;
+
 
 import gustavo.ventieri.capitalmind.domain.user.User;
 
