@@ -20,9 +20,9 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { Avatar } from "@mui/material";
 import { cloneElement, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useThemeContext } from "../../contexts";
+import { useAuthContext, useThemeContext } from "../../contexts";
 
 const drawerWidth = 220;
 
@@ -64,7 +64,9 @@ const MiniDrawer = styled(MuiDrawer, {
 export const DrawerDefault = () => {
   const [openDefaultDrawer, setOpenDefaultDrawer] = useState(false);
   const { toggleTheme, themeName } = useThemeContext();
+  const { logout } = useAuthContext();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const getItemStyle = (path: string) => {
     const isActive = location.pathname === path;
@@ -73,6 +75,11 @@ export const DrawerDefault = () => {
       color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
       opacity: isActive ? 1 : 0.8, // Opacidade no ícone (opcional)
     };
+  };
+
+  const handleLogOut = () => {
+    logout();
+    navigate("/login");
   };
 
   const handleDrawerToggle = () => {
@@ -318,6 +325,7 @@ export const DrawerDefault = () => {
           )}
         </IconButton>
         <IconButton
+          onClick={handleLogOut}
           sx={{
             width: "100%",
             borderRadius: 0,

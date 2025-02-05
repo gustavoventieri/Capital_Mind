@@ -25,14 +25,15 @@ import Home from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { useThemeContext } from "../../contexts";
-import { useLocation } from "react-router-dom";
+import { useAuthContext, useThemeContext } from "../../contexts";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const DrawerMobile = () => {
   const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const { toggleTheme, themeName } = useThemeContext();
-
+  const navigate = useNavigate();
+  const { logout } = useAuthContext();
   const location = useLocation();
 
   const getItemStyle = (path: string) => {
@@ -50,6 +51,11 @@ export const DrawerMobile = () => {
 
   const handleDrawerToggle = () => {
     setOpenMobileDrawer((prev) => !prev);
+  };
+
+  const handleLogOut = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -287,6 +293,7 @@ export const DrawerMobile = () => {
         </IconButton>
 
         <IconButton
+          onClick={handleLogOut}
           sx={{
             width: "100%",
             borderRadius: 0,

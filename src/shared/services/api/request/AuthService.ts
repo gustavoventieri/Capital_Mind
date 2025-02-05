@@ -1,7 +1,7 @@
 import { api } from "../config/";
 
 interface IAuth {
-  accessToken: string;
+  token: string;
 }
 
 interface ILogin {

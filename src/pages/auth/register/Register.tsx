@@ -16,40 +16,43 @@ import {
 } from "@mui/material";
 import { AlertColor } from "@mui/material/Alert";
 import * as yup from "yup";
-import { useThemeContext } from "../../../shared/contexts";
+import { useAuthContext, useThemeContext } from "../../../shared/contexts";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { AuthService } from "../../../shared/services/api/request/AuthService";
+import { useNavigate } from "react-router-dom";
 
 // Definindo o schema de validação com Yup
 const registerSchema = yup.object().shape({
   name: yup
     .string()
-    .required("Name is required")
-    .min(3, "Name must be at least 3 characters"),
+    .required("Name Is Required")
+    .min(3, "Name Must Be At Least 3 Characters"),
   email: yup
     .string()
-    .email("Invalid email format")
+    .email("Invalid Email Format")
     .required("Email is required"),
   salary: yup
     .number()
-    .typeError("Salary must be a valid number")
-    .positive("Salary must be greater than zero")
-    .required("Salary is required"),
+    .typeError("Salary Must Be a Valid Number")
+    .positive("Salary Must Be Greater Than Zero")
+    .required("Salary Is Required"),
   password: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .required("Password Is Required")
+    .min(8, "Password Must Be At Least 8 Characters"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password")], "Passwords must match")
-    .required("Confirm Password is required"),
+    .oneOf([yup.ref("password")], "Passwords Must Match")
+    .required("Confirm Password Is R  equired"),
 });
 
 export const Register = () => {
   const { toggleTheme, themeName } = useThemeContext();
+  const { setToken } = useAuthContext();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
@@ -57,7 +60,7 @@ export const Register = () => {
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [salary, setSalary] = useState(0);
+  const [salary, setSalary] = useState("");
   const [salaryError, setSalaryError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -103,15 +106,15 @@ export const Register = () => {
         name,
         email,
         password,
-        salary,
+        salary: Number(salary),
       });
 
       if (response instanceof Error) {
         throw response;
       }
-
-      // Se deu certo, exibe mensagem de sucesso
-      console.log(response);
+      console.log(response.token);
+      setToken(response.token);
+      navigate("/home");
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         if (isMiniTablet) {
@@ -144,8 +147,7 @@ export const Register = () => {
         setSnackColor("error");
         setOpen(true);
       } else if (error instanceof Error) {
-        // Se for um erro comum, capturamos a mensagem
-        setSnackMessage(error.message);
+        setSnackMessage("Email Already Registered");
         setSnackColor("error");
         setOpen(true);
       } else {
@@ -258,7 +260,7 @@ export const Register = () => {
                 fullWidth
                 disabled={isLoading}
                 value={salary}
-                onChange={(e) => setSalary(Number(e.target.value))} // Corrigido
+                onChange={(e) => setSalary(e.target.value)} // Corrigido
                 margin="normal"
                 error={isMiniTablet ? !!salaryError : undefined}
                 helperText={isMiniTablet ? salaryError : undefined}

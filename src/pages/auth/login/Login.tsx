@@ -16,26 +16,30 @@ import {
   Alert,
 } from "@mui/material";
 import * as yup from "yup";
-import { useThemeContext } from "../../../shared/contexts";
+import { useAuthContext, useThemeContext } from "../../../shared/contexts";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import CloseIcon from "@mui/icons-material/Close";
+import { AuthService } from "../../../shared/services/api/request/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = yup.object().shape({
   email: yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email("Invalid Email Format")
+    .required("Email Is Required"),
   password: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .required("Password Is Required")
+    .min(8, "Password Must Be At Least 8 Characters"),
 });
 
 export const Login = () => {
   const { toggleTheme, themeName } = useThemeContext();
+  const { setToken } = useAuthContext();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -76,26 +80,39 @@ export const Login = () => {
       // Validando os dados de entrada
       await loginSchema.validate({ email, password }, { abortEarly: false });
 
-      setIsLoading(false);
+      // Chamando a service de login
+      const response = await AuthService.login({ email, password });
+
+      if (response instanceof Error) {
+        throw response;
+      }
+
+      // Salvando o token no contexto de autenticação
+      setToken(response.token);
+      navigate("/home");
     } catch (error) {
       if (error instanceof yup.ValidationError) {
-        if (isMiniTablet) {
-          error.inner.forEach((error) => {
-            if (error.path === "email") {
-              setEmailError(error.message);
-            } else if (error.path === "password") {
-              setPasswordError(error.message);
-            }
-          });
-        }
-        const errorMessages = error.inner
-          .map((err) => `${err.message}<br />`)
-          .join("");
+        error.inner.forEach((err) => {
+          if (err.path === "email") {
+            setEmailError(err.message);
+          } else if (err.path === "password") {
+            setPasswordError(err.message);
+          }
+        });
 
-        setSnackMessage(errorMessages);
+        setSnackMessage(error.inner.map((err) => err.message).join("\n"));
+        setSnackColor("error");
+        setOpen(true);
+      } else if (error instanceof Error) {
+        setSnackMessage("Invalid credencials");
+        setSnackColor("error");
+        setOpen(true);
+      } else {
+        setSnackMessage("Unexpected Error");
         setSnackColor("error");
         setOpen(true);
       }
+    } finally {
       setIsLoading(false);
     }
   };
