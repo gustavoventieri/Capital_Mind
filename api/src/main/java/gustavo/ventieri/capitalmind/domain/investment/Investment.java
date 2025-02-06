@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+// Entidade representando um investimento no sistema
 @Entity
 @Table(name = "tb_investment")
 @Getter

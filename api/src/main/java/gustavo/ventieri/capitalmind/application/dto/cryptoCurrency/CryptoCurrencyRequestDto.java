@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+// Valida a requisição feita
 public record CryptoCurrencyRequestDto(
     @NotBlank(message = "Name cannot be empty.")
     @Size(min = 2, message = "Name cannot be less than 2 characters.")

@@ -19,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// Configuraçôes do Spring Security
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     
@@ -30,6 +31,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @SuppressWarnings("null")
     @Override
+    // Filtro do Spring Security
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         var login = tokenService.validateToken(token);

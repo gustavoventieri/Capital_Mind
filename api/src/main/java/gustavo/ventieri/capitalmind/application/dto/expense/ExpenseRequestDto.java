@@ -3,6 +3,7 @@ package gustavo.ventieri.capitalmind.application.dto.expense;
 
 import jakarta.validation.constraints.*;
 
+// Valida a requisição feita
 public record ExpenseRequestDto(
     @NotBlank(message = "Name cannot be empty.")
     @Size(min = 2, message = "Name cannot be less than 2 characters.")

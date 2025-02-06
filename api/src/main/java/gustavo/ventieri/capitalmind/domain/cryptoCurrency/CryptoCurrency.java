@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+// Entidade representando uma criptomoeda no sistema
 @Entity
 @Table(name = "tb_cryptoCurrency")
 @Getter

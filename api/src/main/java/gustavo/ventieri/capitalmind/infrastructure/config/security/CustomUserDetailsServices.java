@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 
 
-
+// Realiza o login no contexto do spring security
 @Component
 public class CustomUserDetailsServices implements UserDetailsService  {
 

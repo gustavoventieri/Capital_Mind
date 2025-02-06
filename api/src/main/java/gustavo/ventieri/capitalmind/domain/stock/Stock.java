@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Entidade representando uma ação no sistema.
 @Entity
 @Table(name = "tb_stock")
 @Getter

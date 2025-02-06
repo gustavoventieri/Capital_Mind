@@ -18,72 +18,95 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ExpenseService implements ExpenseServiceInterface{
+public class ExpenseService implements ExpenseServiceInterface {
 
-    private final ExpenseRepository expenseRepository;
-    private final UserService userService;
-    private final ExpenseMapper expenseMapper;
+    private final ExpenseRepository expenseRepository; // Repositório de despesas
+    private final UserService userService; // Serviço para validar e obter usuários
+    private final ExpenseMapper expenseMapper; // Mapeador entre a entidade Expense e o DTO
 
-
+    /**
+     * Cria uma nova despesa associada a um usuário.
+     */
     @Override
     public void create(ExpenseRequestDto expenseRequestDto) {
+        // Valida e obtém o usuário
+        User user = this.userService.validateAndGetUser(expenseRequestDto.userId());
 
-        User user =  this.userService.validateAndGetUser(expenseRequestDto.userId());
-       
+        // Salva a despesa no banco de dados
         this.expenseRepository.save(
-        new Expense(
-            null,
-            expenseRequestDto.name(),
-            expenseRequestDto.description(),
-            expenseRequestDto.category(),
-            expenseRequestDto.price(),
-            user,
-            Instant.now(),
-            Instant.now()
-        ));      
+            new Expense(
+                null,
+                expenseRequestDto.name(),
+                expenseRequestDto.description(),
+                expenseRequestDto.category(),
+                expenseRequestDto.price(),
+                user,
+                Instant.now(),
+                Instant.now()
+            )
+        );
     }
 
+    /**
+     * Atualiza uma despesa existente.
+     */
     @Override
     public void update(Long expenseId, ExpenseRequestDto expenseRequestDto) {
-        
-        Expense expense = this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));;
+        // Busca a despesa no banco de dados
+        Expense expense = this.expenseRepository.findById(expenseId)
+            .orElseThrow(() -> new NotFoundException("Expense Not Found"));
 
+        // Atualiza os campos da despesa
         expense.setName(expenseRequestDto.name());
         expense.setDescription(expenseRequestDto.description());
         expense.setCategory(expenseRequestDto.category());
         expense.setPrice(expenseRequestDto.price());
-       
-        this.expenseRepository.save(expense);
 
+        // Salva a despesa atualizada no banco de dados
+        this.expenseRepository.save(expense);
     }
 
+    /**
+     * Obtém todas as despesas associadas a um usuário.
+     */
     @Override
     public List<ExpenseResponseDto> getAll(String userId) {
+        // Valida e obtém o usuário
+        User user = this.userService.validateAndGetUser(userId);
 
-        User user =  this.userService.validateAndGetUser(userId);   
-
+        // Recupera todas as despesas associadas ao usuário
         List<Expense> expenses = this.expenseRepository.findAllByUserData(user);
 
+        // Mapeia as despesas para DTOs
         return expenses.stream()
             .map(expense -> expenseMapper.toDto(expense))
             .collect(Collectors.toList());
     }
 
+    /**
+     * Obtém uma despesa por ID.
+     */
     @Override
     public ExpenseResponseDto getById(Long expenseId) {
+        // Busca a despesa no banco de dados
+        Expense expense = this.expenseRepository.findById(expenseId)
+            .orElseThrow(() -> new NotFoundException("Expense Not Found"));
 
-        Expense expense = this.expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException("Expense Not Found"));
-
+        // Mapeia a despesa para o DTO e retorna
         return expenseMapper.toDto(expense);
-        
     }
 
+    /**
+     * Exclui uma despesa por ID.
+     */
     @Override
     public void deleteById(Long expenseId) {
+        // Verifica se a despesa existe
+        if (!this.expenseRepository.existsById(expenseId)) {
+            throw new NotFoundException("Expense Not Found");
+        }
 
-        if (!this.expenseRepository.existsById(expenseId)) throw new NotFoundException("Expense Not Found");
-
+        // Exclui a despesa do banco de dados
         this.expenseRepository.deleteById(expenseId);
-
     }
 }

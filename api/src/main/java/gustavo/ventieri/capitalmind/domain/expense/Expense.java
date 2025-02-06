@@ -21,7 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+// Entidade representando uma despesa no sistema
 @Entity
 @Table(name = "tb_expense")
 @Getter
