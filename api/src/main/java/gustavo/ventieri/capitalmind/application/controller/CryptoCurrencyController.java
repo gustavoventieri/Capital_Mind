@@ -26,7 +26,7 @@ public class CryptoCurrencyController {
     
     private final CryptoCurrencyService cryptoCurrencyService;
 
-
+    // Cria uma nova criptomoeda para o usuário
     @PostMapping("/create")
     public ResponseEntity<String> createCryptoCurrency(@RequestBody @Valid CryptoCurrencyRequestDto cryptoCurrencyRequestDto) {
         
@@ -35,6 +35,7 @@ public class CryptoCurrencyController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Crypto Currency Created");
     }
 
+    // Atualiza uma criptomoeda existente por ID
     @PutMapping("/update/{cryptoCurrencyId}")
     public ResponseEntity<String> updateCryptoCurrencyById(@PathVariable("cryptoCurrencyId") Long cryptoCurrencyId, @RequestBody @Valid CryptoCurrencyRequestDto cryptoCurrencyRequestDto){
         
@@ -43,28 +44,26 @@ public class CryptoCurrencyController {
         return ResponseEntity.ok().body("Crypto Currency Updated");
     }
 
+    // Remove uma criptomoeda por ID
     @DeleteMapping("/delete/{cryptoCurrencyId}")
     public ResponseEntity<String> deleteCryptoCurrencyById(@PathVariable("cryptoCurrencyId") Long cryptoCurrencyId) {
        
         cryptoCurrencyService.deleteById(cryptoCurrencyId);
 
         return ResponseEntity.ok("Crypto Currency Deleted");
-       
     }
 
-
+    // Recupera uma criptomoeda específica por ID
     @GetMapping("/{cryptoCurrencyId}")
     public ResponseEntity<CryptoCurrencyResponseDto> getCryptoCurrencyById(@PathVariable("cryptoCurrencyId") Long cryptoCurrencyId){
 
         return ResponseEntity.ok(cryptoCurrencyService.getById(cryptoCurrencyId));
-       
     }
 
+    // Lista todas as criptomoedas do usuário
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<CryptoCurrencyResponseDto>> getAllCryptoCurrencys(@PathVariable("userId") String userId) {
 
         return ResponseEntity.ok(cryptoCurrencyService.getAll(userId));
-        
     }
-
 }

@@ -26,6 +26,7 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
 
+    // Realiza a criação de uma despesa
     @PostMapping("/create")
     public ResponseEntity<String> createExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
         
@@ -34,6 +35,7 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
     }
 
+    // Atualiza um despesa existente por ID
     @PutMapping("/update/{expenseId}")
     public ResponseEntity<String> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestDto expenseRequestDto){
         
@@ -42,6 +44,7 @@ public class ExpenseController {
         return ResponseEntity.ok().body("Expense Updated");
     }
 
+    // Remove um despesa existente por ID
     @DeleteMapping("/delete/{expenseId}")
     public ResponseEntity<String> deleteExpenseById(@PathVariable("expenseId") Long expenseId) {
        
@@ -51,13 +54,15 @@ public class ExpenseController {
         
     }
 
+    // Lista uma despesa por ID
     @GetMapping("/{expenseId}")
     public ResponseEntity<ExpenseResponseDto> getExpenseById(@PathVariable("expenseId") Long expenseId){
 
      return ResponseEntity.ok(expenseService.getById(expenseId));          
        
     }
-
+    
+    // Lista todas as despesas de um usuário por ID
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(@PathVariable("userId") String userId) {
 

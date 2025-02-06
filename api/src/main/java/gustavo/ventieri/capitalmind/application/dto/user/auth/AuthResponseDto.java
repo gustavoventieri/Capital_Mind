@@ -1,5 +1,5 @@
 package gustavo.ventieri.capitalmind.application.dto.user.auth;
 
-public record LoginResponseDto(String token) {
+public record AuthResponseDto(String token) {
     
 }

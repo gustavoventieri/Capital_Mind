@@ -21,27 +21,28 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
     private final UserService userService;
 
+    // Recupera um usuário pelo ID
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable("userId") String userId) {
 
         return ResponseEntity.ok(this.userService.getById(userId));
     }
 
+    // Exclui um usuário pelo ID
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<String> deleteUserById(@PathVariable("userId") String userId) {
        
         this.userService.deleteById(userId);
         
         return ResponseEntity.ok("User Deleted");
-      
     }
 
+    // Atualiza os dados de um usuário pelo ID
     @PutMapping("/update/{userId}")
-    public ResponseEntity<String> updateUserById(@PathVariable("userId") String userId, @RequestBody @Valid UserRequestDto updateUserRequestDto) {
+    public ResponseEntity<String> updateUserById(@PathVariable("userId") String userId, @RequestBody @Valid UserRequestDto userRequestDto) {
         
-        this.userService.update(userId, updateUserRequestDto);
+        this.userService.update(userId, userRequestDto);
 
         return ResponseEntity.ok("User Updated");
-
     }
 }

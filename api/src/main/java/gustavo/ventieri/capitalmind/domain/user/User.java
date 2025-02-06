@@ -26,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Entidade representando um usuário no sistema.
 @Entity
 @Table(name = "tb_user")
 @Getter

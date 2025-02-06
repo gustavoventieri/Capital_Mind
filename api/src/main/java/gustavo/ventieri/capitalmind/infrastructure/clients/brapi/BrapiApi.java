@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import gustavo.ventieri.capitalmind.infrastructure.clients.brapi.dto.BrapiResponseDto;
 
+// Configurações para fazer requisição em api externa
 @FeignClient(
     name = "BrapiClient",
     url = "https://brapi.dev"

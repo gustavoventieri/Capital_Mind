@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
+// Configurações para fazer requisição em api externa
 @FeignClient(
     name = "CoinGeckoClient",
     url = "https://api.coingecko.com"

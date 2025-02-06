@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+
+// Exception de usuários não autenticados
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

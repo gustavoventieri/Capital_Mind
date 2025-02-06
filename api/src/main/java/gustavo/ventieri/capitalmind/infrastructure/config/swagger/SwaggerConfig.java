@@ -8,6 +8,8 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
+
+// Configurações do swagger
 @Configuration
 public class SwaggerConfig {
     @Bean
