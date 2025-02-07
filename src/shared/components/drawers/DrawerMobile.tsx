@@ -95,6 +95,7 @@ export const DrawerMobile = () => {
             right: "4px",
             borderRadius: 3,
             backgroundColor: "background.paper",
+            zIndex: 99999,
           }}
         >
           <List>

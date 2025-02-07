@@ -1,17 +1,18 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { DrawerMobile, DrawerDefault } from "../components";
 import { useThemeContext } from "../contexts";
+import { ReactNode } from "react";
 
 interface IBaseLayoutProps {
   children: React.ReactNode;
   title?: string;
-  titleView?: boolean;
+  toolsBar?: ReactNode;
 }
 
 export const BaseLayout: React.FC<IBaseLayoutProps> = ({
   children,
   title,
-  titleView,
+  toolsBar,
 }) => {
   const theme = useTheme();
 
@@ -20,27 +21,31 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({
 
   return (
     <>
-      {/* Drawer condicional */}
       {(!isMobile && <DrawerDefault />) || (isMobile && <DrawerMobile />)}
 
       <Box paddingTop={isMobile ? 7.2 : 0} paddingLeft={isMobile ? 0 : 8.3}>
-        {titleView && (
-          <Typography
-            overflow="hidden"
-            whiteSpace="nowrap"
-            textOverflow="ellipses"
-            variant="h4"
-            justifyContent="center"
-            display="flex"
-            paddingTop={isMobile ? 2.5 : 3}
-            color={themeName === "dark" ? "text.primary" : "text.primary"}
-            fontWeight="bold"
-          >
-            {title}
-          </Typography>
+        {title && (
+          <Box>
+            <Typography
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipses"
+              variant="h4"
+              justifyContent="center"
+              display="flex"
+              paddingTop={isMobile ? 2.5 : 3}
+              color={themeName === "dark" ? "text.primary" : "text.primary"}
+              fontWeight="bold"
+            >
+              {title}
+            </Typography>
+          </Box>
         )}
+        {toolsBar && <Box marginTop={2}>{toolsBar}</Box>}
 
-        {children}
+        <Box flex={1} overflow="auto">
+          {children}
+        </Box>
       </Box>
     </>
   );

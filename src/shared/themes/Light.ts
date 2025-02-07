@@ -17,4 +17,19 @@ export const LightTheme = createTheme({
       secondary: "#757575", // Cinza Médio para texto secundário
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textTransform: "none",
+          lineHeight: "normal", // Isso evita espaçamentos verticais indesejados
+          fontSize: "1rem",
+          padding: "6px 16px",
+        },
+      },
+    },
+  },
 });
