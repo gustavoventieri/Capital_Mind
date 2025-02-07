@@ -41,7 +41,7 @@ export const DrawerMobile = () => {
     return {
       backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent", // Opacidade no fundo laranja
       color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
-      opacity: isActive ? 1 : 0.8, // Opacidade no ícone (opcional)
+      // Opacidade no ícone (opcional)
     };
   };
 
@@ -64,7 +64,12 @@ export const DrawerMobile = () => {
         <AppBar sx={{ backgroundColor: "background.paper" }}>
           <Toolbar>
             <IconButton sx={{ mr: 2 }} onClick={handleDrawerToggle}>
-              <MenuIcon sx={{ fontSize: 30 }} />
+              <MenuIcon
+                sx={{
+                  fontSize: 30,
+                  color: themeName === "light" ? "black" : "white",
+                }}
+              />
             </IconButton>
 
             <Box sx={{ ml: "auto", mr: 1 }}>
@@ -183,7 +188,7 @@ export const DrawerMobile = () => {
             {
               text: "Crypto Currency",
               icon: <PaidIcon />,
-              path: "/",
+              path: "/cryptocurrency",
             },
             {
               text: "Stock",

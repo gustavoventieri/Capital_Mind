@@ -1,9 +1,8 @@
-import { useAuthContext } from "../../shared/contexts";
 import { BaseLayout } from "../../shared/layouts";
 
-export const Home = () => {
+export const CryptocCurrency = () => {
   return (
-    <BaseLayout>
+    <BaseLayout title="Crypto Currencies" titleView> 
       <></>
     </BaseLayout>
   );

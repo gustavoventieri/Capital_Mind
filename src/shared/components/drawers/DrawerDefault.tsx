@@ -73,7 +73,9 @@ export const DrawerDefault = () => {
     return {
       backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent", // Opacidade no fundo laranja
       color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
-      opacity: isActive ? 1 : 0.8, // Opacidade no ícone (opcional)
+      "&:hover": {
+        backgroundColor: "rgba(141, 98, 18, 0.3)",
+      },
     };
   };
 
@@ -177,7 +179,7 @@ export const DrawerDefault = () => {
                   }}
                 />
               ),
-              path: "/",
+              path: "/cryptocurrency",
             },
             {
               text: "Stock",
@@ -267,7 +269,10 @@ export const DrawerDefault = () => {
             borderRadius: 0,
             justifyContent: "flex-start",
             paddingLeft: 2,
-            ml: 0.5,
+
+            "&:hover": {
+              backgroundColor: "rgba(141, 98, 18, 0.3)",
+            },
           }}
           onClick={toggleTheme}
         >
@@ -298,7 +303,7 @@ export const DrawerDefault = () => {
             width: "100%",
             borderRadius: 0,
             justifyContent: "flex-start",
-            paddingLeft: 2,
+            paddingLeft: 1.5,
             ...getItemStyle("/account"),
           }}
         >
@@ -330,7 +335,10 @@ export const DrawerDefault = () => {
             width: "100%",
             borderRadius: 0,
             justifyContent: "flex-start",
-            paddingLeft: 2,
+            paddingLeft: 1.5,
+            "&:hover": {
+              backgroundColor: "rgba(141, 98, 18, 0.3)",
+            },
           }}
         >
           <LogoutIcon
