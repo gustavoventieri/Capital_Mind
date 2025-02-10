@@ -194,7 +194,7 @@ export const DrawerMobile = () => {
             {
               text: "Stock",
               icon: <TrendingUpIcon />,
-              path: "/",
+              path: "/stock",
             },
             {
               text: "Expense",

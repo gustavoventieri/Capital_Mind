@@ -7,3 +7,6 @@ export * from "./auth/register/Register";
 
 // CryptoCurrency Pages
 export * from "./cryptocurrency/CryptoCurrency";
+
+// Stock Pages
+export * from "./stock/Stock";

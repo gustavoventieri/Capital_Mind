@@ -29,10 +29,9 @@ export const ToolsBar: React.FC<IToolsbarProps> = ({
   return (
     <Box
       gap={1}
-      marginX={1}
+      marginX={2}
       padding={1}
       paddingX={2}
-      marginBottom={2}
       display="flex"
       alignItems="center"
       height={theme.spacing(5)}
@@ -71,7 +70,7 @@ export const ToolsBar: React.FC<IToolsbarProps> = ({
 
               paddingTop: 1.4,
             }}
-            endIcon={<AddIcon fontSize="small" sx={{ paddingBottom: 0.75   }} />}
+            endIcon={<AddIcon fontSize="small" sx={{ paddingBottom: 0.75 }} />}
           >
             {newButtonText}
           </Button>

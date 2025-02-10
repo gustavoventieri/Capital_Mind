@@ -42,7 +42,7 @@ public class Stock {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
+  
     @ManyToOne
     @JoinColumn(name = "userData", nullable = false) 
     private User userData;

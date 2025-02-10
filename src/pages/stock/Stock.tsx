@@ -10,18 +10,14 @@ import { ToolsBar } from "../../shared/components";
 import { BaseLayout } from "../../shared/layouts";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../shared/contexts";
-import {
-  CryptoCurrencyService,
-  getUserIdFromJWT,
-  ICryptoCurrency,
-} from "../../shared/services";
+import { getUserIdFromJWT, IStock, StockService } from "../../shared/services";
 import { useDebounce } from "../../shared/hooks";
 
-export const CryptocCurrency = () => {
+export const Stock = () => {
   const { token } = useAuthContext();
   const { debounce } = useDebounce();
-  const [cryptos, setCryptos] = useState<ICryptoCurrency[]>([]);
-  const [filteredCryptos, setFilteredCryptos] = useState<ICryptoCurrency[]>([]);
+  const [stocks, setStocks] = useState<IStock[]>([]);
+  const [filteredStocks, setFilteredStocks] = useState<IStock[]>([]);
   const [searchTerm, setSearchTerm] = useState(""); // Estado do campo de pesquisa
   const [userId, setUserId] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,13 +37,12 @@ export const CryptocCurrency = () => {
     if (userId) {
       setIsLoading(true);
       debounce(() => {
-        CryptoCurrencyService.getAll(userId).then((result) => {
+        StockService.getAll(userId).then(async (result) => {
           setIsLoading(false);
           if (result instanceof Error) {
             console.log(result.message);
           } else {
-            setCryptos(result);
-            setFilteredCryptos(result); // Inicializa os dados filtrados com todos os resultados
+            setStocks(result);
           }
         });
       });
@@ -56,22 +51,19 @@ export const CryptocCurrency = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setIsLoading(true);
-      setFilteredCryptos(cryptos);
-      setIsLoading(false);
+      setFilteredStocks(stocks);
     } else {
-      setIsLoading(true);
-      const filtered = cryptos.filter((crypto) =>
-        crypto.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = stocks.filter((stock) =>
+        stock.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setFilteredCryptos(filtered);
-      setIsLoading(false);
+
+      setFilteredStocks(filtered);
     }
-  }, [searchTerm, cryptos]);
+  }, [searchTerm, stocks]);
 
   return (
     <BaseLayout
-      title="Criptomoedas"
+      title="Stocks"
       toolsBar={
         <ToolsBar
           showSearchInput
@@ -103,30 +95,30 @@ export const CryptocCurrency = () => {
           </Box>
         ) : (
           <Grid container spacing={2} sx={{ px: 2, mt: 2 }}>
-            {filteredCryptos.length > 0 ? (
-              filteredCryptos.map((crypto) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={crypto.cryptoId}>
+            {filteredStocks.length > 0 ? (
+              filteredStocks.map((stock) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={stock.stockId}>
                   <Paper
                     elevation={3}
                     sx={{
                       p: 2,
-
+                      minHeight: 150,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
                     }}
                   >
                     <Typography variant="h6">
-                      {crypto.name.toUpperCase()}
+                      {stock.name.toUpperCase()}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Descrição:</strong> {crypto.description}
+                      <strong>Descrição:</strong> {stock.description}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Quantidade:</strong> {crypto.quantity}
+                      <strong>Quantidade:</strong> {stock.quantity}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Preço:</strong> R$ {crypto.price.toFixed(2)}
+                      <strong>Preço:</strong> R$ {stock.price.toFixed(2)}
                     </Typography>
                   </Paper>
                 </Grid>

@@ -43,9 +43,7 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({
         )}
         {toolsBar && <Box marginTop={2}>{toolsBar}</Box>}
 
-        <Box flex={1} overflow="auto">
-          {children}
-        </Box>
+        <Box flex={1}>{children}</Box>
       </Box>
     </>
   );

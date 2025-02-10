@@ -191,7 +191,7 @@ export const DrawerDefault = () => {
                   }}
                 />
               ),
-              path: "/",
+              path: "/stock",
             },
             {
               text: "Expense",
