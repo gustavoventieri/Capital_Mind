@@ -132,20 +132,32 @@ public class CryptoCurrencyService implements CryptoCurrencyServiceInterface{
     private Double getTotal(String ids, String currency, Double quantity) {
         // Obtém a resposta da API CoinGecko com o preço da criptomoeda
         Map<String, Object> response = this.coinGeckoApi.getPrice(ids, currency);
-
+    
         // Obtém o preço da criptomoeda do mapa
         Object priceObject = response.get(ids);
-
+    
         // Verifica se o preço é válido
         if (priceObject instanceof Map) {
-            Map<String, Integer> prices = (Map<String, Integer>) priceObject;
-            Integer price = prices.get(currency);
-
-            // Calcula o preço total
-            return price * quantity;
+            Map<String, ?> prices = (Map<String, ?>) priceObject;
+            Object priceObj = prices.get(currency);
+    
+            if (priceObj instanceof Integer) {
+                Integer price = (Integer) priceObj;
+                System.out.println(price);
+                // Calcula o preço total
+                return price.doubleValue() * quantity;
+            } else if (priceObj instanceof Double) {
+                Double price = (Double) priceObj;
+                System.out.println(price);
+                // Calcula o preço total
+                return price * quantity;
+            } else {
+                throw new ExternalApiException("Invalid price type");
+            }
         }
-
+    
         // Lança exceção se os dados da API forem inválidos
         throw new ExternalApiException("Invalid Data From Api");
     }
+    
 }
