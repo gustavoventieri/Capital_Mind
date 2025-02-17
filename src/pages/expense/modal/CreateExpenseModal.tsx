@@ -14,6 +14,10 @@ import * as Yup from "yup";
 import { getUserIdFromJWT, StockService } from "../../../shared/services";
 import { useNavigate } from "react-router-dom";
 import { ExpenseService } from "../../../shared/services/api/request/ExpenseService";
+import {
+  combinedSuggestions,
+  DynamicSuggestionsInput,
+} from "../dynamicinput/DynamicInput";
 
 interface CreateExpenseModalProps {
   open: boolean;
@@ -22,6 +26,7 @@ interface CreateExpenseModalProps {
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
+
     .min(2, "Name cannot be less than 2 characters.")
     .max(100, "Name cannot be more than 100 characters.")
     .required("Name cannot be empty."),
@@ -32,6 +37,10 @@ const validationSchema = Yup.object().shape({
     .required("Description cannot be empty."),
 
   category: Yup.string()
+    .oneOf(
+      combinedSuggestions,
+      "Invalid category. Please select from the list."
+    )
     .min(2, "Category cannot be less than 2 characters.")
     .max(255, "Category cannot be more than 255 characters.")
     .required("Category cannot be empty."),
@@ -115,7 +124,7 @@ export const CreateExpenseModal = ({
           flexDirection: "column",
           alignItems: "center",
           width: isMiniTablet ? "70%" : "30%",
-          height: "60%",
+          height: "70%",
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
@@ -143,7 +152,7 @@ export const CreateExpenseModal = ({
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            mt: 4,
+            mt: 8,
           }}
         >
           <TextField
@@ -156,6 +165,12 @@ export const CreateExpenseModal = ({
             error={!!errors.name}
             helperText={errors.name}
           />
+          <DynamicSuggestionsInput
+            value={category}
+            onChange={(category) => setCategory(category)}
+            error={!!errors.category}
+            helperText={errors.category}
+          />
           <TextField
             label="Description"
             type="string"
@@ -167,15 +182,7 @@ export const CreateExpenseModal = ({
             error={!!errors.description}
             helperText={errors.description}
           />
-          <TextField
-            label="Category"
-            type="string"
-            fullWidth
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            error={!!errors.category}
-            helperText={errors.category}
-          />
+
           <TextField
             label="Price"
             type="number"
