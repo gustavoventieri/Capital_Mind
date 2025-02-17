@@ -1,39 +1,40 @@
+import { useEffect, useState } from "react";
 import {
   Box,
-  CircularProgress,
-  Typography,
-  Paper,
-  Grid,
   Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState, useEffect } from "react";
 
-import { ConfirmDialog, ToolsBar } from "../../shared/components";
 import { BaseLayout } from "../../shared/layouts";
+import { ConfirmDialog, ToolsBar } from "../../shared/components";
 import { useAuthContext } from "../../shared/contexts";
-import { getUserIdFromJWT, IStock, StockService } from "../../shared/services";
 import { useDebounce } from "../../shared/hooks";
+import { getUserIdFromJWT } from "../../shared/services";
+import {
+  ExpenseService,
+  IExpense,
+} from "../../shared/services/api/request/ExpenseService";
+import { CreateExpenseModal } from "./modal/CreateExpenseModal";
+import { UpdateExpenseModal } from "./modal/UpdateExpenseModal";
 
-import { CreateStockModal } from "./modal/CreateStockModal";
-
-import { UpdateStockModal } from "./modal/UpdateStockModal";
-
-export const ListStocks = () => {
+export const ListExpenses = () => {
   const { token } = useAuthContext();
   const { debounce } = useDebounce();
 
   const [deleteId, setDeleteId] = useState<number | null>(null); // Armazena o ID do item a ser excluído
   const [openDialog, setOpenDialog] = useState(false);
-  const [openCreateStockModal, setOpenCreateStockModal] = useState(false);
-  const [openUpdateStockModal, setOpenUpdateStockModal] = useState(false);
-  const [stock, setStock] = useState<IStock | null>(null);
-  const [stocks, setStocks] = useState<IStock[]>([]);
-  const [filteredStocks, setFilteredStocks] = useState<IStock[]>([]);
-
-  const [searchTerm, setSearchTerm] = useState(""); // Estado do campo de pesquisa
+  const [expense, setExpense] = useState<IExpense | null>(null);
+  const [expenses, setExpenses] = useState<IExpense[]>([]);
+  const [openCreateExpenseModal, setOpenCreateExpenseModal] = useState(false);
+  const [openUpdateExpenseModal, setOpenUpdateExpenseModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [userId, setUserId] = useState<string | undefined>(undefined);
+  const [filteredExpense, setFilteredExpense] = useState<IExpense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -51,11 +52,11 @@ export const ListStocks = () => {
     if (userId) {
       setIsLoading(true);
       debounce(() => {
-        StockService.getAll(userId).then(async (result) => {
+        ExpenseService.getAll(userId).then(async (result) => {
           setIsLoading(false);
           if (result instanceof Error) {
           } else {
-            setStocks(result);
+            setExpenses(result);
           }
         });
       });
@@ -64,23 +65,15 @@ export const ListStocks = () => {
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredStocks(stocks);
+      setFilteredExpense(expenses);
     } else {
-      const filtered = stocks.filter((stock) =>
-        stock.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = expenses.filter((expense) =>
+        expense.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      setFilteredStocks(filtered);
+      setFilteredExpense(filtered);
     }
-  }, [searchTerm, stocks]);
-
-  const handleOpenCreate = () => setOpenCreateStockModal(true);
-  const handleOpenUpdate = (stock: IStock) => {
-    setStock(stock);
-    setOpenUpdateStockModal(true);
-  };
-  const handleCloseCreate = () => setOpenCreateStockModal(false);
-  const handleCloseUpdate = () => setOpenUpdateStockModal(false);
+  }, [searchTerm, expenses]);
 
   const handleDelete = (id: number) => {
     setDeleteId(id);
@@ -90,19 +83,28 @@ export const ListStocks = () => {
   const handleConfirmDelete = () => {
     if (deleteId === null) return;
 
-    StockService.deleteById(deleteId).then((result) => {
+    ExpenseService.deleteById(deleteId).then((result) => {
       if (result instanceof Error) {
       } else {
         window.location.reload();
       }
       setOpenDialog(false);
-      setDeleteId(null); // Limpa o ID após a exclusão
+      setDeleteId(null);
     });
   };
 
+  const handleOpenCreate = () => setOpenCreateExpenseModal(true);
+  const handleCloseCreate = () => setOpenCreateExpenseModal(false);
+
+  const handleOpenUpdate = (expense: IExpense) => {
+    setExpense(expense);
+    setOpenUpdateExpenseModal(true);
+  };
+  const handleCloseUpdate = () => setOpenUpdateExpenseModal(false);
+
   return (
     <BaseLayout
-      title="Stocks"
+      title="Expenses"
       toolsBar={
         <ToolsBar
           onNewButtonClick={() => handleOpenCreate()}
@@ -133,9 +135,9 @@ export const ListStocks = () => {
           </Box>
         ) : (
           <Grid container spacing={2} sx={{ px: 2, mt: 2 }}>
-            {filteredStocks.length > 0 ? (
-              filteredStocks.map((stock) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={stock.stockId}>
+            {filteredExpense.length > 0 ? (
+              filteredExpense.map((expense) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={expense.expenseId}>
                   <Paper
                     elevation={3}
                     sx={{
@@ -148,16 +150,16 @@ export const ListStocks = () => {
                     }}
                   >
                     <Typography variant="h6">
-                      {stock.name?.toUpperCase()}
+                      {expense.name.toUpperCase()}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Description:</strong> {stock.description}
+                      <strong>Description:</strong> {expense.description}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Quantity:</strong> {stock.quantity}
+                      <strong>Category:</strong> {expense.category}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Price:</strong> R$ {stock.price?.toFixed(2)}
+                      <strong>Price:</strong> R$ {expense.price?.toFixed(2)}
                     </Typography>
                     <Box
                       sx={{
@@ -170,8 +172,8 @@ export const ListStocks = () => {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleOpenUpdate(stock)}
                         fullWidth
+                        onClick={() => handleOpenUpdate(expense)}
                         sx={{
                           backgroundColor: "primary.main",
                           "&:hover": {
@@ -187,7 +189,7 @@ export const ListStocks = () => {
                         variant="outlined"
                         color="error"
                         fullWidth
-                        onClick={() => handleDelete(stock.stockId)}
+                        onClick={() => handleDelete(expense.expenseId)}
                         sx={{
                           backgroundColor: "transparent",
                           "&:hover": {
@@ -210,21 +212,24 @@ export const ListStocks = () => {
                   color="textSecondary"
                   align="center"
                 >
-                  No stocks found.
+                  No expenses found.
                 </Typography>
               </Grid>
             )}
           </Grid>
         )}
-        <CreateStockModal
-          open={openCreateStockModal}
+
+        <CreateExpenseModal
+          open={openCreateExpenseModal}
           handleClose={handleCloseCreate}
         />
-        <UpdateStockModal
-          open={openUpdateStockModal}
+
+        <UpdateExpenseModal
+          open={openUpdateExpenseModal}
           handleClose={handleCloseUpdate}
-          stock={stock}
+          expense={expense}
         />
+
         <ConfirmDialog
           open={openDialog}
           onClose={() => setOpenDialog(false)} // Fecha o modal sem fazer nada

@@ -7,24 +7,25 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
-import {
-  combinedSuggestions,
-  DynamicSuggestionsInput,
-} from "../dynamicinput/DynamicInput";
+import { useEffect, useState } from "react";
+
 import { useAuthContext } from "../../../shared/contexts";
 import * as Yup from "yup";
 import { getUserIdFromJWT, StockService } from "../../../shared/services";
 import { useNavigate } from "react-router-dom";
+import {
+  ExpenseService,
+  IExpense,
+} from "../../../shared/services/api/request/ExpenseService";
 
-interface CreateStockModalProps {
+interface UpdateExpenseModalProps {
   open: boolean;
   handleClose: () => void;
+  expense: IExpense | null;
 }
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .oneOf(combinedSuggestions, "Invalid name. Please select from the list.") // Lista dinâmica
     .min(2, "Name cannot be less than 2 characters.")
     .max(100, "Name cannot be more than 100 characters.")
     .required("Name cannot be empty."),
@@ -34,27 +35,43 @@ const validationSchema = Yup.object().shape({
     .max(255, "Description cannot be more than 255 characters.")
     .required("Description cannot be empty."),
 
-  quantity: Yup.number()
-    .positive("Quantity must be a positive value.")
-    .required("Quantity cannot be null."),
+  category: Yup.string()
+    .min(2, "Category cannot be less than 2 characters.")
+    .max(255, "Category cannot be more than 255 characters.")
+    .required("Category cannot be empty."),
+
+  price: Yup.number()
+    .positive("Price must be a positive value.")
+    .required("Price cannot be null."),
 
   userId: Yup.string().required("User ID cannot be null."),
 });
 
-export const CreateStockModal = ({
+export const UpdateExpenseModal = ({
   open,
   handleClose,
-}: CreateStockModalProps) => {
+  expense,
+}: UpdateExpenseModalProps) => {
   const theme = useTheme();
   const { token } = useAuthContext();
+  const navigate = useNavigate();
+  const isMiniTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
   const [errors, setErrors] = useState<any>({});
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMiniTablet = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (expense) {
+      setName(expense.name || "");
+      setDescription(expense.description || "");
+      setCategory(expense.category || "");
+      setPrice(expense.price.toString() || "");
+    }
+  }, [expense]);
 
   const handleSave = async () => {
     setErrors({});
@@ -66,14 +83,17 @@ export const CreateStockModal = ({
         if (uuid === undefined) return navigate("/home");
 
         await validationSchema.validate(
-          { name, description, quantity: Number(quantity), userId: uuid },
+          { name, description, category, price: Number(price), userId: uuid },
           { abortEarly: false }
         );
+        if (expense === null) return;
 
-        const response = await StockService.create({
+        const response = await ExpenseService.update({
+          expenseId: expense?.expenseId,
           name,
           description,
-          quantity: Number(quantity),
+          category,
+          price: Number(price),
           userId: uuid,
         });
 
@@ -130,7 +150,7 @@ export const CreateStockModal = ({
           }}
           mt={5}
         >
-          Create Stock
+          Create Expense
         </Typography>
 
         <Box
@@ -139,17 +159,22 @@ export const CreateStockModal = ({
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            mt: 7.5,
+            mt: 4,
           }}
         >
-          <DynamicSuggestionsInput
+          <TextField
+            label="Name"
+            type="string"
+            fullWidth
+            multiline
             value={name}
-            onChange={(newName) => setName(newName)}
+            onChange={(e) => setName(e.target.value)}
             error={!!errors.name}
             helperText={errors.name}
           />
           <TextField
             label="Description"
+            type="string"
             fullWidth
             multiline
             rows={3}
@@ -159,13 +184,22 @@ export const CreateStockModal = ({
             helperText={errors.description}
           />
           <TextField
-            label="Quantity"
+            label="Category"
+            type="string"
+            fullWidth
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            error={!!errors.category}
+            helperText={errors.category}
+          />
+          <TextField
+            label="Price"
             type="number"
             fullWidth
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            error={!!errors.quantity}
-            helperText={errors.quantity}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            error={!!errors.price}
+            helperText={errors.price}
           />
         </Box>
 
@@ -194,7 +228,7 @@ export const CreateStockModal = ({
               paddingTop: 1.4,
             }}
           >
-            Save
+            Update
           </Button>
           <Button
             variant="outlined"

@@ -97,6 +97,8 @@ export const DrawerDefault = () => {
         display={openDefaultDrawer ? "block" : "none"}
         sx={{
           backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 1000, // Definir um zIndex alto para garantir que a camada de sobreposição esteja acima do conteúdo
+          pointerEvents: "auto", // Permite que o clique na sobreposição feche o Drawer
         }}
         onClick={handleDrawerToggle}
       />
@@ -266,7 +268,7 @@ export const DrawerDefault = () => {
             width: "100%",
             borderRadius: 0,
             justifyContent: "flex-start",
-            paddingLeft: 2,
+            paddingLeft: 2.2,
 
             "&:hover": {
               backgroundColor: "rgba(141, 98, 18, 0.3)",

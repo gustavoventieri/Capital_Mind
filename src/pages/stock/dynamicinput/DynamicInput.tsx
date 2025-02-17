@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Autocomplete, TextField, useTheme } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
+import { useThemeContext } from "../../../shared/contexts";
 
 const suggestionData = {
   indexes: [
@@ -1475,11 +1476,9 @@ export const DynamicSuggestionsInput = ({
   error,
   helperText,
 }: DynamicSuggestionsInputProps) => {
-  const theme = useTheme();
   const [inputValue, setInputValue] = useState(value);
-
+  const { themeName } = useThemeContext();
   // Combine indexes and stocks into one list for suggestions
-  
 
   return (
     <Autocomplete
@@ -1502,6 +1501,11 @@ export const DynamicSuggestionsInput = ({
           helperText={helperText}
         />
       )}
+      sx={{
+        ".MuiAutocomplete-clearIndicator": {
+          color: themeName === "dark" ? "white" : "black", // Muda a cor para laranja
+        },
+      }}
     />
   );
 };

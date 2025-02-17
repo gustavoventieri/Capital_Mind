@@ -3,7 +3,6 @@ import {
   Button,
   Paper,
   TextField,
-  Typography,
   useTheme,
 } from "@mui/material";
 import React from "react";
@@ -65,7 +64,7 @@ export const ToolsBar: React.FC<IToolsbarProps> = ({
               backgroundColor: "primary.main",
 
               "&:hover": {
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
               },
               height: "40px",
 

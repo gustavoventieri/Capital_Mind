@@ -12,7 +12,7 @@ import {
   combinedSuggestions,
   DynamicSuggestionsInput,
 } from "../dynamicinput/DynamicInput";
-import { useAuthContext, useThemeContext } from "../../../shared/contexts";
+import { useAuthContext } from "../../../shared/contexts";
 import * as Yup from "yup";
 import {
   getUserIdFromJWT,
@@ -21,7 +21,7 @@ import {
 } from "../../../shared/services";
 import { useNavigate } from "react-router-dom";
 
-interface CreateStockModalProps {
+interface UpdateStockModalProps {
   open: boolean;
   handleClose: () => void;
   stock: IStock | null;
@@ -50,14 +50,14 @@ export const UpdateStockModal = ({
   open,
   handleClose,
   stock,
-}: CreateStockModalProps) => {
+}: UpdateStockModalProps) => {
   const theme = useTheme();
   const { token } = useAuthContext();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [errors, setErrors] = useState<any>({});
-  const { themeName } = useThemeContext();
+
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isMiniTablet = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
@@ -125,8 +125,8 @@ export const UpdateStockModal = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: isMiniTablet ? "70%" : "40%",
-          height: "70%",
+          width: isMiniTablet ? "70%" : "30%",
+          height: "60%",
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
@@ -139,30 +139,28 @@ export const UpdateStockModal = ({
           variant={isMobile ? "h5" : "h4"}
           noWrap
           fontWeight="bold"
-          color={themeName === "dark" ? "white" : "primary.main"}
+          color={"primary.main"}
           sx={{
             width: "100%",
             textAlign: "center",
-            mt: 6,
-            mb: 2,
+            mt: 7,
           }}
         >
           Update Stock
         </Typography>
 
-        {/* Campos de Entrada */}
         <Box
           sx={{
             width: "100%",
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            mt: 8,
+            mt: 7.5,
           }}
         >
           <DynamicSuggestionsInput
             value={name}
-            onChange={(newName) => setName(newName)} // Atualiza o estado `name` com o novo valor
+            onChange={(newName) => setName(newName)}
             error={!!errors.name}
             helperText={errors.name}
           />
@@ -187,11 +185,9 @@ export const UpdateStockModal = ({
           />
         </Box>
 
-        {/* Botões */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
             gap: 2,
             marginTop: "auto",
             width: "100%",
@@ -212,7 +208,7 @@ export const UpdateStockModal = ({
               paddingTop: 1.4,
             }}
           >
-            Atualizar
+            Update
           </Button>
           <Button
             variant="outlined"
@@ -229,7 +225,7 @@ export const UpdateStockModal = ({
               paddingTop: 1.4,
             }}
           >
-            Cancelar
+            Cancel
           </Button>
         </Box>
       </Box>

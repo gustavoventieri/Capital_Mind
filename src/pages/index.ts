@@ -10,4 +10,5 @@ export * from "./cryptocurrency/CryptoCurrency";
 
 // Stock Pages
 export * from "./stock/ListStocks";
-export * from "./stock/modal/CreateStockModal";
+
+export * from "./expense/ListExpenses";

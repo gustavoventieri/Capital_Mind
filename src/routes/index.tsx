@@ -5,7 +5,7 @@ import {
   Login,
   CryptocCurrency,
   ListStocks,
-
+  ListExpenses,
 } from "../pages/";
 import { PrivateRoutes } from "../shared/components";
 
@@ -18,9 +18,8 @@ export const AppRoutes = () => {
       <Route element={<PrivateRoutes />}>
         <Route path="/home" element={<Home />} />
         <Route path="/cryptocurrency" element={<CryptocCurrency />} />
-
         <Route path="/stock" element={<ListStocks />} />
-        
+        <Route path="/expense" element={<ListExpenses />} />
 
         <Route path="*" element={<Navigate to="/home" />} />
       </Route>
