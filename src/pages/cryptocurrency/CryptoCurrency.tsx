@@ -44,7 +44,7 @@ export const CryptocCurrency = () => {
         CryptoCurrencyService.getAll(userId).then((result) => {
           setIsLoading(false);
           if (result instanceof Error) {
-            console.log(result.message);
+            
           } else {
             setCryptos(result);
             setFilteredCryptos(result); // Inicializa os dados filtrados com todos os resultados
@@ -71,7 +71,7 @@ export const CryptocCurrency = () => {
 
   return (
     <BaseLayout
-      title="Criptomoedas"
+      title="Crypto Currency"
       toolsBar={
         <ToolsBar
           showSearchInput
@@ -110,7 +110,7 @@ export const CryptocCurrency = () => {
                     elevation={3}
                     sx={{
                       p: 2,
-
+                      minHeight: 150,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",

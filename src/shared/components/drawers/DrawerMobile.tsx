@@ -37,11 +37,13 @@ export const DrawerMobile = () => {
   const location = useLocation();
 
   const getItemStyle = (path: string) => {
-    const isActive = location.pathname === path;
+    const isActive = location.pathname.startsWith(path);
     return {
-      backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent", // Opacidade no fundo laranja
-      color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
-      // Opacidade no ícone (opcional)
+      backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent",
+      color: isActive ? "orange" : themeName === "dark" ? "white" : "black",
+      "&:hover": {
+        backgroundColor: "rgba(141, 98, 18, 0.3)",
+      },
     };
   };
 
@@ -200,12 +202,12 @@ export const DrawerMobile = () => {
               text: "Expense",
               icon: <ReceiptIcon />,
 
-              path: "/",
+              path: "/expense",
             },
             {
               text: "Investment",
               icon: <StackedLineChartIcon />,
-              path: "/",
+              path: "/investment",
             },
           ].map(({ text, icon, path }) => (
             <ListItem

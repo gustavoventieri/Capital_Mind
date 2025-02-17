@@ -23,7 +23,11 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({
     <>
       {(!isMobile && <DrawerDefault />) || (isMobile && <DrawerMobile />)}
 
-      <Box paddingTop={isMobile ? 7.2 : 0} paddingLeft={isMobile ? 0 : 8.3}>
+      <Box
+        paddingTop={isMobile ? 7.2 : 0}
+        paddingLeft={isMobile ? 0 : 8.3}
+        sx={{ overflow: "hidden" }}
+      >
         {title && (
           <Box>
             <Typography

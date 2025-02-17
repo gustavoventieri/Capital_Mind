@@ -94,6 +94,12 @@ export const Register = () => {
   const handleSnackbarClose = () => setOpen(false);
   const handleSubmit = async () => {
     setIsLoading(true);
+    setNameError("");
+    setEmailError("");
+    setSalaryError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
     try {
       // Validando os dados de entrada
       await registerSchema.validate(
@@ -112,9 +118,13 @@ export const Register = () => {
       if (response instanceof Error) {
         throw response;
       }
-      console.log(response.token);
+
       setToken(response.token);
-      navigate("/home");
+      
+      const timer = setTimeout(() => {
+        navigate("/home");
+      }, 5000);
+      return () => clearTimeout(timer);
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         if (isMiniTablet) {
@@ -147,6 +157,7 @@ export const Register = () => {
         setSnackColor("error");
         setOpen(true);
       } else if (error instanceof Error) {
+        setEmailError("Email Already Registered");
         setSnackMessage("Email Already Registered");
         setSnackColor("error");
         setOpen(true);

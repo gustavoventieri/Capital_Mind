@@ -67,18 +67,16 @@ export const DrawerDefault = () => {
   const { logout } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
-
   const getItemStyle = (path: string) => {
-    const isActive = location.pathname === path;
+    const isActive = location.pathname.startsWith(path);
     return {
-      backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent", // Opacidade no fundo laranja
-      color: isActive ? "orange" : themeName === "dark" ? "white" : "black", // Cor do ícone
+      backgroundColor: isActive ? "rgba(255, 189, 65, 0.3)" : "transparent",
+      color: isActive ? "orange" : themeName === "dark" ? "white" : "black",
       "&:hover": {
         backgroundColor: "rgba(141, 98, 18, 0.3)",
       },
     };
   };
-
   const handleLogOut = () => {
     logout();
     navigate("/login");
@@ -203,7 +201,7 @@ export const DrawerDefault = () => {
                   }}
                 />
               ),
-              path: "/",
+              path: "/expense",
             },
             {
               text: "Investment",
@@ -215,7 +213,7 @@ export const DrawerDefault = () => {
                   }}
                 />
               ),
-              path: "/",
+              path: "/investment",
             },
           ].map(({ text, icon, path }) => (
             <ListItem
@@ -303,13 +301,14 @@ export const DrawerDefault = () => {
             width: "100%",
             borderRadius: 0,
             justifyContent: "flex-start",
-            paddingLeft: 1.5,
+            paddingLeft: 2,
             ...getItemStyle("/account"),
           }}
         >
           <PersonIcon
             sx={{
-              fontSize: 32,
+              fontSize: 28,
+
               color: getItemStyle("/account").color,
             }}
           />
@@ -333,12 +332,18 @@ export const DrawerDefault = () => {
           onClick={handleLogOut}
           sx={{
             width: "100%",
-            borderRadius: 0,
+            borderRadius: 0, // Remove a borda arredondada
             justifyContent: "flex-start",
             paddingLeft: 1.5,
             "&:hover": {
               backgroundColor: "rgba(141, 98, 18, 0.3)",
+              outline: "none", // Remove o foco de borda no hover
             },
+            "&:focus": {
+              outline: "none", // Remove o foco de borda quando o botão for clicado
+            },
+            display: "flex", // Garante que o IconButton ocupe o espaço de maneira flexível
+            alignItems: "center", // Alinha o conteúdo verticalmente
           }}
         >
           <LogoutIcon

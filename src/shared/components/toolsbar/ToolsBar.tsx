@@ -14,7 +14,7 @@ interface IToolsbarProps {
   onSearchTextChange?: (newText: string) => void;
   newButtonText?: string;
   showNewButton?: boolean;
-  onNewButtonClick?: () => void;
+  onNewButtonClick?: VoidFunction;
 }
 
 export const ToolsBar: React.FC<IToolsbarProps> = ({
@@ -59,6 +59,7 @@ export const ToolsBar: React.FC<IToolsbarProps> = ({
       <Box flex={1} display="flex" justifyContent="end">
         {showNewButton && (
           <Button
+            onClick={onNewButtonClick}
             variant="contained"
             sx={{
               backgroundColor: "primary.main",

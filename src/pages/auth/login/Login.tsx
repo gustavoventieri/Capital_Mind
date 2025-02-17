@@ -76,6 +76,8 @@ export const Login = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    setPasswordError("");
+    setEmailError("");
     try {
       // Validando os dados de entrada
       await loginSchema.validate({ email, password }, { abortEarly: false });
@@ -87,9 +89,8 @@ export const Login = () => {
         throw response;
       }
 
-      // Salvando o token no contexto de autenticação
       setToken(response.token);
-      navigate("/home");
+      setSnackColor("success");
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         error.inner.forEach((err) => {
@@ -100,10 +101,15 @@ export const Login = () => {
           }
         });
 
-        setSnackMessage(error.inner.map((err) => err.message).join("\n"));
+        const errorMessages = error.inner
+          .map((err) => `${err.message}<br />`)
+          .join("");
+        setSnackMessage(errorMessages);
         setSnackColor("error");
         setOpen(true);
       } else if (error instanceof Error) {
+        setPasswordError("Invalid credencials");
+        setEmailError("Invalid credencials");
         setSnackMessage("Invalid credencials");
         setSnackColor("error");
         setOpen(true);
@@ -116,6 +122,12 @@ export const Login = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (snackColor === "success") {
+      navigate("/home");
+    }
+  }, [snackColor, navigate]);
 
   return (
     <Box
@@ -260,11 +272,16 @@ export const Login = () => {
                 }
                 sx={{
                   backgroundColor: "primary.main",
-                  "&:hover": { backgroundColor: "primary.dark" },
+
+                  "&:hover": {
+                    backgroundColor: "primary.light",
+                  },
+                  height: "40px",
+                  paddingTop: 1.4,
                   color: "white",
                 }}
               >
-                Login
+                LOGIN
               </Button>
               <Typography
                 variant="body2"
