@@ -5,3 +5,13 @@ export const getUserIdFromJWT = (token: string) => {
 
   return decoded.sub;
 };
+
+export const isAuthenticated = (token: string | null): boolean => {
+  if (!token) return false;
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.exp * 1000 > Date.now();
+  } catch (error) {
+    return false;
+  }
+};

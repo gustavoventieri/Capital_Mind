@@ -3,7 +3,7 @@ import { createContext, useState, useContext, ReactNode } from "react";
 interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
-  logout: () => void;
+  logout: VoidFunction;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
