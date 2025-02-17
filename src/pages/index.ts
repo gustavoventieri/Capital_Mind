@@ -9,4 +9,5 @@ export * from "./auth/register/Register";
 export * from "./cryptocurrency/CryptoCurrency";
 
 // Stock Pages
-export * from "./stock/Stock";
+export * from "./stock/ListStocks";
+export * from "./stock/modal/CreateStockModal";
