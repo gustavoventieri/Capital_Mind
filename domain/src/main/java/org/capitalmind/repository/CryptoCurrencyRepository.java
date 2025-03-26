@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.capitalmind.entity.CryptoCurrency;
 import org.capitalmind.entity.User;
 
-public interface CryptoCurrencyRepositoryInterface {
+public interface CryptoCurrencyRepository {
     CryptoCurrency save(CryptoCurrency cryptoCurrency);
 
     CryptoCurrency update(CryptoCurrency cryptoCurrency);

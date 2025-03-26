@@ -7,7 +7,7 @@ import org.capitalmind.entity.Expense;
 import org.capitalmind.entity.User;
 
 
-public interface ExpenseRepositoryInterface {
+public interface ExpenseRepository {
     Expense save(Expense expense);
 
     Expense update(Expense expense);

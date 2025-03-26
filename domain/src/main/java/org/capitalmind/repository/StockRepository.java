@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.capitalmind.entity.Stock;
 import org.capitalmind.entity.User;
 
-public interface StockRepositoryInterface {
+public interface StockRepository {
     Stock save(Stock stock);
 
     Stock update(Stock stock);

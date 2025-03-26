@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.capitalmind.entity.Investment;
 import org.capitalmind.entity.User;
 
-public interface InvestmentRepositoryInterface {
+public interface InvestmentRepository {
     Investment save(Investment investment);
 
     Investment update(Investment investment);
