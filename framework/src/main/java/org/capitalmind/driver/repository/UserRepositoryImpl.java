@@ -21,8 +21,8 @@ public class UserRepositoryImpl implements UserRepository  {
     @Override
     public User save(User user) {
        try {
-           User userSaved = userRepositoryOrm.save(user);
-           return userSaved;
+            User userSaved = userRepositoryOrm.save(user);
+            return userSaved;
        } catch (Exception exc) {
             throw new InternalServerError(exc);
        }
@@ -52,12 +52,12 @@ public class UserRepositoryImpl implements UserRepository  {
     }
 
     @Override
-    public Optional<User> findById(UUID userId) {
+    public User findById(UUID userId) {
         try {
-            Optional<User> user = userRepositoryOrm.findById(userId);
+            User user = userRepositoryOrm.findById(userId).orElseThrow(() -> new NotFound("User not Found"));
             return user;
-        } catch (NotFound exc) {
-           throw exc;
+        } catch (Exception exc) {
+           throw new InternalServerError(exc);
         }
     }
     

@@ -2,9 +2,10 @@ package org.capitalmind.entity;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 public record User(
-    String userId,
+    UUID userId,
     String name,
     String email,
     String password,
