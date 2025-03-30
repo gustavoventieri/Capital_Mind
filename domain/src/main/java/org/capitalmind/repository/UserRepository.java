@@ -1,6 +1,9 @@
 package org.capitalmind.repository;
 
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.capitalmind.entity.User;
 
 public interface UserRepository {
@@ -8,5 +11,7 @@ public interface UserRepository {
 
     User update(User user);
 
-    void delete(String userId);
+    void delete(UUID userId);
+
+    Optional<User> findById(UUID userId);
 } 

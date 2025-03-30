@@ -1,4 +1,4 @@
-package org.capitalmind.useCase.services;
+package org.capitalmind.useCase.service;
 
 import org.capitalmind.dto.request.LoginRequest;
 import org.capitalmind.dto.request.RegisterRequest;

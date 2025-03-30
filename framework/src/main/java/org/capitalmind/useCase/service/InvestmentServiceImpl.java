@@ -1,4 +1,4 @@
-package org.capitalmind.useCase.services;
+package org.capitalmind.useCase.service;
 
 import java.util.List;
 

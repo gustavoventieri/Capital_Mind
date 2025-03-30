@@ -1,7 +1,12 @@
 package org.capitalmind.driver.repository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.capitalmind.driver.repository.client.UserRepositoryOrm;
 import org.capitalmind.entity.User;
+import org.capitalmind.exception.InternalServerError;
+import org.capitalmind.exception.NotFound;
 import org.capitalmind.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,20 +20,45 @@ public class UserRepositoryImpl implements UserRepository  {
 
     @Override
     public User save(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+       try {
+           User userSaved = userRepositoryOrm.save(user);
+           return userSaved;
+       } catch (Exception exc) {
+            throw new InternalServerError(exc);
+       }
     }
 
     @Override
     public User update(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+       try {
+            User userUpdated = userRepositoryOrm.save(user);
+            return userUpdated;
+       }catch (NotFound exc) {
+            throw exc;
+       } catch (Exception exc){
+            throw new InternalServerError(exc);
+       }
+    }
+    
+    @Override
+    public void delete(UUID userId) {
+       try {
+            userRepositoryOrm.deleteById(userId);
+       } catch (NotFound exc) {
+            throw exc;
+       } catch (Exception exc){
+            throw new InternalServerError(exc);
+       }
     }
 
     @Override
-    public void delete(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public Optional<User> findById(UUID userId) {
+        try {
+            Optional<User> user = userRepositoryOrm.findById(userId);
+            return user;
+        } catch (NotFound exc) {
+           throw exc;
+        }
     }
     
 }
