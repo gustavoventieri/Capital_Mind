@@ -1,5 +1,6 @@
 package org.capitalmind.driver.repository;
 
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,10 +53,20 @@ public class UserRepositoryImpl implements UserRepository  {
     }
 
     @Override
-    public User findById(UUID userId) {
+    public Optional<User> findById(UUID userId) {
         try {
-            User user = userRepositoryOrm.findById(userId).orElseThrow(() -> new NotFound("User not Found"));
+            Optional<User> user = userRepositoryOrm.findById(userId);
             return user;
+        } catch (Exception exc) {
+           throw new InternalServerError(exc);
+        }
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+    try {
+         Optional<User> user = userRepositoryOrm.findByEmail(email);
+          return user;
         } catch (Exception exc) {
            throw new InternalServerError(exc);
         }

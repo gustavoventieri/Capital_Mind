@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 // Valida a requisição feita
-public record LoginRequest(
+public record LoginRequestImpl(
     @NotBlank(message = "Email cannot be empty.")
     @Email
     String email, 

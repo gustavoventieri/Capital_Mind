@@ -1,5 +1,6 @@
 package org.capitalmind.useCase.service;
 
+import org.capitalmind.driver.repository.UserRepositoryImpl;
 import org.capitalmind.dto.request.LoginRequest;
 import org.capitalmind.dto.request.RegisterRequest;
 import org.capitalmind.dto.request.UserRequest;
@@ -8,20 +9,13 @@ import org.capitalmind.entity.User;
 import org.capitalmind.service.UserService;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Override
-    public String login(LoginRequest loginRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
-    }
-
-    @Override
-    public String register(RegisterRequest registerRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'register'");
-    }
+    private final UserRepositoryImpl userRepositoryImpl;
 
     @Override
     public void deleteById(String userId) {

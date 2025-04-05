@@ -1,7 +1,7 @@
 package org.capitalmind;
 
 
-import org.capitalmind.driver.config.dotenv.DotenvConfig;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class FrameworkApplication {
 
 	public static void main(String[] args) {
-		new DotenvConfig(); 
+		
 		SpringApplication.run(FrameworkApplication.class, args);
 	}
 
