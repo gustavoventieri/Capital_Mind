@@ -6,7 +6,7 @@ import org.capitalmind.dto.request.StockRequest;
 import org.capitalmind.dto.response.StockResponse;
 
 public interface StockService{
-   void create(StockRequest stockRequest);
+    void create(StockRequest stockRequest);
 
     void update(Long stockId, StockRequest stockRequest);
 
@@ -16,5 +16,5 @@ public interface StockService{
 
     void deleteById(Long stockId);
 
-    Double getPrice(Integer quantity, String name);
+    Double getPriceInRealTime(Integer quantity, String name);
 }

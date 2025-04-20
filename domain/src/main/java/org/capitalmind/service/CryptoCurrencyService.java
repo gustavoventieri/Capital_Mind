@@ -16,5 +16,5 @@ public interface CryptoCurrencyService {
 
     void deleteById(Long cryptoCurrencyId);
 
-    Double getPrice(String ids, String currency, Double quantity);
+    Double getPriceInRealTime(String ids, String currency, Double quantity);
 }

@@ -42,9 +42,12 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
     }
 
     @Override
-    public Double getPrice(String ids, String currency, Double quantity) {
+    public Double getPriceInRealTime(String ids, String currency, Double quantity) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPrice'");
+        throw new UnsupportedOperationException("Unimplemented method 'getPriceInRealTime'");
     }
+
+
+
     
 }

@@ -42,9 +42,11 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Double getPrice(Integer quantity, String name) {
+    public Double getPriceInRealTime(Integer quantity, String name) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPrice'");
+        throw new UnsupportedOperationException("Unimplemented method 'getPriceInRealTime'");
     }
+
+    
     
 }

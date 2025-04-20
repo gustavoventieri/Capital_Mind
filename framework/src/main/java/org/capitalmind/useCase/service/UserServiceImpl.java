@@ -1,8 +1,6 @@
 package org.capitalmind.useCase.service;
 
 import org.capitalmind.driver.repository.UserRepositoryImpl;
-import org.capitalmind.dto.request.LoginRequest;
-import org.capitalmind.dto.request.RegisterRequest;
 import org.capitalmind.dto.request.UserRequest;
 import org.capitalmind.dto.response.UserResponse;
 import org.capitalmind.entity.User;
