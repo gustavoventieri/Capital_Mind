@@ -2,7 +2,9 @@ package org.capitalmind.useCase.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.capitalmind.adapter.mapper.ExpenseMapper;
 import org.capitalmind.driver.repository.ExpenseRepositoryImpl;
 import org.capitalmind.dto.request.ExpenseRequest;
 import org.capitalmind.dto.response.ExpenseResponse;
@@ -20,10 +22,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private final UserServiceImpl userServiceImpl;
     private final ExpenseRepositoryImpl expenseRepositoryImpl;
+    private final ExpenseMapper expenseMapper;
 
     @Override
     public void create(ExpenseRequest expenseRequest) {
-       User user = userServiceImpl.validateAndGetUser(expenseRequest.userId());
+       User user = this.userServiceImpl.validateAndGetUser(expenseRequest.userId());
 
         this.expenseRepositoryImpl.save(  
             new Expense(
@@ -47,8 +50,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<ExpenseResponse> getAll(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        User user = userServiceImpl.validateAndGetUser(userId);
+
+        List<Expense> expenses = this.expenseRepositoryImpl.findAllByUserData(user);
+        
+        return expenses.stream()
+            .map(expense -> expenseMapper.toExpenseResponse(expense))
+            .collect(Collectors.toList());
+
     }
 
     @Override
