@@ -1,10 +1,15 @@
 package org.capitalmind.useCase.service;
 
+import java.util.UUID;
+
 import org.capitalmind.driver.repository.UserRepositoryImpl;
 import org.capitalmind.dto.request.UserRequest;
 import org.capitalmind.dto.response.UserResponse;
 import org.capitalmind.entity.User;
+import org.capitalmind.exception.InvalidData;
+import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.UserService;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -35,8 +40,21 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User validateAndGetUser(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateAndGetUser'");
+         if (userId == null || userId.isEmpty()) {
+            throw new InvalidData("User ID is Blank or Null");
+        }
+
+        UUID userUUID;
+
+        try {
+            userUUID = UUID.fromString(userId); // Tenta converter o ID para UUID
+        } catch (IllegalArgumentException e) {
+            throw new InvalidData("Invalid User ID format");
+        }
+
+        // Verifica se o usuário existe no banco de dados
+        return this.userRepositoryImpl.findById(userUUID)
+            .orElseThrow(() -> new NotFound("User Not Found"));
     }
     
 }
