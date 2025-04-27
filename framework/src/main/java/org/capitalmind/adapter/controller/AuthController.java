@@ -9,7 +9,6 @@ import org.capitalmind.dto.request.LoginRequest;
 import org.capitalmind.dto.request.RegisterRequest;
 import org.capitalmind.useCase.service.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,10 +46,7 @@ public class AuthController {
     
     }
 
-    @GetMapping("/al")
-    public ResponseEntity<String> al(){
-        return ResponseEntity.status(HttpStatus.OK).body("al");
-    }
+   
 
 
 
