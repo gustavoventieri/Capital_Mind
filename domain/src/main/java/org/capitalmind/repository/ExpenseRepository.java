@@ -12,5 +12,5 @@ public interface ExpenseRepository {
 
     Optional<Expense> findById(Long expenseId);
 
-    void delete(String expenseId);
+    void delete(Long expenseId);
 }
