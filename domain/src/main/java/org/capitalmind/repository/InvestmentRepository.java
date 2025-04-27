@@ -17,5 +17,5 @@ public interface InvestmentRepository {
 
     List<Investment> findAllByUserData(User user);
 
-    void delete(String investmentId);
+    void delete(Long investmentId);
 }
