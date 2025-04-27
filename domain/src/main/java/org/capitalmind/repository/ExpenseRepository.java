@@ -1,8 +1,10 @@
 package org.capitalmind.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.capitalmind.entity.Expense;
+import org.capitalmind.entity.User;
 
 
 public interface ExpenseRepository {
@@ -11,6 +13,8 @@ public interface ExpenseRepository {
     Expense update(Expense expense);
 
     Optional<Expense> findById(Long expenseId);
+
+    List<Expense> findAllByUserData(User user);
 
     void delete(Long expenseId);
 }
