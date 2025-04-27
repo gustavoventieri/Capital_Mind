@@ -23,30 +23,27 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
     @Override
     public Expense save(Expense expense) {
         try {
-            Expense newExpense = expenseRepositoryOrm.save(expense);
-            return newExpense;
+            return this.expenseRepositoryOrm.save(expense);
         } catch (Exception exc) {
-           throw new InternalServerError(exc);
+            throw new InternalServerError(exc);
         }
     }
 
     @Override
     public Expense update(Expense expense) {
           try {
-            Expense expenseUpdated = expenseRepositoryOrm.save(expense);
-            return expenseUpdated;
+            return this.expenseRepositoryOrm.save(expense);
         } catch (Exception exc) {
-           throw new InternalServerError(exc);
+            throw new InternalServerError(exc);
         }
     }
 
     @Override
     public Optional<Expense> findById(Long expenseId) {
     try {
-        Optional<Expense> expense = expenseRepositoryOrm.findById(expenseId);
-        return expense;
+            return this.expenseRepositoryOrm.findById(expenseId);
        } catch (NotFound exc) {
-          throw new NotFound(exc);
+            throw new NotFound(exc);
        } catch (Exception exc){
             throw new InternalServerError(exc);
        }
@@ -66,8 +63,7 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
     @Override
     public List<Expense> findAllByUserData(User user) {
         try {
-           List<Expense> expenses = expenseRepositoryOrm.findAllByUserData(user);
-           return expenses;
+            return this.expenseRepositoryOrm.findAllByUserData(user); 
        } catch (NotFound exc) {
             throw new NotFound(exc);
        } catch (Exception exc){
