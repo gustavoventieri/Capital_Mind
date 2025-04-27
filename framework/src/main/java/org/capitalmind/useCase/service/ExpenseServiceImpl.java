@@ -10,7 +10,9 @@ import org.capitalmind.dto.request.ExpenseRequest;
 import org.capitalmind.dto.response.ExpenseResponse;
 import org.capitalmind.entity.Expense;
 import org.capitalmind.entity.User;
+import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.ExpenseService;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -44,8 +46,15 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void update(Long expenseId, ExpenseRequest expenseRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Expense expense = this.expenseRepositoryImpl.findById(expenseId).orElseThrow(() -> new NotFound("Expense Not Found"));
+
+        expense.setName(expenseRequest.name());
+        expense.setDescription(expenseRequest.description());
+        expense.setCategory(expenseRequest.category());
+        expense.setPrice(expenseRequest.price());
+
+        expenseRepositoryImpl.save(expense);
+
     }
 
     @Override
@@ -62,14 +71,21 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseResponse getById(Long expenseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        Expense expense = this.expenseRepositoryImpl.findById(expenseId)
+            .orElseThrow(() -> new NotFound("Expense Not Found"));
+        
+        return expenseMapper.toExpenseResponse(expense);
     }
 
     @Override
     public void deleteById(Long expenseId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+          // Verifica se a despesa existe
+        if (this.expenseRepositoryImpl.findById(expenseId).isEmpty()) {
+            throw new NotFound("Expense Not Found");
+        }
+
+        // Exclui a despesa do banco de dados
+        this.expenseRepositoryImpl.delete(expenseId);
     }
     
 }
