@@ -9,7 +9,6 @@ import org.capitalmind.entity.User;
 import org.capitalmind.exception.InvalidData;
 import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.UserService;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
