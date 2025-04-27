@@ -1,9 +1,11 @@
 package org.capitalmind.driver.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.capitalmind.driver.repository.client.ExpenseRepositoryOrm;
 import org.capitalmind.entity.Expense;
+import org.capitalmind.entity.User;
 import org.capitalmind.exception.InternalServerError;
 import org.capitalmind.exception.NotFound;
 import org.capitalmind.repository.ExpenseRepository;
@@ -44,7 +46,7 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
         Optional<Expense> expense = expenseRepositoryOrm.findById(expenseId);
         return expense;
        } catch (NotFound exc) {
-            throw exc;
+          throw new NotFound(exc);
        } catch (Exception exc){
             throw new InternalServerError(exc);
        }
@@ -55,7 +57,19 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
        try {
             expenseRepositoryOrm.deleteById(expenseId);
        } catch (NotFound exc) {
-            throw exc;
+           throw new NotFound(exc);
+       } catch (Exception exc){
+            throw new InternalServerError(exc);
+       }
+    }
+
+    @Override
+    public List<Expense> findAllByUserData(User user) {
+        try {
+           List<Expense> expenses = expenseRepositoryOrm.findAllByUserData(user);
+           return expenses;
+       } catch (NotFound exc) {
+            throw new NotFound(exc);
        } catch (Exception exc){
             throw new InternalServerError(exc);
        }
