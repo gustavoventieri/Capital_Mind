@@ -10,10 +10,22 @@ import org.springframework.stereotype.Component;
 public class ExpenseMapper {
     
     public ExpenseRequest toDomainExpenseRequest(ExpenseRequestImpl expenseRequestImpl){
-        return new ExpenseRequest(expenseRequestImpl.name(), expenseRequestImpl.description(), expenseRequestImpl.category(), expenseRequestImpl.price(), expenseRequestImpl.userId());
+        return new ExpenseRequest(
+            expenseRequestImpl.name(), 
+            expenseRequestImpl.description(), 
+            expenseRequestImpl.category(), 
+            expenseRequestImpl.price(), 
+            expenseRequestImpl.userId()
+        );
     }
 
     public ExpenseResponse toExpenseResponse(Expense expense){
-        return new ExpenseResponse(expense.getExpenseId(), expense.getName(), expense.getDescription(), expense.getCategory(), expense.getPrice());
+        return new ExpenseResponse(
+            expense.getExpenseId(), 
+            expense.getName(), 
+            expense.getDescription(), 
+            expense.getCategory(), 
+            expense.getPrice()
+        );
     }
 }

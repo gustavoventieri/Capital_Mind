@@ -14,6 +14,11 @@ public class AuthMapper {
     }
 
      public RegisterRequest toDomainRegisterRequest(RegisterRequestImpl registerRequestImpl){
-        return new RegisterRequest(registerRequestImpl.name(),registerRequestImpl.email(), registerRequestImpl.salary(), registerRequestImpl.password());
+        return new RegisterRequest(
+            registerRequestImpl.name(),
+            registerRequestImpl.email(), 
+            registerRequestImpl.salary(), 
+            registerRequestImpl.password()
+        );
     }
 }
