@@ -1,44 +1,89 @@
 package org.capitalmind.useCase.service;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.capitalmind.adapter.mapper.InvestmentMapper;
+import org.capitalmind.driver.repository.InvestmentRepositoryImpl;
 import org.capitalmind.dto.request.InvestmentRequest;
 import org.capitalmind.dto.response.InvestmentResponse;
+import org.capitalmind.entity.Investment;
+import org.capitalmind.entity.User;
+import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.InvestmentService;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 
+
+@AllArgsConstructor
 @Service
 public class InvestmentServiceImpl implements InvestmentService{
 
+    private final InvestmentRepositoryImpl investmentRepositoryImpl;
+    private final UserServiceImpl userServiceImpl;
+    private final InvestmentMapper investmentMapper;
+
+
     @Override
     public void create(InvestmentRequest investmentRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+       User user = this.userServiceImpl.validateAndGetUser(investmentRequest.userId());
+       
+       this.investmentRepositoryImpl.save(
+            new Investment(
+                null, 
+                investmentRequest.name(),
+                investmentRequest.description(),
+                investmentRequest.price(),
+                user, 
+                Instant.now(),
+                Instant.now()
+            )
+       );
     }
 
     @Override
     public void update(Long investmentId, InvestmentRequest investmentRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Investment investment = this.investmentRepositoryImpl.findById(investmentId)
+            .orElseThrow(() -> new NotFound("Investment Not Found"));
+
+        investment.setName(investmentRequest.name());
+        investment.setDescription(investmentRequest.description());
+        investment.setPrice(investmentRequest.price());
+        investment.setUpdateAt(Instant.now());
+
+        this.investmentRepositoryImpl.update(investment);
     }
 
     @Override
     public List<InvestmentResponse> getAll(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        User user = this.userServiceImpl.validateAndGetUser(userId);
+
+        List<Investment> investments = this.investmentRepositoryImpl.findAllByUserData(user);
+
+        return investments.stream()
+            .map(investment -> investmentMapper.toInvestmentResponse(investment))
+            .collect(Collectors.toList());
     }
 
     @Override
     public InvestmentResponse getById(Long investmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        Investment investment = this.investmentRepositoryImpl.findById(investmentId)
+            .orElseThrow(() -> new NotFound("Investment Not Found"));
+
+        return investmentMapper.toInvestmentResponse(investment);
     }
 
     @Override
     public void deleteById(Long investmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+           // Verifica se a despesa existe
+        if (this.investmentRepositoryImpl.findById(investmentId).isEmpty()) {
+            throw new NotFound("Expense Not Found");
+        }
+
+        // Exclui a despesa do banco de dados
+        this.investmentRepositoryImpl.delete(investmentId);
     }
     
 }
