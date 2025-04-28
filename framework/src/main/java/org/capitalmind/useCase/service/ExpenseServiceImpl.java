@@ -12,7 +12,6 @@ import org.capitalmind.entity.Expense;
 import org.capitalmind.entity.User;
 import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.ExpenseService;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +39,8 @@ public class ExpenseServiceImpl implements ExpenseService {
                 user,
                 Instant.now(),
                 Instant.now()
-            ));
+            )
+        );
        
     }
 
@@ -52,6 +52,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         expense.setDescription(expenseRequest.description());
         expense.setCategory(expenseRequest.category());
         expense.setPrice(expenseRequest.price());
+        expense.setUpdateAt(Instant.now());
 
         expenseRepositoryImpl.save(expense);
 
