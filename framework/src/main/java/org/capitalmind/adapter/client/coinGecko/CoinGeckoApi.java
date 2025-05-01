@@ -1,0 +1,21 @@
+package org.capitalmind.adapter.client.coinGecko;
+
+import java.util.Map;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+// Configurações para fazer requisição em api externa
+@FeignClient(
+    name = "CoinGeckoClient",
+    url = "https://api.coingecko.com"
+)
+public interface CoinGeckoApi {
+    
+    @GetMapping(value = "/api/v3/simple/price")
+    Map<String, Object> getPrice(@RequestParam("ids") String id, @RequestParam("vs_currencies") String currency);
+
+
+}

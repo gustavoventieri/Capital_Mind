@@ -1,9 +1,11 @@
 package org.capitalmind.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.capitalmind.entity.CryptoCurrency;
+import org.capitalmind.entity.User;
 
 public interface CryptoCurrencyRepository {
     CryptoCurrency save(CryptoCurrency cryptoCurrency);
@@ -12,5 +14,7 @@ public interface CryptoCurrencyRepository {
 
     Optional<CryptoCurrency> findById(Long cryptoCurrencyId);
 
-    void delete(String cryptoCurrencyId);
+    List<CryptoCurrency> findAllByUserData(User user);
+
+    void delete(Long cryptoCurrencyId);
 }

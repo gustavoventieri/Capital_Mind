@@ -1,4 +1,4 @@
-package org.capitalmind.client.brapi.response;
+package org.capitalmind.dto.response;
 
 import java.util.List;
 

@@ -30,7 +30,7 @@ public class StockController {
     private final StockMapper stockMapper;
 
      @PostMapping("/create")
-    public ResponseEntity<String> createExpense(@RequestBody @Valid StockRequestImpl stockRequestImpl) {
+    public ResponseEntity<String> createStock(@RequestBody @Valid StockRequestImpl stockRequestImpl) {
         
         StockRequest stockData = stockMapper.toDomainStockRequest(stockRequestImpl);
 
@@ -41,7 +41,7 @@ public class StockController {
 
      // Atualiza um despesa existente por ID
     @PutMapping("/update/{stockId}")
-    public ResponseEntity<String> updateExpenseById(@PathVariable("stockId") Long stockId, @RequestBody @Valid StockRequestImpl stockRequestImpl){
+    public ResponseEntity<String> updateStockById(@PathVariable("stockId") Long stockId, @RequestBody @Valid StockRequestImpl stockRequestImpl){
         
         StockRequest stockData = stockMapper.toDomainStockRequest(stockRequestImpl);
 
@@ -52,7 +52,7 @@ public class StockController {
 
     // Remove um despesa existente por ID
     @DeleteMapping("/delete/{stockId}")
-    public ResponseEntity<String> deleteExpenseById(@PathVariable("stockId") Long stockId) {
+    public ResponseEntity<String> deleteStockById(@PathVariable("stockId") Long stockId) {
        
         this.stockServiceImpl.deleteById(stockId);
         
@@ -62,14 +62,14 @@ public class StockController {
 
      // Lista todas as despesas de um usuário por ID
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<StockResponse>> getAllExpenses(@PathVariable("userId") String userId) {
+    public ResponseEntity<List<StockResponse>> getAllStocks(@PathVariable("userId") String userId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(stockServiceImpl.getAll(userId));
     }
 
     // Lista uma despesa por ID
     @GetMapping("/{stockId}")
-    public ResponseEntity<StockResponse> getExpenseById(@PathVariable("stockId") Long stockId){
+    public ResponseEntity<StockResponse> getStockById(@PathVariable("stockId") Long stockId){
 
      return ResponseEntity.status(HttpStatus.OK).body(stockServiceImpl.getById(stockId));          
        

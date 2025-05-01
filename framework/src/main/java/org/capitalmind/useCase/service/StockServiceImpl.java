@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.capitalmind.adapter.client.brapi.BrapiApi;
 import org.capitalmind.adapter.mapper.StockMapper;
-import org.capitalmind.client.brapi.response.BrapiResponse;
 import org.capitalmind.driver.repository.StockRepositoryImpl;
 import org.capitalmind.dto.request.StockRequest;
+import org.capitalmind.dto.response.BrapiResponse;
 import org.capitalmind.dto.response.StockResponse;
 import org.capitalmind.entity.Stock;
 import org.capitalmind.entity.User;

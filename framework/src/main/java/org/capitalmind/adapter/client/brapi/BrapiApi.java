@@ -1,7 +1,7 @@
 package org.capitalmind.adapter.client.brapi;
 
 
-import org.capitalmind.client.brapi.response.BrapiResponse;
+import org.capitalmind.dto.response.BrapiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

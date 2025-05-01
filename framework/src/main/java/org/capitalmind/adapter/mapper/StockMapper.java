@@ -18,13 +18,13 @@ public class StockMapper {
         );
     }
 
-    public StockResponse toStockResponse(Stock stock, Double total){
+    public StockResponse toStockResponse(Stock stock, Double price){
         return new StockResponse(
             stock.getStockId(),
             stock.getName(),
             stock.getDescription(),
             stock.getQuantity(),
-            total
+            price
         );
     }
 }
