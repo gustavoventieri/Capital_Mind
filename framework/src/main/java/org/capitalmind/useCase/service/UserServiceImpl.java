@@ -2,6 +2,7 @@ package org.capitalmind.useCase.service;
 
 import java.util.UUID;
 
+import org.capitalmind.adapter.mapper.UserMapper;
 import org.capitalmind.driver.repository.UserRepositoryImpl;
 import org.capitalmind.dto.request.UserRequest;
 import org.capitalmind.dto.response.UserResponse;
@@ -9,6 +10,7 @@ import org.capitalmind.entity.User;
 import org.capitalmind.exception.InvalidData;
 import org.capitalmind.exception.NotFound;
 import org.capitalmind.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -18,23 +20,39 @@ import lombok.AllArgsConstructor;
 public class UserServiceImpl implements UserService{
 
     private final UserRepositoryImpl userRepositoryImpl;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void deleteById(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+         if (this.userRepositoryImpl.findById(UUID.fromString(userId)).isEmpty()) {
+            throw new NotFound("User Not Found");
+        }
+
+        // Exclui o usuário do banco de dados
+        this.userRepositoryImpl.delete(UUID.fromString(userId));
     }
 
     @Override
     public void update(String userId, UserRequest updateUserRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        User user = this.validateAndGetUser(userId);
+        
+        // Atualiza os dados do usuário
+        user.setName(updateUserRequest.name());
+        user.setEmail(updateUserRequest.email());
+        user.setPassword(passwordEncoder.encode(updateUserRequest.password())); // Senha codificada
+        user.setSalary(updateUserRequest.salary());
+        
+        // Salva o usuário atualizado no banco de dados
+        this.userRepositoryImpl.save(user);
     }
 
     @Override
     public UserResponse getById(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        User user = this.validateAndGetUser(userId);
+
+        return userMapper.toUserResponse(user);
+
     }
 
     @Override
