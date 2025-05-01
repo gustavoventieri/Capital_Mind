@@ -31,6 +31,20 @@ public class SecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    private static final String[] DOCUMENTATION_OPENAPI = {
+        "/docs/index.html",
+        "/docs-client-service.html",
+        "/docs-client-service/**",
+        "/v3/api-docs/**",
+        "/swagger-ui-custom.html",
+        "/swagger-ui.html",
+        "/swagger-ui/**",
+        "/**.html",
+        "/webjars/**",
+        "/configuration/**",
+        "/swagger-resources/**",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,6 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(customAuthenticationEntryPoint))
