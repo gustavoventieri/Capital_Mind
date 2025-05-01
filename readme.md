@@ -4,7 +4,7 @@
 
 ## Visão Geral
 
-O **Capital Mind** é um sistema robusto de controle de finanças pessoais, projetado para simplificar a gestão de despesas, criptomoedas, ações e investimentos. Com foco em eficiência e segurança, o Capital Mind utiliza arquitetura hexagonal, que garante flexibilidade e fácil adaptação às mudanças no sistema, separando claramente as camadas de domínio, aplicação e infraestrutura.
+O **Capital Mind** é um sistema robusto de controle de finanças pessoais, projetado para simplificar a gestão de despesas, criptomoedas, ações e investimentos. Com foco em eficiência e segurança, o Capital Mind adota a arquitetura limpa, que promove uma separação clara entre as camadas de domínio, aplicação e infraestrutura, garantindo flexibilidade, testabilidade e fácil manutenção do sistema.
 
 ## Funcionalidades
 
