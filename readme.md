@@ -70,7 +70,7 @@ O modelo abaixo detalha a estrutura do banco de dados e os relacionamentos entre
 
 1. Clone este repositório:
    ```
-   git clone https://github.com/seu-usuario/capital-mind.git
+   git clone https://github.com/gustavoventieri/CapitalMinddoc.git
    ```
 2. Certifique-se de ter o **Docker** instalado.
 3. No diretório raiz do projeto, execute o seguinte comando:
