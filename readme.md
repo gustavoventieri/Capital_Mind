@@ -1,10 +1,10 @@
-# Capital Mind - Sistema de Controle de Finanças Pessoais
+# Capital Mind - API de Controle de Finanças Pessoais
 
 > Finalizado
 
 ## Visão Geral
 
-O **Capital Mind** é um sistema robusto de controle de finanças pessoais, projetado para simplificar a gestão de despesas, criptomoedas, ações e investimentos. Com foco em eficiência e segurança, o Capital Mind adota a arquitetura limpa, que promove uma separação clara entre as camadas de domínio, aplicação e infraestrutura, garantindo flexibilidade, testabilidade e fácil manutenção do sistema.
+O **Capital Mind** é uma API robusta de controle de finanças pessoais, projetado para simplificar a gestão de despesas, criptomoedas, ações e investimentos. Com foco em eficiência e segurança, o Capital Mind adota a arquitetura limpa, que promove uma separação clara entre as camadas de domínio, aplicação e infraestrutura, garantindo flexibilidade, testabilidade e fácil manutenção do sistema.
 
 ## Funcionalidades
 
