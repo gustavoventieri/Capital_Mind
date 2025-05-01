@@ -29,7 +29,9 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
     private final CryptoCurrencyMapper cryptoCurrencyMapper;
     private final CoinGeckoApi coinGeckoApi;
 
-
+    /**
+    * Cria uma nova criptomoeda associada a um usuário.
+    */
 
     @Override
     public void create(CryptoCurrencyRequest cryptoCurrencyRequest) {
@@ -48,6 +50,10 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
         );
     }
 
+
+    /**
+    * Atualiza uma criptomoeda existente.
+    */
     @Override
     public void update(Long cryptoCurrencyId, CryptoCurrencyRequest cryptoCurrencyRequest) {
         // Busca a criptomoeda no banco de dados
@@ -65,6 +71,9 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
         this.cryptoCurrencyRepositoryImpl.save(cryptoCurrency);
     }
 
+    /**
+    * Obtém todas as criptomoedas associadas a um usuário.
+    */
     @Override
     public List<CryptoCurrencyResponse> getAll(String userId) {
         User user = this.userServiceImpl.validateAndGetUser(userId);
@@ -78,6 +87,9 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
             .collect(Collectors.toList());
     }
 
+    /**
+    * Obtém uma criptomoeda por ID.
+    */
     @Override
     public CryptoCurrencyResponse getById(Long cryptoCurrencyId) {
           CryptoCurrency cryptoCurrency = this.cryptoCurrencyRepositoryImpl
@@ -88,6 +100,9 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
         return cryptoCurrencyMapper.toCryptoCurrencyResponse(cryptoCurrency, this.getPriceInRealTime(cryptoCurrency.getName(), "brl", cryptoCurrency.getQuantity()));
     }
 
+    /**
+    * Exclui uma criptomoeda por ID.
+    */
     @Override
     public void deleteById(Long cryptoCurrencyId) {
         if (this.cryptoCurrencyRepositoryImpl.findById(cryptoCurrencyId).isEmpty()) {
@@ -97,6 +112,10 @@ public class CryptoCurrencyServiceImpl implements CryptoCurrencyService {
         // Exclui a criptomoeda do banco de dados
         this.cryptoCurrencyRepositoryImpl.delete(cryptoCurrencyId);
     }
+
+    /**
+    * Obtém o preço de uma criptomoeda com base no seu nome, moeda e quantidade.
+    */
 
     @Override
     public Double getPriceInRealTime(String ids, String currency, Double quantity) {

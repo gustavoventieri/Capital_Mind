@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService{
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+
+    /**
+    * Exclui um usuário pelo seu ID.
+    */
+
     @Override
     public void deleteById(String userId) {
          if (this.userRepositoryImpl.findById(UUID.fromString(userId)).isEmpty()) {
@@ -33,6 +38,10 @@ public class UserServiceImpl implements UserService{
         this.userRepositoryImpl.delete(UUID.fromString(userId));
     }
 
+
+    /**
+        * Atualiza os dados de um usuário existente.
+    */
     @Override
     public void update(String userId, UserRequest updateUserRequest) {
         User user = this.validateAndGetUser(userId);
@@ -47,6 +56,10 @@ public class UserServiceImpl implements UserService{
         this.userRepositoryImpl.save(user);
     }
 
+
+    /**
+     * Obtém os detalhes de um usuário pelo seu ID.
+     */
     @Override
     public UserResponse getById(String userId) {
         User user = this.validateAndGetUser(userId);
@@ -55,6 +68,9 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    /**
+     * Valida o ID do usuário e retorna o usuário correspondente.
+     */
     @Override
     public User validateAndGetUser(String userId) {
          if (userId == null || userId.isEmpty()) {

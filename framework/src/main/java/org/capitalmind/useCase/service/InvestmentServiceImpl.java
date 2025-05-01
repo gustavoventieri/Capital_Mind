@@ -25,7 +25,9 @@ public class InvestmentServiceImpl implements InvestmentService{
     private final UserServiceImpl userServiceImpl;
     private final InvestmentMapper investmentMapper;
 
-
+    /**
+    * Cria um novo investimento associado a um usuário.
+    */
     @Override
     public void create(InvestmentRequest investmentRequest) {
        User user = this.userServiceImpl.validateAndGetUser(investmentRequest.userId());
@@ -43,6 +45,9 @@ public class InvestmentServiceImpl implements InvestmentService{
        );
     }
 
+    /**
+    * Atualiza um investimento existente.
+    */
     @Override
     public void update(Long investmentId, InvestmentRequest investmentRequest) {
         Investment investment = this.investmentRepositoryImpl.findById(investmentId)
@@ -56,6 +61,9 @@ public class InvestmentServiceImpl implements InvestmentService{
         this.investmentRepositoryImpl.update(investment);
     }
 
+    /**
+    * Obtém todos os investimentos de um usuário.
+    */
     @Override
     public List<InvestmentResponse> getAll(String userId) {
         User user = this.userServiceImpl.validateAndGetUser(userId);
@@ -67,6 +75,9 @@ public class InvestmentServiceImpl implements InvestmentService{
             .collect(Collectors.toList());
     }
 
+    /**
+    * Obtém um investimento pelo ID.
+    */
     @Override
     public InvestmentResponse getById(Long investmentId) {
         Investment investment = this.investmentRepositoryImpl.findById(investmentId)
@@ -75,6 +86,9 @@ public class InvestmentServiceImpl implements InvestmentService{
         return investmentMapper.toInvestmentResponse(investment);
     }
 
+    /**
+    * Exclui um investimento pelo ID.
+    */
     @Override
     public void deleteById(Long investmentId) {
            // Verifica se a despesa existe

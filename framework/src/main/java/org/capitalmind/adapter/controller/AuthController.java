@@ -26,6 +26,7 @@ public class AuthController {
     private final AuthServiceImpl authServiceImpl;
     private final AuthMapper authMapper;
 
+    // Realiza a autenticação de um usuário existente
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequestImpl loginRequestImpl) {
 

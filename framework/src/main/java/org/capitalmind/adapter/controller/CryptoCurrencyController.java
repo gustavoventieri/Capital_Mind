@@ -29,7 +29,7 @@ public class CryptoCurrencyController {
     private final CryptoCurrencyServiceImpl cryptoCurrencyServiceImpl;
     private final CryptoCurrencyMapper cryptoCurrencyMapper;
 
-      // Realiza a criação de uma despesa
+    // Cria uma nova criptomoeda para o usuário
     @PostMapping("/create")
     public ResponseEntity<String> createCrypto(@RequestBody @Valid CryptoCurrencyRequestImpl cryptoCurrencyRequestImpl) {
         
@@ -40,7 +40,7 @@ public class CryptoCurrencyController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Crypto Created");
     }
 
-     // Atualiza um despesa existente por ID
+    // Atualiza uma criptomoeda existente por ID
     @PutMapping("/update/{cryptoId}")
     public ResponseEntity<String> updateCryptoById(@PathVariable("cryptoId") Long cryptoId, @RequestBody @Valid CryptoCurrencyRequestImpl cryptoCurrencyRequestImpl){
         
@@ -51,24 +51,24 @@ public class CryptoCurrencyController {
         return ResponseEntity.status(HttpStatus.OK).body("Crypto Updated");
     }
 
-    // Remove um despesa existente por ID
+    // Remove uma criptomoeda existente por ID
     @DeleteMapping("/delete/{cryptoId}")
     public ResponseEntity<String> deleteCryptoById(@PathVariable("cryptoId") Long cryptoId) {
        
         this.cryptoCurrencyServiceImpl.deleteById(cryptoId);
         
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Crypto Deleted");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         
     }
 
-     // Lista todas as despesas de um usuário por ID
+    // Lista todas as criptomoedas de um usuário por ID
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<CryptoCurrencyResponse>> getAllCryptos(@PathVariable("userId") String userId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencyServiceImpl.getAll(userId));
     }
 
-    // Lista uma despesa por ID
+    // Lista uma criptomoeda por ID
     @GetMapping("/{cryptoId}")
     public ResponseEntity<CryptoCurrencyResponse> getCryptoById(@PathVariable("cryptoId") Long cryptoId){
 

@@ -30,7 +30,7 @@ public class ExpenseController {
     private final ExpenseServiceImpl expenseServiceImpl;
     private final ExpenseMapper expenseMapper;
 
-      // Realiza a criação de uma despesa
+    // Realiza a criação de uma despesa
     @PostMapping("/create")
     public ResponseEntity<String> createExpense(@RequestBody @Valid ExpenseRequestImpl expenseRequest) {
         
@@ -41,7 +41,7 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Expense Created");
     }
 
-     // Atualiza um despesa existente por ID
+     // Atualiza uma despesa existente por ID
     @PutMapping("/update/{expenseId}")
     public ResponseEntity<String> updateExpenseById(@PathVariable("expenseId") Long expenseId, @RequestBody @Valid ExpenseRequestImpl expenseRequestImpl){
         
@@ -52,13 +52,13 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.OK).body("Expense Updated");
     }
 
-    // Remove um despesa existente por ID
+    // Remove uma despesa existente por ID
     @DeleteMapping("/delete/{expenseId}")
     public ResponseEntity<String> deleteExpenseById(@PathVariable("expenseId") Long expenseId) {
        
         this.expenseServiceImpl.deleteById(expenseId);
         
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Expense Deleted");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         
     }
 

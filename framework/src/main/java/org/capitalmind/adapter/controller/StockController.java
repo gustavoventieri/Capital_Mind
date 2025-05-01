@@ -29,7 +29,8 @@ public class StockController {
     private final StockServiceImpl stockServiceImpl;
     private final StockMapper stockMapper;
 
-     @PostMapping("/create")
+    // Cria uma nova ação para o usuário
+    @PostMapping("/create")
     public ResponseEntity<String> createStock(@RequestBody @Valid StockRequestImpl stockRequestImpl) {
         
         StockRequest stockData = stockMapper.toDomainStockRequest(stockRequestImpl);
@@ -39,7 +40,7 @@ public class StockController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Stock Created");
     }
 
-     // Atualiza um despesa existente por ID
+     // Atualiza uma ação existente por ID
     @PutMapping("/update/{stockId}")
     public ResponseEntity<String> updateStockById(@PathVariable("stockId") Long stockId, @RequestBody @Valid StockRequestImpl stockRequestImpl){
         
@@ -50,7 +51,7 @@ public class StockController {
         return ResponseEntity.status(HttpStatus.OK).body("Stock Updated");
     }
 
-    // Remove um despesa existente por ID
+    // Remove uma ação existente por ID
     @DeleteMapping("/delete/{stockId}")
     public ResponseEntity<String> deleteStockById(@PathVariable("stockId") Long stockId) {
        
@@ -60,14 +61,14 @@ public class StockController {
         
     }
 
-     // Lista todas as despesas de um usuário por ID
+    // Lista todas as ações de um usuário por ID
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<StockResponse>> getAllStocks(@PathVariable("userId") String userId) {
 
         return ResponseEntity.status(HttpStatus.OK).body(stockServiceImpl.getAll(userId));
     }
 
-    // Lista uma despesa por ID
+    // Lista uma ação por ID
     @GetMapping("/{stockId}")
     public ResponseEntity<StockResponse> getStockById(@PathVariable("stockId") Long stockId){
 

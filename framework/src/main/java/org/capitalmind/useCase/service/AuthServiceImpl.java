@@ -27,6 +27,10 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
+    /**
+     * Realiza o login de um usuário, validando as credenciais e gerando um token JWT.
+     */
+
     @Override
     public String login(LoginRequest loginRequest) {
         // Verifica se o usuário existe no banco de dados
@@ -48,6 +52,9 @@ public class AuthServiceImpl implements AuthService {
         throw new InvalidData("Invalid Credentials");
     }
 
+    /**
+    * Realiza o registro de um novo usuário, validando o email e criando um token JWT.
+    */
     @Override
     public String register(RegisterRequest registerRequest) {
         // Verifica se o usuário já está registrado com o email fornecido

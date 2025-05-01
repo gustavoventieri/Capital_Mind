@@ -31,6 +31,11 @@ public class StockServiceImpl implements StockService {
     @Value("${api.brapi.dev.token}")
     private String BRAPI_TOKEN;
 
+
+    /**
+     * Cria uma nova ação associada a um usuário.
+     */
+
     @Override
     public void create(StockRequest stockRequest) {
         User user = this.userServiceImpl.validateAndGetUser(stockRequest.userId());
@@ -48,6 +53,10 @@ public class StockServiceImpl implements StockService {
         );
     }
 
+
+    /**
+    * Atualiza uma ação existente.
+    */
     @Override
     public void update(Long stockId, StockRequest stockRequest) {
        Stock stock = this.stockRepositoryImpl.findById(stockId)
@@ -62,6 +71,9 @@ public class StockServiceImpl implements StockService {
 
     }
 
+    /**
+    * Obtém todas as ações de um usuário.
+    */
     @Override
     public List<StockResponse> getAll(String userId) {
         User user = this.userServiceImpl.validateAndGetUser(userId);
@@ -74,7 +86,11 @@ public class StockServiceImpl implements StockService {
             .map(stock -> stockMapper.toStockResponse(stock, getPriceInRealTime(stock.getQuantity(), stock.getName())))
             .collect(Collectors.toList());
 
-    }
+    }  
+
+    /**
+    * Obtém uma ação pelo ID.
+    */
 
     @Override
     public StockResponse getById(Long stockId) {
@@ -84,6 +100,11 @@ public class StockServiceImpl implements StockService {
         // Mapeia a ação para DTO e retorna
         return stockMapper.toStockResponse(stock, getPriceInRealTime(stock.getQuantity(), stock.getName()));
     }
+
+
+    /**
+     * Exclui uma ação pelo ID.
+     */
 
     @Override
     public void deleteById(Long stockId) {
@@ -95,6 +116,10 @@ public class StockServiceImpl implements StockService {
         this.stockRepositoryImpl.delete(stockId);
     }
 
+
+    /**
+    * Obtém o preço de uma ação, dado o nome e a quantidade.
+    */
     @Override
     public Double getPriceInRealTime(Integer quantity, String name) {
           // Chama a API Brapi para obter os detalhes da ação

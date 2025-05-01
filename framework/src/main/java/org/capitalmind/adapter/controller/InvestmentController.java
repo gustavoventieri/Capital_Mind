@@ -72,7 +72,7 @@ public class InvestmentController {
        
         this.investmentServiceImpl.deleteById(investmentId);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Investment Deleted");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 
 

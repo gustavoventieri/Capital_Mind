@@ -25,6 +25,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepositoryImpl expenseRepositoryImpl;
     private final ExpenseMapper expenseMapper;
 
+
+    /**
+     * Cria uma nova despesa associada a um usuário.
+     */
+
     @Override
     public void create(ExpenseRequest expenseRequest) {
        User user = this.userServiceImpl.validateAndGetUser(expenseRequest.userId());
@@ -44,6 +49,10 @@ public class ExpenseServiceImpl implements ExpenseService {
        
     }
 
+
+    /**
+     * Atualiza uma despesa existente.
+     */
     @Override
     public void update(Long expenseId, ExpenseRequest expenseRequest) {
         Expense expense = this.expenseRepositoryImpl.findById(expenseId).orElseThrow(() -> new NotFound("Expense Not Found"));
@@ -58,6 +67,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     }
 
+      /**
+     * Obtém todas as despesas associadas a um usuário.
+     */
     @Override
     public List<ExpenseResponse> getAll(String userId) {
         User user = userServiceImpl.validateAndGetUser(userId);
@@ -70,6 +82,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     }
 
+    /**
+     * Obtém uma despesa por ID.
+     */
     @Override
     public ExpenseResponse getById(Long expenseId) {
         Expense expense = this.expenseRepositoryImpl.findById(expenseId)
@@ -78,6 +93,9 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseMapper.toExpenseResponse(expense);
     }
 
+    /**
+    * Exclui uma despesa por ID.
+    */
     @Override
     public void deleteById(Long expenseId) {
           // Verifica se a despesa existe
